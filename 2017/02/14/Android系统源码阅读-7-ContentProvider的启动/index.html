@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android系统源码阅读(7):Content Provider的启动 | Tianchi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+
+基本知识
+Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
+Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android系统源码阅读(7):Content Provider的启动">
+<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/index.html">
+<meta property="og:site_name" content="Tianchi's Blog">
+<meta property="og:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+
+基本知识
+Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
+Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220256938">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220401299">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220422830">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220440500">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220538532">
+<meta property="og:image" content="http://img.blog.csdn.net/20160902220606286">
+<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android系统源码阅读(7):Content Provider的启动">
+<meta name="twitter:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+
+基本知识
+Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
+Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160902220256938">
+  
+    <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?317f9c93ad2152fbda4701e8107d95fe";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">阅读 思考 实践</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/技术/">技术</a></li>
+				        
+							<li><a href="/tags/记录/">记录</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Cocos2d-x/" style="font-size: 10px;">Cocos2d-x</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MESOS/" style="font-size: 10px;">MESOS</a> <a href="/tags/MooseFS/" style="font-size: 10px;">MooseFS</a> <a href="/tags/Torque/" style="font-size: 10px;">Torque</a> <a href="/tags/Yeoman/" style="font-size: 10px;">Yeoman</a> <a href="/tags/slurm/" style="font-size: 10px;">slurm</a> <a href="/tags/ubuntu/" style="font-size: 15px;">ubuntu</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a> <a href="/tags/电影/" style="font-size: 10px;">电影</a> <a href="/tags/记录/" style="font-size: 12.5px;">记录</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/豆瓣/" style="font-size: 10px;">豆瓣</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mclspace.com/">Mcl&#39;s space</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cshuo.xyz/">cshuo的猪窝</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://weibo.com/u/3180792397">夏夏的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mengzs.com/">Meng ZS&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://monkey-h.github.io/">monkey-H&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://co2y.github.io">WeiYi&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://answ.me/">安大哥的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+				<div id="js-aboutme">1992年生，处女座。2015年本科毕业于南京大学计算机科学与技术系，现于本校软件所继续攻读硕士学位。
+				</section>
+				</section>
+				
+			</div>
+
+		</div>
+
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Tian chi</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Tian chi</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">阅读 思考 实践</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/技术/">技术</a></li>
+		        
+					<li><a href="/tags/记录/">记录</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android系统源码阅读-7-ContentProvider的启动" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" class="article-date">
+  	<time datetime="2017-02-14T06:01:17.000Z" itemprop="datePublished">2017-02-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android系统源码阅读(7):Content Provider的启动
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
+</blockquote>
+<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
+<li>Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。</li>
+<li>Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体积较大的数据。</li>
+<li>Cursor对象通过匿名共享内存来传输数据，而Bundle是通过Binder传递数据。</li>
+</ul>
+<a id="more"></a>
+<h2 id="1-用户开始调用Provider"><a href="#1-用户开始调用Provider" class="headerlink" title="1. 用户开始调用Provider"></a><em>1</em>. 用户开始调用Provider</h2><p>首先，Activity集成的ContextWrapper中有成员函数<code>getContentResolver</code>，用该函数可以获得一个ContentResolver对象。该ContentResolver对象是在ContextImpl对象建立时创建的一个ApplicationContentResolver对象。</p>
+<p>下面从ContentResolver.acquireProvider开始。<br><img src="http://img.blog.csdn.net/20160902220256938" alt="这里写图片描述"></p>
+<ol>
+<li>步骤1的主要目的是验证URI是否正确，然后就会将acquireProvider的任务交给子类来实现，这里它将任务传递给ApplicationContentResolver。</li>
+<li>步骤2直接将任务给主线程处理。</li>
+<li>步骤3将会尝试从已有的Provider中获取目标Provider，ActivityThread将已经访问过的Provider放入mProviderMap中，如果其中含有需要获取的Provider，只需要增加对其的引用数目即可。如果没有，则需要请求ActivityManager来获取Provider（见1.4），ActivityManager最后会返回一个ContentProviderHolder（见2.2，见6.1）。最后，需要将获得的ContentProviderHolder进行install(见1.5)。</li>
+<li>这里假设没有现成的Provider，则需要交给ActivityManager进行处理。</li>
+<li>这一步和5.7是一样的函数，区别在于这里的holder不为null，所以不需要自己通过类加载创建Provider，只需要将这个Provider放入mProviderRefCountMap中，对其引用加1。</li>
+</ol>
+<h2 id="2-ActivityManager处理请求"><a href="#2-ActivityManager处理请求" class="headerlink" title="2. ActivityManager处理请求"></a><em>2</em>. ActivityManager处理请求</h2><p><img src="http://img.blog.csdn.net/20160902220401299" alt="这里写图片描述"></p>
+<ol>
+<li>这一步检验调用者caller是否为空，如果为空，则说明没有应用在请求Provider，则无需继续进行。</li>
+<li>这一步所做的处理比较多。首先，Manager首先根据name在mProviderMap中查找是否已经启动。如果没有，则根据Class来查找是否已经启动。如果仍然没有，则构建<code>ContentProviderRecord</code>，里面包含了<code>ProviderInfo</code>,<code>ApplicationInfo</code>等重要信息。然后，如果是<em>multiprocess</em>属性为<code>true</code>，则将该<code>ContentProviderRecord</code>直接返回给调用者，让其实例化。在我们的例子中，我们假设该属性为false，需要创建新的进程来启动该Provider。下面就要开始启动新的进程，会在2.3中详细讲述，然后将Record放入mProvider。最后，ActivityManager进入循环等待provider启动，在发现provider启动后（见6.1），则退出循环，将ContentProviderHolder返回给用户（见1.3）。</li>
+<li>这一步就是进入启动新进程的准备工作。</li>
+</ol>
+<h2 id="3-新进程的启动"><a href="#3-新进程的启动" class="headerlink" title="3. 新进程的启动"></a><em>3</em>. 新进程的启动</h2><p><img src="http://img.blog.csdn.net/20160902220422830" alt="这里写图片描述"><br>这里的启动过程和原来一样。</p>
+<h2 id="4-ActivityManager处理新的进程"><a href="#4-ActivityManager处理新的进程" class="headerlink" title="4. ActivityManager处理新的进程"></a><em>4</em>. ActivityManager处理新的进程</h2><p><img src="http://img.blog.csdn.net/20160902220440500" alt="这里写图片描述"></p>
+<ol>
+<li>获取新进程pid。</li>
+<li>这一步先根据pid获得对应的ProcessRecord，然后填充ProcessRecord的信息。然后，获取需要在该进程中启动的Provider的列表，将在4.3中详解。接下来依次启动该进程中的Content Provider（在4.4中详解）、Activity、Service和Broadcast Receiver。</li>
+<li>这一步通过PackageManager获得所有的该应用进程下需要启动的Provider，然后为其创建ContentProviderRecord，放入mProviderMap。</li>
+<li>准备向新进程发送消息。</li>
+</ol>
+<h2 id="5-Content-Provider在新进程中启动"><a href="#5-Content-Provider在新进程中启动" class="headerlink" title="5. Content Provider在新进程中启动"></a><em>5</em>. Content Provider在新进程中启动</h2><p><img src="http://img.blog.csdn.net/20160902220538532" alt="这里写图片描述"></p>
+<ol>
+<li>将收到的数据封装成一个AppBindData，准备发送到主线程中。</li>
+<li>发送消息。</li>
+<li>发送消息。</li>
+<li>处理异步消息。</li>
+<li>准备启动所有的Provider。</li>
+<li>这一步将传递过来的每一个<code>ProviderInfo</code>通过<code>installProvider</code>函数（见5.7）封装成了<code>ContentProviderHolder</code>。然后将所有生成的<code>ContentProviderHolder</code>告知给ActivityManager（见5.11）。</li>
+<li>这一步根据Provider的类名，使用ClassLoader实例化一个ContentProvider对象，并对其进行一定的初始化（见5.8、5.9）工作。然后，创建对应的ProviderClientRecord，将其放入mLocalProviders和mLocalProvidersByName。</li>
+<li>获取该Provider的类型为Transport的Binder本地对象。这个Binder将会告知给ActivityManagerService，然后有它再告知给需要使用该Provider的其它组件。然后其它进程组件就可以使用这个Binder来使用这个provider了。</li>
+<li>这里会设置该provider的context，同时设置读写权限。最后会调用重写的onCreate函数。</li>
+<li>调用自己实现的onCreate函数。</li>
+<li>将自己的Provider告知给ActivityManager。</li>
+</ol>
+<h2 id="6-ActivityManager发布Provider"><a href="#6-ActivityManager发布Provider" class="headerlink" title="6. ActivityManager发布Provider"></a><em>6</em>. ActivityManager发布Provider</h2><p><img src="http://img.blog.csdn.net/20160902220606286" alt="这里写图片描述"></p>
+<ol>
+<li>这一步会将ActivityManager利用获得的ContentProviderHolder对记录的ContentProviderRecord的provider进行填充，同时将该ContentProviderRecord放入mProviderMap。最后将该Record移除mLaunchingProviders。在2.2中等待的ActivityManagerService线程循环等待发现provider不为null，退出循环，返回ContentProviderHolder给用户（见1.3）。</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android系统源码阅读(8):ContentProvider数据传输过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/14/Android系统源码阅读-6-广播机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android系统源码阅读(6)广播机制</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android系统源码阅读-7-ContentProvider的启动" data-title="Android系统源码阅读(7):Content Provider的启动" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tianchi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Tian chi
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/ITanCh/Yilia-c" target="_blank">Yilia-c</a> by Tianchi
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

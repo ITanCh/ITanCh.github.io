@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>AngularJS--SB Admin | Tianchi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从SB Admin开始学习AngularJS!
+SB Admin v2.0 rewritten in AngularJS是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。
+一些工具Nodejs升级：1234$ sudo npm cache clean -f$ sudo npm install -g n$ sudo n stable$ sudo ln -sf /u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJS--SB Admin">
+<meta property="og:url" content="http://itanch.github.io/2016/01/15/AngularJS学习/index.html">
+<meta property="og:site_name" content="Tianchi's Blog">
+<meta property="og:description" content="从SB Admin开始学习AngularJS!
+SB Admin v2.0 rewritten in AngularJS是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。
+一些工具Nodejs升级：1234$ sudo npm cache clean -f$ sudo npm install -g n$ sudo n stable$ sudo ln -sf /u">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/yeoman.png">
+<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AngularJS--SB Admin">
+<meta name="twitter:description" content="从SB Admin开始学习AngularJS!
+SB Admin v2.0 rewritten in AngularJS是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。
+一些工具Nodejs升级：1234$ sudo npm cache clean -f$ sudo npm install -g n$ sudo n stable$ sudo ln -sf /u">
+<meta name="twitter:image" content="http://7xky03.com1.z0.glb.clouddn.com/yeoman.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?317f9c93ad2152fbda4701e8107d95fe";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">阅读 思考 实践</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/技术/">技术</a></li>
+				        
+							<li><a href="/tags/记录/">记录</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Cocos2d-x/" style="font-size: 10px;">Cocos2d-x</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MESOS/" style="font-size: 10px;">MESOS</a> <a href="/tags/MooseFS/" style="font-size: 10px;">MooseFS</a> <a href="/tags/Torque/" style="font-size: 10px;">Torque</a> <a href="/tags/Yeoman/" style="font-size: 10px;">Yeoman</a> <a href="/tags/slurm/" style="font-size: 10px;">slurm</a> <a href="/tags/ubuntu/" style="font-size: 15px;">ubuntu</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a> <a href="/tags/电影/" style="font-size: 10px;">电影</a> <a href="/tags/记录/" style="font-size: 12.5px;">记录</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/豆瓣/" style="font-size: 10px;">豆瓣</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mclspace.com/">Mcl&#39;s space</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cshuo.xyz/">cshuo的猪窝</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://weibo.com/u/3180792397">夏夏的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mengzs.com/">Meng ZS&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://monkey-h.github.io/">monkey-H&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://co2y.github.io">WeiYi&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://answ.me/">安大哥的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+				<div id="js-aboutme">1992年生，处女座。2015年本科毕业于南京大学计算机科学与技术系，现于本校软件所继续攻读硕士学位。
+				</section>
+				</section>
+				
+			</div>
+
+		</div>
+
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Tian chi</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Tian chi</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">阅读 思考 实践</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/技术/">技术</a></li>
+		        
+					<li><a href="/tags/记录/">记录</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-AngularJS学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/15/AngularJS学习/" class="article-date">
+  	<time datetime="2016-01-15T02:56:03.000Z" itemprop="datePublished">2016-01-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AngularJS--SB Admin
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yeoman/">Yeoman</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从SB Admin开始学习AngularJS!</p>
+<p><a href="https://github.com/start-angular/sb-admin-angular" target="_blank" rel="external">SB Admin v2.0 rewritten in AngularJS</a>是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。</p>
+<h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://nodejs.org" target="_blank" rel="external">Nodejs</a>升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo npm cache clean <span class="_">-f</span></div><div class="line">$ sudo npm install -g n</div><div class="line">$ sudo n stable</div><div class="line">$ sudo ln -sf /usr/<span class="built_in">local</span>/n/versions/node/&lt;VERSION&gt;/bin/node /usr/bin/node</div></pre></td></tr></table></figure></p>
+<p>npm升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global npm@latest</div></pre></td></tr></table></figure>  </p>
+<p><a href="http://bower.io/" target="_blank" rel="external">Bower</a>是一个对web开发进行包管理的工具。  </p>
+<p><a href="http://www.gruntjs.net/" target="_blank" rel="external">GRUNT</a>的目的就是自动化。对于需要反复重复的任务，例如压缩（minification）、编译、单元测试、linting等，自动化工具可以减轻你的劳动，简化你的工作。当你在 Gruntfile 文件正确配置好了任务，任务运行器就会自动帮你或你的小组完成大部分无聊的工作。  </p>
+<p><a href="http://yeoman.io/" target="_blank" rel="external">Yeoman</a>生成web应用的基本架构。<br><a id="more"></a></p>
+<h2 id="Yeoman入门"><a href="#Yeoman入门" class="headerlink" title="Yeoman入门"></a>Yeoman入门</h2><p><img src="http://7xky03.com1.z0.glb.clouddn.com/yeoman.png" alt="yeoman">  </p>
+<h3 id="1-安装Bower、GRUNT和Yeoman："><a href="#1-安装Bower、GRUNT和Yeoman：" class="headerlink" title="1. 安装Bower、GRUNT和Yeoman："></a>1. 安装Bower、GRUNT和Yeoman：</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global yo bower grunt-cli</div></pre></td></tr></table></figure>
+<h3 id="2-安装generator"><a href="#2-安装generator" class="headerlink" title="2. 安装generator"></a>2. 安装generator</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global generator-karma generator-angular</div></pre></td></tr></table></figure>  
+<h3 id="3-运行generator"><a href="#3-运行generator" class="headerlink" title="3. 运行generator"></a>3. 运行generator</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yo angular</div></pre></td></tr></table></figure>
+<h3 id="4-Yeoman总结"><a href="#4-Yeoman总结" class="headerlink" title="4. Yeoman总结"></a>4. Yeoman总结</h3><p>Yeoman确实是一个很强大的web应用架构工具，他可以帮你完成大部分繁琐的工作，从而你可以更专心的实现你的功能。</p>
+<h2 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h2><h3 id="1-index-html"><a href="#1-index-html" class="headerlink" title="1. index.html"></a>1. index.html</h3><p>位于app/目录下的index.html是整个网页的主要入口。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"sbAdminApp"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-app-js"><a href="#2-app-js" class="headerlink" title="2. app.js"></a>2. app.js</h3><p>位于app/scripts/目录下，应用的主要module。  </p>
+<p><strong>module</strong><br>首先，我们可以看到sbAdminApp使用了如下module：  </p>
+<ul>
+<li><strong>oc.lazyLoad</strong>：自动的加载一些module。</li>
+<li><strong>ui.router</strong>：AngularUI Router是一个路由框架，可以利用它将应用接口组织成为一个有穷状态机，不同于Angular自带的<code>$route</code>（根据URL进行路由），UI-Router则是根据状态进行路由。  </li>
+<li><strong>ui.bootstrap</strong>：用AngularJS开发的Bootstrap组件。  </li>
+</ul>
+<p><strong>config</strong><br><strong>stateProvider</strong>：由<em>ui.router</em>提供，功能类似于Angular v1的router，但是它只专注于state。state就是应用中的某一个状态，到达某一个状态时，会将template插入到相应位置。该部分的主要工作是将state、html和controller对应起来。</p>
+<p><code>resolve</code>可以提供给controller一些定制的内容，采用<code>key:value</code>的格式。在这里，使用ocLazyLoad加载了一些模块。</p>
+<p>首先加载的是<code>sbAdminApp</code>模块中的header部分，然后依次为header-notification、sidebar和sidebar-search。这些部分在加载的过程中，采用了<code>module.directive</code>函数，这个函数可以对指定的元素附加一些行为，如：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">angular.module(<span class="string">'sbAdminApp'</span>)</div><div class="line">.directive(<span class="string">'header'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> &#123;</div><div class="line">			<span class="attr">templateUrl</span>:<span class="string">'scripts/directives/header/header.html'</span>,</div><div class="line">			<span class="attr">restrict</span>: <span class="string">'E'</span>,</div><div class="line">			<span class="attr">replace</span>: <span class="literal">true</span>,</div><div class="line">		&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure><br>这里就是在<code>main.html</code>的<code>&lt;header&gt;&lt;/header&gt;</code>元素替换为<code>header.html</code>的内容。  </p>
+<p>从源代码中不难发现，header、header-notification、sidebar和sidebar-search文件的加载是按照一定的顺序的，因为前后顺序在View中表现为嵌套的父子关系。</p>
+<p>然后，加载了<code>toggle-switch</code>，一个开关模块；<code>ngAnimate</code>，动画效果；<code>ngCookies</code>，读写浏览器cookies；<code>ngResource</code>，加载资源对象；<code>ngSanitize</code>，可以对HTML进行清洁；<code>ngTouch</code>，对可触摸设备提供服务。</p>
+<p>其它state类似。</p>
+<p><strong>ocLazyLoadProvider</strong>：来自于<em>oc.lazyLoad</em>，<code>events:true</code>可以使得加载module时可以发送广播。  </p>
+<p> <strong>urlRouterProvider</strong>：由<em>ui.router</em>提供，在这里只是用它来处理其它状态下的情况，统一重定向至<code>/dashboard/home</code>。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/14/cocos2d-x安装/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Cocos2d-x 安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/16/MESOS安装/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MESOS and MARATHON安装</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="AngularJS学习" data-title="AngularJS--SB Admin" data-url="http://itanch.github.io/2016/01/15/AngularJS学习/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tianchi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Tian chi
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/ITanCh/Yilia-c" target="_blank">Yilia-c</a> by Tianchi
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

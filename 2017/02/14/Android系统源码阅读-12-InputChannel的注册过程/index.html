@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android系统源码阅读(12):InputChannel的注册过程 | Tianchi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="请对照AOSP版本：6.0.1_r50。 
+
+InputManager可以获得输入事件并分发，Activity需要处理这些输入事件。那么，这两者之间如何建立的连接呢？这就需要InputChannel作为桥梁建立两者之间的通道。
+1. ViewRootImpl创建InputChannel这里ViewRoot类已经消失了，由ViewRootImpl替代。Activity在创建时会将自己的DecorV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android系统源码阅读(12):InputChannel的注册过程">
+<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/index.html">
+<meta property="og:site_name" content="Tianchi's Blog">
+<meta property="og:description" content="请对照AOSP版本：6.0.1_r50。 
+
+InputManager可以获得输入事件并分发，Activity需要处理这些输入事件。那么，这两者之间如何建立的连接呢？这就需要InputChannel作为桥梁建立两者之间的通道。
+1. ViewRootImpl创建InputChannel这里ViewRoot类已经消失了，由ViewRootImpl替代。Activity在创建时会将自己的DecorV">
+<meta property="og:image" content="http://img.blog.csdn.net/20160924164736978">
+<meta property="og:image" content="http://img.blog.csdn.net/20160924164829942">
+<meta property="og:image" content="http://img.blog.csdn.net/20160924164924027">
+<meta property="og:image" content="http://img.blog.csdn.net/20160924165000028">
+<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android系统源码阅读(12):InputChannel的注册过程">
+<meta name="twitter:description" content="请对照AOSP版本：6.0.1_r50。 
+
+InputManager可以获得输入事件并分发，Activity需要处理这些输入事件。那么，这两者之间如何建立的连接呢？这就需要InputChannel作为桥梁建立两者之间的通道。
+1. ViewRootImpl创建InputChannel这里ViewRoot类已经消失了，由ViewRootImpl替代。Activity在创建时会将自己的DecorV">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160924164736978">
+  
+    <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?317f9c93ad2152fbda4701e8107d95fe";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">阅读 思考 实践</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/技术/">技术</a></li>
+				        
+							<li><a href="/tags/记录/">记录</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Cocos2d-x/" style="font-size: 10px;">Cocos2d-x</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MESOS/" style="font-size: 10px;">MESOS</a> <a href="/tags/MooseFS/" style="font-size: 10px;">MooseFS</a> <a href="/tags/Torque/" style="font-size: 10px;">Torque</a> <a href="/tags/Yeoman/" style="font-size: 10px;">Yeoman</a> <a href="/tags/slurm/" style="font-size: 10px;">slurm</a> <a href="/tags/ubuntu/" style="font-size: 15px;">ubuntu</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a> <a href="/tags/电影/" style="font-size: 10px;">电影</a> <a href="/tags/记录/" style="font-size: 12.5px;">记录</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/豆瓣/" style="font-size: 10px;">豆瓣</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mclspace.com/">Mcl&#39;s space</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cshuo.xyz/">cshuo的猪窝</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://weibo.com/u/3180792397">夏夏的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mengzs.com/">Meng ZS&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://monkey-h.github.io/">monkey-H&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://co2y.github.io">WeiYi&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://answ.me/">安大哥的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+				<div id="js-aboutme">1992年生，处女座。2015年本科毕业于南京大学计算机科学与技术系，现于本校软件所继续攻读硕士学位。
+				</section>
+				</section>
+				
+			</div>
+
+		</div>
+
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Tian chi</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Tian chi</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">阅读 思考 实践</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/技术/">技术</a></li>
+		        
+					<li><a href="/tags/记录/">记录</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android系统源码阅读-12-InputChannel的注册过程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/" class="article-date">
+  	<time datetime="2017-02-14T06:24:58.000Z" itemprop="datePublished">2017-02-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android系统源码阅读(12):InputChannel的注册过程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>请对照AOSP版本：6.0.1_r50。 </p>
+</blockquote>
+<p>InputManager可以获得输入事件并分发，Activity需要处理这些输入事件。那么，这两者之间如何建立的连接呢？这就需要InputChannel作为桥梁建立两者之间的通道。</p>
+<h2 id="1-ViewRootImpl创建InputChannel"><a href="#1-ViewRootImpl创建InputChannel" class="headerlink" title="1. ViewRootImpl创建InputChannel"></a>1. ViewRootImpl创建InputChannel</h2><p>这里ViewRoot类已经消失了，由ViewRootImpl替代。Activity在创建时会将自己的DecorView设置给对应的ViewRootImpl。</p>
+<p><img src="http://img.blog.csdn.net/20160924164736978" alt="这里写图片描述"></p>
+<a id="more"></a>
+<h3 id="1-1"><a href="#1-1" class="headerlink" title="1.1"></a>1.1</h3><p>这一步会创建client的InputChannel，并且将当前启动的Activity的窗口传递给WindowManagerService。</p>
+<p><em>frameworks/base/core/java/android/view/ViewRootImpl.java</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * We have one child</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setView</span><span class="params">(View view, WindowManager.LayoutParams attrs, View panelParentView)</span> </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (mView == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">//将view设置为传入的DecorView</span></div><div class="line">            mView = view;</div><div class="line">            <span class="comment">//..</span></div><div class="line"></div><div class="line">            mAdded = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">int</span> res; <span class="comment">/* = WindowManagerImpl.ADD_OKAY; */</span></div><div class="line"></div><div class="line">            <span class="comment">//新建InputChannel</span></div><div class="line">            <span class="keyword">if</span> ((mWindowAttributes.inputFeatures</div><div class="line">                    &amp; WindowManager.LayoutParams.INPUT_FEATURE_NO_INPUT_CHANNEL) == <span class="number">0</span>) &#123;</div><div class="line">                mInputChannel = <span class="keyword">new</span> InputChannel();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                mOrigWindowType = mWindowAttributes.type;</div><div class="line">                mAttachInfo.mRecomputeGlobalAttributes = <span class="keyword">true</span>;</div><div class="line">                collectViewAttributes();</div><div class="line">                <span class="comment">//mWindowSession是一个Binder代理对象</span></div><div class="line">                <span class="comment">//它引用了运行在WindowManagerService中的一个类型为Session的Binder本地对象</span></div><div class="line">                <span class="comment">//向WindowManagerService添加正在启动的Activity的窗口</span></div><div class="line">                <span class="comment">//这里还会将InputChannel传递过去</span></div><div class="line">                res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,</div><div class="line">                        getHostVisibility(), mDisplay.getDisplayId(),</div><div class="line">                        mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,</div><div class="line">                        mAttachInfo.mOutsets, mInputChannel);</div><div class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</div><div class="line">                <span class="comment">//..</span></div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                <span class="comment">//..</span></div><div class="line">            &#125;</div><div class="line">            <span class="comment">//..</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> (view <span class="keyword">instanceof</span> RootViewSurfaceTaker) &#123;</div><div class="line">                mInputQueueCallback =</div><div class="line">                    ((RootViewSurfaceTaker)view).willYouTakeTheInputQueue();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (mInputChannel != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (mInputQueueCallback != <span class="keyword">null</span>) &#123;</div><div class="line">                    mInputQueue = <span class="keyword">new</span> InputQueue();</div><div class="line">                    mInputQueueCallback.onInputQueueCreated(mInputQueue);</div><div class="line">                &#125;</div><div class="line">                <span class="comment">//将InputChannel和主线程关联起来，在下面会详细讲解</span></div><div class="line">                mInputEventReceiver = <span class="keyword">new</span> WindowInputEventReceiver(mInputChannel,</div><div class="line">                        Looper.myLooper());</div><div class="line">            &#125;</div><div class="line">            view.assignParent(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h3><p>这一步是进程间的请求，从应用进程转到WindowManagerService进程，对应于1.1中的函数addToDisplay。这里会补足一些参数，开始调用下一步函数。</p>
+<h3 id="1-3"><a href="#1-3" class="headerlink" title="1.3"></a>1.3</h3><p>这一步也是调整一些参数，然后交给WindowManagerService来处理。</p>
+<h3 id="1-4"><a href="#1-4" class="headerlink" title="1.4"></a>1.4</h3><p>这里会将传入的Window存入Map来进行统一管理，同时创建了一对server/client端的InputChannel。</p>
+<p><em>frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java :</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addWindow</span><span class="params">(Session session, IWindow client, <span class="keyword">int</span> seq,</span></span></div><div class="line">         WindowManager.LayoutParams attrs, <span class="keyword">int</span> viewVisibility, <span class="keyword">int</span> displayId,</div><div class="line">         Rect outContentInsets, Rect outStableInsets, Rect outOutsets,</div><div class="line">         InputChannel outInputChannel) &#123;</div><div class="line"></div><div class="line">         <span class="comment">//先对添加的window做一些检查，省略..</span></div><div class="line"></div><div class="line">         <span class="comment">//创建了一个WindowSatete对象</span></div><div class="line">         WindowState win = <span class="keyword">new</span> WindowState(<span class="keyword">this</span>, session, client, token,</div><div class="line">                 attachedWindow, appOp[<span class="number">0</span>], seq, attrs, viewVisibility, displayContent);</div><div class="line"></div><div class="line">         <span class="comment">//..</span></div><div class="line">         </div><div class="line">         <span class="keyword">if</span> (outInputChannel != <span class="keyword">null</span> &amp;&amp; (attrs.inputFeatures</div><div class="line">                 &amp; WindowManager.LayoutParams.INPUT_FEATURE_NO_INPUT_CHANNEL) == <span class="number">0</span>) &#123;</div><div class="line">             String name = win.makeInputChannelName();</div><div class="line">             <span class="comment">//创建了一个InputChannel对，在1.5中详细讲解</span></div><div class="line">             InputChannel[] inputChannels = InputChannel.openInputChannelPair(name);</div><div class="line">             <span class="comment">//一个放在WindowState里作为server端的InputChannel</span></div><div class="line">             win.setInputChannel(inputChannels[<span class="number">0</span>]);</div><div class="line">             <span class="comment">//一个转化为client传递过来的outInputChannel</span></div><div class="line">             inputChannels[<span class="number">1</span>].transferTo(outInputChannel);</div><div class="line">             <span class="comment">//从上一篇文章中的1.1可知，InputManager作为参数传入</span></div><div class="line">             <span class="comment">//WindowManagerService的构造函数，并且存放在mInputManager中</span></div><div class="line">             <span class="comment">//下面章节会详细讲述如何注册server端的InputChannel</span></div><div class="line">             mInputManager.registerInputChannel(win.mInputChannel, win.mInputWindowHandle);</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         <span class="comment">// From now on, no exceptions or errors allowed!</span></div><div class="line">         <span class="comment">//将win放入mWindowMap，以client的binder为关键字</span></div><div class="line">         mWindowMap.put(client.asBinder(), win);</div><div class="line">       </div><div class="line">         <span class="comment">//将win加入相应的list，省略..</span></div><div class="line"></div><div class="line">         mInputMonitor.setUpdateInputWindowsNeededLw();</div><div class="line"></div><div class="line">         <span class="keyword">boolean</span> focusChanged = <span class="keyword">false</span>;</div><div class="line">         <span class="keyword">if</span> (win.canReceiveKeys()) &#123;</div><div class="line">             focusChanged = updateFocusedWindowLocked(UPDATE_FOCUS_WILL_ASSIGN_LAYERS,</div><div class="line">                     <span class="keyword">false</span> <span class="comment">/*updateInputWindows*/</span>);</div><div class="line">             <span class="keyword">if</span> (focusChanged) &#123;</div><div class="line">                 imMayMove = <span class="keyword">false</span>;</div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         <span class="keyword">if</span> (imMayMove) &#123;</div><div class="line">             moveInputMethodWindowsIfNeededLocked(<span class="keyword">false</span>);</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         assignLayersLocked(displayContent.getWindowList());</div><div class="line">         <span class="comment">// Don't do layout here, the window must call</span></div><div class="line">         <span class="comment">// relayout to be displayed, so we'll do it there.</span></div><div class="line"></div><div class="line">         <span class="keyword">if</span> (focusChanged) &#123;</div><div class="line">             mInputMonitor.setInputFocusLw(mCurrentFocus, <span class="keyword">false</span> <span class="comment">/*updateInputWindows*/</span>);</div><div class="line">         &#125;</div><div class="line">         mInputMonitor.updateInputWindowsLw(<span class="keyword">false</span> <span class="comment">/*force*/</span>);</div><div class="line"></div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">return</span> res;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="1-5"><a href="#1-5" class="headerlink" title="1.5"></a>1.5</h3><p>这一步会将任务交给c++层来处理。</p>
+<h3 id="1-6"><a href="#1-6" class="headerlink" title="1.6"></a>1.6</h3><p>这一步对应的c++的函数为<code>android_view_InputChannel_nativeOpenInputChannelPair</code>，它会创建两个InputChannel，并返回。</p>
+<p><em>frameworks/base/core/jni/android_view_InputChannel.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> jobjectArray <span class="title">android_view_InputChannel_nativeOpenInputChannelPair</span><span class="params">(JNIEnv* env,</span></span></div><div class="line">        jclass clazz, jstring nameObj) &#123;</div><div class="line">    <span class="comment">//将java String变为char*</span></div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* nameChars = env-&gt;GetStringUTFChars(nameObj, <span class="literal">NULL</span>);</div><div class="line">    <span class="function">String8 <span class="title">name</span><span class="params">(nameChars)</span></span>;</div><div class="line">    env-&gt;ReleaseStringUTFChars(nameObj, nameChars);</div><div class="line"></div><div class="line">    sp&lt;InputChannel&gt; serverChannel;</div><div class="line">    sp&lt;InputChannel&gt; clientChannel;</div><div class="line">    <span class="comment">//创建c++层的两个Channel，将在下一步详细讲解</span></div><div class="line">    <span class="keyword">status_t</span> result = InputChannel::openInputChannelPair(name, serverChannel, clientChannel);</div><div class="line">    </div><div class="line">    jobjectArray channelPair = env-&gt;NewObjectArray(<span class="number">2</span>, gInputChannelClassInfo.clazz, <span class="literal">NULL</span>);</div><div class="line"></div><div class="line">    <span class="comment">//创建java的server channel</span></div><div class="line">    jobject serverChannelObj = android_view_InputChannel_createInputChannel(env,</div><div class="line">            <span class="keyword">new</span> NativeInputChannel(serverChannel));</div><div class="line">    <span class="comment">//创建java的client channel</span></div><div class="line">    jobject clientChannelObj = android_view_InputChannel_createInputChannel(env,</div><div class="line">            <span class="keyword">new</span> NativeInputChannel(clientChannel));</div><div class="line">    <span class="comment">//存入java数组</span></div><div class="line">    env-&gt;SetObjectArrayElement(channelPair, <span class="number">0</span>, serverChannelObj);</div><div class="line">    env-&gt;SetObjectArrayElement(channelPair, <span class="number">1</span>, clientChannelObj);</div><div class="line">    <span class="keyword">return</span> channelPair;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="1-7"><a href="#1-7" class="headerlink" title="1.7"></a>1.7</h3><p>注意，这一步真的要创建ChannelPair了。</p>
+<p><em>frameworks/native/libs/input/InputTransport.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">status_t</span> InputChannel::openInputChannelPair(<span class="keyword">const</span> String8&amp; name,</div><div class="line">        sp&lt;InputChannel&gt;&amp; outServerChannel, sp&lt;InputChannel&gt;&amp; outClientChannel) &#123;</div><div class="line">    <span class="keyword">int</span> sockets[<span class="number">2</span>];</div><div class="line">    <span class="comment">//这个socketpair建立的是一个可以双向通信的管道，创建一对套接字描述符</span></div><div class="line">    <span class="keyword">if</span> (socketpair(AF_UNIX, SOCK_SEQPACKET, <span class="number">0</span>, sockets)) &#123;</div><div class="line">        <span class="keyword">status_t</span> result = -errno;</div><div class="line">        ALOGE(<span class="string">"channel '%s' ~ Could not create socket pair.  errno=%d"</span>,</div><div class="line">                name.<span class="built_in">string</span>(), errno);</div><div class="line">        outServerChannel.clear();</div><div class="line">        outClientChannel.clear();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//设置管道缓存的大小</span></div><div class="line">    <span class="keyword">int</span> bufferSize = SOCKET_BUFFER_SIZE;</div><div class="line">    setsockopt(sockets[<span class="number">0</span>], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, <span class="keyword">sizeof</span>(bufferSize));</div><div class="line">    setsockopt(sockets[<span class="number">0</span>], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, <span class="keyword">sizeof</span>(bufferSize));</div><div class="line">    setsockopt(sockets[<span class="number">1</span>], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, <span class="keyword">sizeof</span>(bufferSize));</div><div class="line">    setsockopt(sockets[<span class="number">1</span>], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, <span class="keyword">sizeof</span>(bufferSize));</div><div class="line"></div><div class="line">    <span class="comment">//开始new 两个InputChannel</span></div><div class="line">    String8 serverChannelName = name;</div><div class="line">    serverChannelName.append(<span class="string">" (server)"</span>);</div><div class="line">    outServerChannel = <span class="keyword">new</span> InputChannel(serverChannelName, sockets[<span class="number">0</span>]);</div><div class="line"></div><div class="line">    String8 clientChannelName = name;</div><div class="line">    clientChannelName.append(<span class="string">" (client)"</span>);</div><div class="line">    outClientChannel = <span class="keyword">new</span> InputChannel(clientChannelName, sockets[<span class="number">1</span>]);</div><div class="line">    <span class="keyword">return</span> OK;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>socketpair创建了一对无名的套接字描述符（只能在AF_UNIX域中使用），描述符存储于一个二元数组s[2] .这对套接字可以进行双工通信，每一个描述符既可以读也可以写。这个在同一个进程中也可以进行通信，向s[0]中写入，就可以从s[1]中读取（只能从s[1]中读取），也可以在s[1]中写入，然后从s[0]中读取；但是，若没有在0端写入，而从1端读取，则1端的读取操作会阻塞，即使在1端写入，也不能从1读取，仍然阻塞；反之亦然。<a href="http://liulixiaoyao.blog.51cto.com/1361095/533469/" target="_blank" rel="external">该段解释来自</a>。</p>
+<p>这里new了两个InputChannel，该类的构造函数如下：</p>
+<p><em>frameworks/native/libs/input/InputTransport.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">InputChannel::InputChannel(<span class="keyword">const</span> String8&amp; name, <span class="keyword">int</span> fd) :</div><div class="line">        mName(name), mFd(fd) &#123;</div><div class="line">   <span class="comment">//..</span></div><div class="line">   <span class="keyword">int</span> result = fcntl(mFd, F_SETFL, O_NONBLOCK);</div><div class="line">   <span class="comment">//..</span></div><div class="line">&#125;</div></pre></td></tr></table></figure><br>这里将描述符mFd设置为nonblock。</p>
+<p>显然，这里和Android 2.3版本有着很大区别。在旧版本中使用的是匿名共享内存和两个pipe来实现双向的通信。显然，新版本利用的linux系统的新机制，更为简洁高效。</p>
+<p>以上步骤实在新Activity建立，窗口开始创建时执行的。这里主要就让WindowManagerService建立一对InputChannel，将Activity的Window和InputDispatcher建立起连接，从而传输输入事件。</p>
+<h2 id="2-Server端注册InputChannel"><a href="#2-Server端注册InputChannel" class="headerlink" title="2. Server端注册InputChannel"></a>2. Server端注册InputChannel</h2><p>在1.4中，创建了一对InputChannel，其中Server端的InputChannel会注册进InputManagerService。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mInputManager.registerInputChannel(win.mInputChannel, win.mInputWindowHandle);</div></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20160924164829942" alt="这里写图片描述"></p>
+<h3 id="2-1"><a href="#2-1" class="headerlink" title="2.1"></a>2.1</h3><p>这一步就检验了一下传入的InputChannel是否为空。下面一言不合就开始调用native函数。</p>
+<h3 id="2-2"><a href="#2-2" class="headerlink" title="2.2"></a>2.2</h3><p><em>frameworks/base/services/core/jni/com_android_server_input_InputManagerService.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//将指针转化为NativeInputManager</span></div><div class="line">NativeInputManager* im = <span class="keyword">reinterpret_cast</span>&lt;NativeInputManager*&gt;(ptr);</div><div class="line"><span class="comment">//将java的InputChannel对象转化为一个c++层的InputChannel对象</span></div><div class="line">sp&lt;InputChannel&gt; inputChannel = android_view_InputChannel_getInputChannel(env,</div><div class="line">        inputChannelObj);</div><div class="line"><span class="comment">//将InputWindowHandle转化为c++层的InputWindowHandler</span></div><div class="line">sp&lt;InputWindowHandle&gt; inputWindowHandle =</div><div class="line">        android_server_InputWindowHandle_getHandle(env, inputWindowHandleObj);</div><div class="line"></div><div class="line"><span class="comment">//将注册任务交给NativeInputManager</span></div><div class="line"><span class="keyword">status_t</span> status = im-&gt;registerInputChannel(env, inputChannel, inputWindowHandle, monitor);</div><div class="line"><span class="comment">//..</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-3"><a href="#2-3" class="headerlink" title="2.3"></a>2.3</h3><p>这一步通过NativeInputManager中的InputManager，InputManager通过InputDispatcher来注册InputChannel。<br><em>frameworks/base/services/core/jni/com_android_server_input_InputManagerService.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mInputManager-&gt;getDispatcher()-&gt;registerInputChannel(</div><div class="line">            inputChannel, inputWindowHandle, monitor);</div></pre></td></tr></table></figure></p>
+<h3 id="2-4"><a href="#2-4" class="headerlink" title="2.4"></a>2.4</h3><p>终于，将Server端的InputChannel交给了InputDispatcher。</p>
+<p><em>frameworks/native/services/inputflinger/InputDispatcher.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">AutoMutex _l(mLock);</div><div class="line"><span class="comment">//判断是否该InputChannel已经添加过</span></div><div class="line"><span class="keyword">if</span> (getConnectionIndexLocked(inputChannel) &gt;= <span class="number">0</span>) &#123;</div><div class="line">    ALOGW(<span class="string">"Attempted to register already registered input channel '%s'"</span>,</div><div class="line">            inputChannel-&gt;getName().<span class="built_in">string</span>());</div><div class="line">    <span class="keyword">return</span> BAD_VALUE;</div><div class="line">&#125;</div><div class="line"><span class="comment">//创建一个Connection</span></div><div class="line">sp&lt;Connection&gt; connection = <span class="keyword">new</span> Connection(inputChannel, inputWindowHandle, monitor);</div><div class="line"></div><div class="line"><span class="comment">//获得InputChannel的文件描述符</span></div><div class="line"><span class="keyword">int</span> fd = inputChannel-&gt;getFd();</div><div class="line"><span class="comment">//将Connection 以文件描述符为关键字，添加入m</span></div><div class="line">mConnectionsByFd.add(fd, connection);</div><div class="line"></div><div class="line"><span class="comment">//..</span></div><div class="line"><span class="comment">//将文件描述符添加Looper，让Looper监控InputChannel的IO事件</span></div><div class="line"><span class="comment">//当IO事件发生时，就会调用回调函数handleReceiveCallback</span></div><div class="line">mLooper-&gt;addFd(fd, <span class="number">0</span>, ALOOPER_EVENT_INPUT, handleReceiveCallback, <span class="keyword">this</span>);</div></pre></td></tr></table></figure></p>
+<p>到这一步，InputDispatcher已经将InputChannel的Server端管理起来了。当Dispatcher将一个事件通过Channel发送给应用程序窗口以后，会进入休眠状态，直到应用窗口再次通过这个Channel返回一个消息将其激活，Dispatcher才准备发送下一个消息。</p>
+<p>这里创建的Connection，Connection中又创建了InputPublisher。InputPublisher可以直接将消息通过这个InputChannel发送出去。</p>
+<h2 id="3-向InputManagerService注册当前激活的应用程序窗口"><a href="#3-向InputManagerService注册当前激活的应用程序窗口" class="headerlink" title="3. 向InputManagerService注册当前激活的应用程序窗口"></a>3. 向InputManagerService注册当前激活的应用程序窗口</h2><p>再次回顾一下1.4的，在1.4中WindowManagerService在焦点发生改变时，需要改变Focused Window。这里会在InputMonitor中注册当前激活的窗口。</p>
+<p><img src="http://img.blog.csdn.net/20160924164924027" alt="这里写图片描述"></p>
+<h3 id="3-1"><a href="#3-1" class="headerlink" title="3.1"></a>3.1</h3><p>在InputMonitor中，有mInputFocus保存着当前激活的窗口，这里会将mInputFocus设置为传入的newWindow。然后调用updateInputWindowLW继续更新激活的窗口。</p>
+<h3 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h3><p>在1.4中，每个window会被加入一个Window List。这里会遍历这些List中的Windows，然后将这些windows进一步交给InputManagerService处理。</p>
+<p><em>rameworks/base/services/core/java/com/android/server/wm/InputMonitor.java :</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Populate the input window list with information about all of the windows that</span></div><div class="line"><span class="comment">// could potentially receive input.</span></div><div class="line"><span class="comment">// As an optimization, we could try to prune the list of windows but this turns</span></div><div class="line"><span class="comment">// out to be difficult because only the native code knows for sure which window</span></div><div class="line"><span class="comment">// currently has touch focus.</span></div><div class="line"><span class="comment">//..</span></div><div class="line"></div><div class="line"><span class="comment">// Add all windows on the default display.</span></div><div class="line"><span class="comment">//mService指WindowManagerService</span></div><div class="line"><span class="keyword">final</span> <span class="keyword">int</span> numDisplays = mService.mDisplayContents.size();</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> displayNdx = <span class="number">0</span>; displayNdx &lt; numDisplays; ++displayNdx) &#123;</div><div class="line">    WindowList windows = mService.mDisplayContents.valueAt(displayNdx).getWindowList();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> winNdx = windows.size() - <span class="number">1</span>; winNdx &gt;= <span class="number">0</span>; --winNdx) &#123;</div><div class="line">        <span class="keyword">final</span> WindowState child = windows.get(winNdx);</div><div class="line">        <span class="keyword">final</span> InputChannel inputChannel = child.mInputChannel;</div><div class="line">        <span class="keyword">final</span> InputWindowHandle inputWindowHandle = child.mInputWindowHandle;</div><div class="line">        <span class="keyword">if</span> (inputChannel == <span class="keyword">null</span> || inputWindowHandle == <span class="keyword">null</span> || child.mRemoved) &#123;</div><div class="line">            <span class="comment">// Skip this window because it cannot possibly receive input.</span></div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//..</span></div><div class="line">        </div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> flags = child.mAttrs.flags;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> privateFlags = child.mAttrs.privateFlags;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> type = child.mAttrs.type;</div><div class="line">        <span class="comment">//只有一个window可以获得Focus</span></div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> hasFocus = (child == mInputFocus);</div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isVisible = child.isVisibleLw();</div><div class="line"></div><div class="line">        <span class="comment">//..</span></div><div class="line">        addInputWindowHandleLw(inputWindowHandle, child, flags, type, isVisible, hasFocus,</div><div class="line">                hasWallpaper);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Send windows to native code.</span></div><div class="line"><span class="comment">//将这些windows交给InputManager继续进行注册</span></div><div class="line">mService.mInputManager.setInputWindows(mInputWindowHandles);</div><div class="line"></div><div class="line"><span class="comment">// Clear the list in preparation for the next round.</span></div><div class="line">clearInputWindowHandlesLw();</div></pre></td></tr></table></figure></p>
+<h3 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h3><p>这一步InputManagerService将任务交给了c++层。</p>
+<h3 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h3><p>进入c++层，将这些windowHandles交给NativeInputManager。</p>
+<p><em>frameworks/base/services/core/jni/com_android_server_input_InputManagerService.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nativeSetInputWindows</span><span class="params">(JNIEnv* env, jclass <span class="comment">/* clazz */</span>,</span></span></div><div class="line">        jlong ptr, jobjectArray windowHandleObjArray) &#123;</div><div class="line">    <span class="comment">//将ptr转化为指针</span></div><div class="line">    NativeInputManager* im = <span class="keyword">reinterpret_cast</span>&lt;NativeInputManager*&gt;(ptr);</div><div class="line">    <span class="comment">//windowHandleObjArray是传入的windowHandles</span></div><div class="line">    im-&gt;setInputWindows(env, windowHandleObjArray);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h3><p>这一步先将java的windowHandle变为c++对象，然后这些windowHandle被交给InputDispatcher处理。</p>
+<p><em>frameworks/base/services/core/jni/com_android_server_input_InputManagerService.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (windowHandleObjArray) &#123;</div><div class="line">      jsize length = env-&gt;GetArrayLength(windowHandleObjArray);</div><div class="line">      <span class="comment">//将java对象转化为c++对象</span></div><div class="line">      <span class="keyword">for</span> (jsize i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">          jobject windowHandleObj = env-&gt;GetObjectArrayElement(windowHandleObjArray, i);</div><div class="line">          <span class="keyword">if</span> (! windowHandleObj) &#123;</div><div class="line">              <span class="keyword">break</span>; <span class="comment">// found null element indicating end of used portion of the array</span></div><div class="line">          &#125;</div><div class="line"></div><div class="line">          sp&lt;InputWindowHandle&gt; windowHandle =</div><div class="line">                  android_server_InputWindowHandle_getHandle(env, windowHandleObj);</div><div class="line">          <span class="keyword">if</span> (windowHandle != <span class="literal">NULL</span>) &#123;</div><div class="line">              windowHandles.push(windowHandle);</div><div class="line">          &#125;</div><div class="line">          env-&gt;DeleteLocalRef(windowHandleObj);</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//将这些windowHandles交给Dispatcher处理</span></div><div class="line">  mInputManager-&gt;getDispatcher()-&gt;setInputWindows(windowHandles);</div></pre></td></tr></table></figure></p>
+<h3 id="3-6"><a href="#3-6" class="headerlink" title="3.6"></a>3.6</h3><p>InputDispatcher跟新WindowHandle，并且更新Focused window。</p>
+<p><em>frameworks/native/services/inputflinger/InputDispatcher.cpp ：</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="comment">// acquire lock</span></div><div class="line">    AutoMutex _l(mLock);</div><div class="line"></div><div class="line">    <span class="comment">//清理旧的WindowHandle</span></div><div class="line">    Vector&lt;sp&lt;InputWindowHandle&gt; &gt; oldWindowHandles = mWindowHandles;</div><div class="line">    mWindowHandles = inputWindowHandles;</div><div class="line"></div><div class="line">    sp&lt;InputWindowHandle&gt; newFocusedWindowHandle;</div><div class="line">    <span class="keyword">bool</span> foundHoveredWindow = <span class="literal">false</span>;</div><div class="line">    <span class="comment">//找到新的Focused WindowHandle</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; mWindowHandles.size(); i++) &#123;</div><div class="line">        <span class="keyword">const</span> sp&lt;InputWindowHandle&gt;&amp; windowHandle = mWindowHandles.itemAt(i);</div><div class="line">        <span class="keyword">if</span> (!windowHandle-&gt;updateInfo() || windowHandle-&gt;getInputChannel() == <span class="literal">NULL</span>) &#123;</div><div class="line">            mWindowHandles.removeAt(i--);</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (windowHandle-&gt;getInfo()-&gt;hasFocus) &#123;</div><div class="line">            newFocusedWindowHandle = windowHandle;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (windowHandle == mLastHoverWindowHandle) &#123;</div><div class="line">            foundHoveredWindow = <span class="literal">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!foundHoveredWindow) &#123;</div><div class="line">        mLastHoverWindowHandle = <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (mFocusedWindowHandle != newFocusedWindowHandle) &#123;</div><div class="line">        <span class="comment">//旧的FocusedWindow和新的不同，则需要停止向旧的Channel中发送消息</span></div><div class="line">        <span class="keyword">if</span> (mFocusedWindowHandle != <span class="literal">NULL</span>) &#123;</div><div class="line">            sp&lt;InputChannel&gt; focusedInputChannel = mFocusedWindowHandle-&gt;getInputChannel();</div><div class="line">            <span class="keyword">if</span> (focusedInputChannel != <span class="literal">NULL</span>) &#123;</div><div class="line">                synthesizeCancelationEventsForInputChannelLocked(</div><div class="line">                        focusedInputChannel, options);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//设置新的Focused Window</span></div><div class="line">        mFocusedWindowHandle = newFocusedWindowHandle;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Release information for windows that are no longer present.</span></div><div class="line">    <span class="comment">// This ensures that unused input channels are released promptly.</span></div><div class="line">    <span class="comment">// Otherwise, they might stick around until the window handle is destroyed</span></div><div class="line">    <span class="comment">// which might not happen until the next GC.</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; oldWindowHandles.size(); i++) &#123;</div><div class="line">        <span class="keyword">const</span> sp&lt;InputWindowHandle&gt;&amp; oldWindowHandle = oldWindowHandles.itemAt(i);</div><div class="line">        <span class="keyword">if</span> (!hasWindowHandleLocked(oldWindowHandle)) &#123;</div><div class="line">            <span class="comment">//释放已经不存在的旧Window</span></div><div class="line">            oldWindowHandle-&gt;releaseInfo();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125; <span class="comment">// release lock</span></div><div class="line"></div><div class="line"><span class="comment">// Wake up poll loop since it may need to make new input dispatching choices.</span></div><div class="line">mLooper-&gt;wake();</div></pre></td></tr></table></figure></p>
+<p>到这里，InputDispatcher获取了和激活的Window的双向通信通道，同时Dispatcher也知道了是哪个Window处于Focused状态。只要Client端将通信通道建立完毕，则Dispatcher可以向Activity的Window发送消息了。</p>
+<h2 id="4-Client端注册InputChannel"><a href="#4-Client端注册InputChannel" class="headerlink" title="4. Client端注册InputChannel"></a>4. Client端注册InputChannel</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mInputEventReceiver = <span class="keyword">new</span> WindowInputEventReceiver(mInputChannel, Looper.myLooper());</div></pre></td></tr></table></figure>
+<p>在1.1中，通过WindowSession添加Window和InputChannel后，mInputChannel对象已经转化为双向通道中的client端通道了，从1.4可以知道。然后，该步骤又创建了一个WindowInputEventReceiver类的对象mInputEventReceiver，它将mInputChannel和主线程绑定在一起。</p>
+<p>下面就看一下WindowInputEventReceiver的构造过程。</p>
+<p><img src="http://img.blog.csdn.net/20160924165000028" alt="这里写图片描述"></p>
+<h3 id="4-1"><a href="#4-1" class="headerlink" title="4.1"></a>4.1</h3><p>WindowInputEventReceiver是InputEventReceiver的子类，具体构造过程在InputEventReceiver中。</p>
+<h3 id="4-2"><a href="#4-2" class="headerlink" title="4.2"></a>4.2</h3><p>这一步又开始调用native函数。</p>
+<p><em>frameworks/base/core/java/android/view/InputEventReceiver.java:</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mInputChannel = inputChannel;</div><div class="line">mMessageQueue = looper.getQueue();</div><div class="line">mReceiverPtr = nativeInit(<span class="keyword">new</span> WeakReference&lt;InputEventReceiver&gt;(<span class="keyword">this</span>), inputChannel, mMessageQueue);</div></pre></td></tr></table></figure></p>
+<h3 id="4-3"><a href="#4-3" class="headerlink" title="4.3"></a>4.3</h3><p>创建c++层的NativeInputEventReceiver。</p>
+<p><em>frameworks/base/core/jni/android_view_InputEventReceiver.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> jlong <span class="title">nativeInit</span><span class="params">(JNIEnv* env, jclass clazz, jobject receiverWeak,</span></span></div><div class="line">        jobject inputChannelObj, jobject messageQueueObj) &#123;</div><div class="line">    <span class="comment">//将java对象转化为c++对象</span></div><div class="line">    sp&lt;InputChannel&gt; inputChannel = android_view_InputChannel_getInputChannel(env,</div><div class="line">            inputChannelObj);</div><div class="line">    <span class="comment">//传入的java MessageQueue转化为c++的MessageQueue</span></div><div class="line">    sp&lt;MessageQueue&gt; messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);</div><div class="line"></div><div class="line">    <span class="comment">//..</span></div><div class="line"></div><div class="line">    <span class="comment">//创建了一个NativeInputEventReceiver，构造函数在下面</span></div><div class="line">    sp&lt;NativeInputEventReceiver&gt; receiver = <span class="keyword">new</span> NativeInputEventReceiver(env,</div><div class="line">            receiverWeak, inputChannel, messageQueue);</div><div class="line">    <span class="comment">//对其进行初始化</span></div><div class="line">    <span class="keyword">status_t</span> status = receiver-&gt;initialize();</div><div class="line"></div><div class="line">    <span class="comment">//返回一个NativeInputEventReceiver的指针</span></div><div class="line">    receiver-&gt;incStrong(gInputEventReceiverClassInfo.clazz); <span class="comment">// retain a reference for the object</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">reinterpret_cast</span>&lt;jlong&gt;(receiver.get());</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>NativeInputEventReceiver的构造函数。</p>
+<p><em>frameworks/base/core/jni/android_view_InputEventReceiver.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">NativeInputEventReceiver::NativeInputEventReceiver(JNIEnv* env,</div><div class="line">        jobject receiverWeak, <span class="keyword">const</span> sp&lt;InputChannel&gt;&amp; inputChannel,</div><div class="line">        <span class="keyword">const</span> sp&lt;MessageQueue&gt;&amp; messageQueue) :</div><div class="line">        mReceiverWeakGlobal(env-&gt;NewGlobalRef(receiverWeak)),</div><div class="line">        mInputConsumer(inputChannel), mMessageQueue(messageQueue),</div><div class="line">        mBatchedInputEventPending(<span class="literal">false</span>), mFdEvents(<span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (kDebugDispatchCycle) &#123;</div><div class="line">        ALOGD(<span class="string">"channel '%s' ~ Initializing input event receiver."</span>, getInputChannelName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="4-4"><a href="#4-4" class="headerlink" title="4.4"></a>4.4</h3><p>这一步调用函数setFdEvents，参数为<code>ALOOPER_EVENT_INPUT</code>。</p>
+<h3 id="4-5"><a href="#4-5" class="headerlink" title="4.5"></a>4.5</h3><p>将传入的Channel让主线程监听起来，以便处理传入的消息。</p>
+<p><em>frameworks/base/core/jni/android_view_InputEventReceiver.cpp</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> NativeInputEventReceiver::setFdEvents(<span class="keyword">int</span> events) &#123;'</div><div class="line">    <span class="keyword">if</span> (mFdEvents != events) &#123;</div><div class="line">        mFdEvents = events;</div><div class="line">        <span class="comment">//获取Channel的文件描述符</span></div><div class="line">        <span class="keyword">int</span> fd = mInputConsumer.getChannel()-&gt;getFd();</div><div class="line">        <span class="keyword">if</span> (events) &#123;</div><div class="line">	    <span class="comment">//获取Looper，给其添加监听fd的IO事件的请求</span></div><div class="line">	    <span class="comment">//MessageQueue的Looper为主线程Looper，如果Looper进入睡眠</span></div><div class="line">	    <span class="comment">//则会被Channel上写入的事件唤醒，从而可以处理新来的消息</span></div><div class="line">            mMessageQueue-&gt;getLooper()-&gt;addFd(fd, <span class="number">0</span>, events, <span class="keyword">this</span>, <span class="literal">NULL</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            mMessageQueue-&gt;getLooper()-&gt;removeFd(fd);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>这里监听的文件描述符发生IO事件时，调用的回调函数就是NativeInputEventReceiver自己，因为它为LooperCallback子类。</p>
+<p>同时注意这里的Looper就是应用主线程的Looper，这里向其epoll多添加了一个文件描述符进行监听，因为epoll可以同时监听多个epoll的IO事件。同时设定了监听的类型为ALOOPER_EVENT_INPUT。</p>
+<p>回忆下第10章的1.6步骤中epoll_wait进入的睡眠后，会监听mWakeEventFd文件描述符的事件。不仅如此，这一步还会监听更多的文件描述符的事件，这里就包括建立的InputChannel的文件描述符。所以在主线程通过调用pollInner进入睡眠以后，被唤醒后会判断发生事件的文件描述符是哪一个。</p>
+<p><em>system/core/libutils/Looper.cpp :</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (fd == mWakeEventFd) &#123;</div><div class="line">          <span class="keyword">if</span> (epollEvents &amp; EPOLLIN) &#123;</div><div class="line">              awoken();</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">              ALOGW(<span class="string">"Ignoring unexpected epoll events 0x%x on wake event fd."</span>, epollEvents);</div><div class="line">          &#125;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="keyword">ssize_t</span> requestIndex = mRequests.indexOfKey(fd);</div><div class="line">          <span class="keyword">if</span> (requestIndex &gt;= <span class="number">0</span>) &#123;</div><div class="line">              <span class="keyword">int</span> events = <span class="number">0</span>;</div><div class="line">              <span class="keyword">if</span> (epollEvents &amp; EPOLLIN) events |= EVENT_INPUT;</div><div class="line">              <span class="keyword">if</span> (epollEvents &amp; EPOLLOUT) events |= EVENT_OUTPUT;</div><div class="line">              <span class="keyword">if</span> (epollEvents &amp; EPOLLERR) events |= EVENT_ERROR;</div><div class="line">              <span class="keyword">if</span> (epollEvents &amp; EPOLLHUP) events |= EVENT_HANGUP;</div><div class="line">              pushResponse(events, mRequests.valueAt(requestIndex));</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">              ALOGW(<span class="string">"Ignoring unexpected epoll events 0x%x on fd %d that is "</span></div><div class="line">                      <span class="string">"no longer registered."</span>, epollEvents, fd);</div><div class="line">          &#125;</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>到这里，InputChannel在Client端也进行了监听，整个完整的window所在的应用主线程和InputDispatcher线程之间的双向Channel已经建立完毕，同时InputDispatcher知道哪一个window处于激活状态，因为它知道向哪一个window发送消息。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android系统源码阅读(13):Input消息的分发过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/14/Android系统源码阅读-11-Android的InputManagerService的工作过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android系统源码阅读(11):Android的InputManagerService的工作过程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android系统源码阅读-12-InputChannel的注册过程" data-title="Android系统源码阅读(12):InputChannel的注册过程" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tianchi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Tian chi
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/ITanCh/Yilia-c" target="_blank">Yilia-c</a> by Tianchi
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

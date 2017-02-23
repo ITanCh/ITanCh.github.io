@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ubuntu14.04基本配置 | Tianchi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="更新：12$ sudo apt-get update  $ sudo apt-get upgrade
+安装搜狗输入法：123$ sudo add-apt-repository ppa:fcitx-team/nightly	#添加fcitx源$ sudo apt-get install fcitx  #下载搜狗输入法双击安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu14.04基本配置">
+<meta property="og:url" content="http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/index.html">
+<meta property="og:site_name" content="Tianchi's Blog">
+<meta property="og:description" content="更新：12$ sudo apt-get update  $ sudo apt-get upgrade
+安装搜狗输入法：123$ sudo add-apt-repository ppa:fcitx-team/nightly	#添加fcitx源$ sudo apt-get install fcitx  #下载搜狗输入法双击安装">
+<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu14.04基本配置">
+<meta name="twitter:description" content="更新：12$ sudo apt-get update  $ sudo apt-get upgrade
+安装搜狗输入法：123$ sudo add-apt-repository ppa:fcitx-team/nightly	#添加fcitx源$ sudo apt-get install fcitx  #下载搜狗输入法双击安装">
+  
+    <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?317f9c93ad2152fbda4701e8107d95fe";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">阅读 思考 实践</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/技术/">技术</a></li>
+				        
+							<li><a href="/tags/记录/">记录</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Cocos2d-x/" style="font-size: 10px;">Cocos2d-x</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MESOS/" style="font-size: 10px;">MESOS</a> <a href="/tags/MooseFS/" style="font-size: 10px;">MooseFS</a> <a href="/tags/Torque/" style="font-size: 10px;">Torque</a> <a href="/tags/Yeoman/" style="font-size: 10px;">Yeoman</a> <a href="/tags/slurm/" style="font-size: 10px;">slurm</a> <a href="/tags/ubuntu/" style="font-size: 15px;">ubuntu</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a> <a href="/tags/电影/" style="font-size: 10px;">电影</a> <a href="/tags/记录/" style="font-size: 12.5px;">记录</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/豆瓣/" style="font-size: 10px;">豆瓣</a>
+					</div>
+				</section>
+				
+
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mclspace.com/">Mcl&#39;s space</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cshuo.xyz/">cshuo的猪窝</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://weibo.com/u/3180792397">夏夏的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://mengzs.com/">Meng ZS&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://monkey-h.github.io/">monkey-H&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://co2y.github.io">WeiYi&#39;s blog</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://answ.me/">安大哥的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+				<div id="js-aboutme">1992年生，处女座。2015年本科毕业于南京大学计算机科学与技术系，现于本校软件所继续攻读硕士学位。
+				</section>
+				</section>
+				
+			</div>
+
+		</div>
+
+	</header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Tian chi</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/ahh.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Tian chi</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">阅读 思考 实践</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/技术/">技术</a></li>
+		        
+					<li><a href="/tags/记录/">记录</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/liutianchi" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://moon.nju.edu.cn/people/tianchiliu/" title="mail">mail</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ubuntu14-04基本配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/06/ubuntu14-04基本配置/" class="article-date">
+  	<time datetime="2015-08-06T03:59:57.000Z" itemprop="datePublished">2015-08-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ubuntu14.04基本配置
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/">ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
+<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
+<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
+<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
+<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li>取消某个软件(tomcat)开机自启动。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/29/豆瓣电影Top250获取/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          豆瓣电影Top250获取
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/06/Torque学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Torque安装笔记(多ubuntu节点)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ubuntu14-04基本配置" data-title="ubuntu14.04基本配置" data-url="http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"tianchi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Tian chi
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/ITanCh/Yilia-c" target="_blank">Yilia-c</a> by Tianchi
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
