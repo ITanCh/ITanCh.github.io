@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-02-23T07:42:15.000Z</updated>
+  <updated>2017-02-26T03:57:25.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://itanch.github.io/2017/02/15/32%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     <id>http://itanch.github.io/2017/02/15/32个设计模式/</id>
     <published>2017-02-15T06:10:00.000Z</published>
-    <updated>2017-02-23T07:42:15.000Z</updated>
+    <updated>2017-02-26T03:57:25.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本篇文章是对<em>Design Patterns: Elements of Reusable Object-Oriented Software</em>的总结。</p>
@@ -179,7 +179,15 @@
 <li>效率不是特别的重要的时候。最有效的翻译方式通常不是直接翻译语法树，而是首先将它们转化为其它的形式。例如，正则表达式经常首先被转化成一个状态机。</li>
 </ol>
 <hr>
-<h3 id="16"><a href="#16" class="headerlink" title="16."></a>16.</h3>]]></content>
+<h3 id="16-Iterator"><a href="#16-Iterator" class="headerlink" title="16. Iterator"></a>16. Iterator</h3><h4 id="目的-14"><a href="#目的-14" class="headerlink" title="目的"></a>目的</h4><p>提供了一个可以按序访问集合对象元素的方式，并且无需暴露集合的内部实现。   </p>
+<h4 id="结构-15"><a href="#结构-15" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_itr.png" alt="image">  </p>
+<p><strong>Iterator</strong>: 定义一个访问和遍历元素的接口。<br><strong>ConcreteIterator</strong>: 实现Iterator接口，保存当前遍历到的位置。<br><strong>Aggregate</strong>: 定义了一个创建Iterator对象的接口。<br><strong>ConcreteAggregate</strong>: 实现了穿件Iterator的接口来返回一个合适的ConcreteIterator。   </p>
+<h4 id="何时使用-15"><a href="#何时使用-15" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>访问一个集合的内容，并且无需暴露集合的内部表示。  </li>
+<li>可以支持多种遍历方式。</li>
+<li>可以提供统一的接口来遍历不同的接口（因此可以支持多态的迭代）。</li>
+</ol>
+]]></content>
     
     <summary type="html">
     
@@ -270,9 +278,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -337,9 +345,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -415,9 +423,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -471,9 +479,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -541,9 +549,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -669,9 +677,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -758,9 +766,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -834,9 +842,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -876,9 +884,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -944,9 +952,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -992,9 +1000,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1062,9 +1070,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1141,9 +1149,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1175,9 +1183,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1211,9 +1219,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1245,9 +1253,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1282,9 +1290,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1327,9 +1335,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1379,9 +1387,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1419,9 +1427,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1931,7 +1939,7 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
