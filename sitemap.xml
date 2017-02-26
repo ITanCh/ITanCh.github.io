@@ -16,7 +16,7 @@
   </url>
   
   <url>
-    <loc>http://itanch.github.io/2017/02/14/Android-Monkey-%E6%BA%90%E4%BB%A3%E7%A0%81%E9%98%85%E8%AF%BB/</loc>
+    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E7%BC%96%E8%AF%91/</loc>
     
     <lastmod>2017-02-23T07:42:15.000Z</lastmod>
     
@@ -72,21 +72,7 @@
   </url>
   
   <url>
-    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-17-Android%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
-    
-    <lastmod>2017-02-23T07:42:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-18-Android%E5%BA%94%E7%94%A8%E7%9A%84%E6%98%BE%E7%A4%BA/</loc>
-    
-    <lastmod>2017-02-23T07:42:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-2-%E6%A0%B9Activity%E7%BB%84%E4%BB%B6%E7%9A%84%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/</loc>
     
     <lastmod>2017-02-23T07:42:15.000Z</lastmod>
     
@@ -107,6 +93,13 @@
   </url>
   
   <url>
+    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-2-%E6%A0%B9Activity%E7%BB%84%E4%BB%B6%E7%9A%84%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/</loc>
+    
+    <lastmod>2017-02-23T07:42:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-5-Service%E5%9C%A8%E8%BF%9B%E7%A8%8B%E5%86%85%E7%BB%91%E5%AE%9A/</loc>
     
     <lastmod>2017-02-23T07:42:15.000Z</lastmod>
@@ -114,7 +107,14 @@
   </url>
   
   <url>
-    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E7%BC%96%E8%AF%91/</loc>
+    <loc>http://itanch.github.io/2017/02/14/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-17-Android%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
+    
+    <lastmod>2017-02-23T07:42:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://itanch.github.io/2017/02/14/Android-Monkey-%E6%BA%90%E4%BB%A3%E7%A0%81%E9%98%85%E8%AF%BB/</loc>
     
     <lastmod>2017-02-23T07:42:15.000Z</lastmod>
     
