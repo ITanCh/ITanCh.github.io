@@ -163,6 +163,15 @@
 <li>可以支持多种遍历方式。</li>
 <li>可以提供统一的接口来遍历不同的接口（因此可以支持多态的迭代）。</li>
 </ol>
+<hr>
+<h3 id="17-Mediator"><a href="#17-Mediator" class="headerlink" title="17. Mediator"></a>17. Mediator</h3><h4 id="目的-15"><a href="#目的-15" class="headerlink" title="目的"></a>目的</h4><p>定义一个对象来封装一组对象之间的交互。Mediator让对象之间不通过指明的互相引用来减轻它们之间的耦合度，从而可以让你互不影响的变化它们之间的交互。   </p>
+<h4 id="结构-16"><a href="#结构-16" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/2dp_media.png" alt="mediator">  </p>
+<p><strong>Mediator</strong>: 定义了一个和同伴交流的接口。<br><strong>ConcreteMediator</strong>: 实现合作的接口来让这些伙伴对象可以相互协作。它知道并且维护着它的同伴对象。<br><strong>Colleague classes</strong>: 每个Colleague类都知道它的Mediator对象。当它想和同伴对象交流的时候，它会通过它的mediator来进行间接的交流。  </p>
+<h4 id="何时使用-16"><a href="#何时使用-16" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一组对象通过定义良好但方式复杂的方式来交流合作。结果就导致它们之间的依赖结构混乱并且难以理解。  </li>
+<li>重新使用一个对象是比较困难的，因为它引用着许多其它对象。   </li>
+<li>一个分布在多个类之间的行为应该很容易被定制，而不需要搞出来很多的子类。</li>
+</ol>
 </div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/写在2017的开始/" class="next">NEXT</a></div><div data-thread-key="2017/02/15/32个设计模式/" data-title="23个设计模式" data-url="http://itanch.github.io/2017/02/15/32个设计模式/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
