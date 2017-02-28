@@ -172,6 +172,60 @@
 <li>重新使用一个对象是比较困难的，因为它引用着许多其它对象。   </li>
 <li>一个分布在多个类之间的行为应该很容易被定制，而不需要搞出来很多的子类。</li>
 </ol>
+<hr>
+<h3 id="18-Memento"><a href="#18-Memento" class="headerlink" title="18. Memento"></a>18. Memento</h3><h4 id="目的-16"><a href="#目的-16" class="headerlink" title="目的"></a>目的</h4><p>不用破坏对象的封装性质，获取一个对象的内部状态以便该对象可以恢复原来的状态。也可以被作token。在Android系统中，Activity可以通过savedInstanceState来保存和恢复一个Activity的状态。    </p>
+<h4 id="结构-17"><a href="#结构-17" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_memto.png" alt="image">  </p>
+<p><strong>Memento</strong>：存储Originator对象的内部状态。有originator自己决定需要保存多少的内部状态。它应该保护存储的状态只由originator自己访问。Memento最好有两种接口，Caretaker只能看到一个“狭窄”的接口，它只能将Memento传给其他对象。相反的，Originator应该可以看到一个“宽广”的接口，从而可以让它访问存储的状态，从而恢复到原来的状态。理想情况下，只有产生memento的originator才可以访问memento的内部状态。<br><strong>Originator</strong>：创建一个memento来保存它的内部状态快照。使用Memento来恢复它的状态。<br><strong>Caretaker</strong>: 安全的保存着memento。不会操作和访问memento的内部状态。</p>
+<h4 id="何时使用-17"><a href="#何时使用-17" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一个对象的状态快照需要被保存下来，以后可以用来恢复状态。   </li>
+<li>直接访问一个对象的内部状态会导致破坏一个对象的封装性，暴露对象的实现细节。</li>
+</ol>
+<hr>
+<h3 id="19-Observer"><a href="#19-Observer" class="headerlink" title="19. Observer"></a>19. Observer</h3><h4 id="目的-17"><a href="#目的-17" class="headerlink" title="目的"></a>目的</h4><p>定义一个一对多的对象之间的依赖关系，因此当一个对象发生改变，所有依赖于它的对象会收到提醒，并且自动的改变状态。可以称作Dependents，Publish-Subscribe模式。在Android系统中，有broadcast/broadcast receiver机制，在nodejs中，同样有event emmiter/listen机制。</p>
+<h4 id="结构-18"><a href="#结构-18" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_observer.png" alt="image">   </p>
+<p><strong>Subject</strong>: 知道所有的observer，observer的数量时不固定的。提供接口来添加或者移除所有的observer对象。<br><strong>Observer</strong>: 给那些需要观察subject变化的对象提供了一个update的接口。<br><strong>ConcreteSubject</strong>: 存储了ConcreteObserver感兴趣的状态，当它的状态发生变化时，提醒它的观察者。<br><strong>ConcreteObserver</strong>: 有一个指向ConcreteSubject对象的引用，存储了应该和subject一致的状态。实现了Observer的更新接口，来保持与subject状态的一致。   </p>
+<p>目前，很多使用该模式的系统会进一步解耦合，使得subject和observer相互透明。</p>
+<h4 id="何时使用-18"><a href="#何时使用-18" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一个抽象结构中有两个部分，一个依赖于另一个。将这两个部分封装成独立的对象，可以让你独立的修改和重复使用它们。   </li>
+<li>当一个对象的变化需要需要其他对象跟着变化，但是你不知道有多少对象需要被修改的时候。  </li>
+<li>当你想让一个对象通知其它对象，而无需关心这些被通知的对象是谁时。一句话，你不想让这些对象紧密耦合的时候。   </li>
+</ol>
+<hr>
+<h3 id="20-State"><a href="#20-State" class="headerlink" title="20. State"></a>20. State</h3><h4 id="目的-18"><a href="#目的-18" class="headerlink" title="目的"></a>目的</h4><p>让一个对象可以在它的状态改变时，改变它的行为。使得对象看上去改变了自己的类。也被称作Object for States。  </p>
+<h4 id="结构-19"><a href="#结构-19" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_state.png" alt="state">   </p>
+<p><strong>Context</strong>: 定义了用户需要的接口。保存着一个定义了当前状态的ConcreteState子类实例。<br><strong>State</strong>: 定义了一个用来封装与之对应的行为的接口。<br><strong>ConcreteState subclasses</strong>: 每个subclass实现了与状态对应的行为。   </p>
+<h4 id="何时使用-19"><a href="#何时使用-19" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一个对象的行为依赖于它的状态，它必须在运行时刻根据它的状态改变它的行为。   </li>
+<li>一个对象的操作有着大量的条件语句依赖于对象的状态。这些状态通常只有可数的几种组合。通常，很多函数含有重复的条件结构。State可以将这些不同的条件分支放到不同的类中。从而，你可以将对象的状态看成独立的对象，这些状态可以相互独立的进行切换。</li>
+</ol>
+<hr>
+<h3 id="21-Strategy"><a href="#21-Strategy" class="headerlink" title="21. Strategy"></a>21. Strategy</h3><h4 id="目的-19"><a href="#目的-19" class="headerlink" title="目的"></a>目的</h4><p>定义了一组算法，并且对每个算法进行了封装，并且他们之间是可以相互切换的。Strategy 让算法可以独立于用户变化。也可以称作Policy。   </p>
+<h4 id="结构-20"><a href="#结构-20" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_strategy.png" alt="strategy">  </p>
+<p><strong>Strategy</strong>: 定义了所有支持的算法的通用接口。Context使用该接口来调用ConcreteStrategy提供的算法。<br><strong>ConcreteStrategy</strong>: 使用Strategy定义的接口实现了具体的算法。<br><strong>Context</strong>: 它会配置一个ConcreteStrategy对象。保存一个对Strategy对象的引用。提供了可以让Strategy访问数据的接口。   </p>
+<h4 id="何时使用-20"><a href="#何时使用-20" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一些类只有他们的行为不同，使用Strategy可以让一个类配置多种行为。  </li>
+<li>你需要不同算法。比如，你可能定义了一些有着不同的时间／空间复杂度的算法。</li>
+<li>用户无需知道算法如何使用数据。使用Strategy可以避免暴露复杂的，算法特定的数据结构。   </li>
+<li>一个类定义了多种行为，导致在函数中有多种条件语句来选择这些行为。为了避免这种繁杂的条件语句，将相关的分支封装成不同的Strategy对象。  </li>
+</ol>
+<hr>
+<h3 id="22-Template-Method"><a href="#22-Template-Method" class="headerlink" title="22. Template Method"></a>22. Template Method</h3><h4 id="目的-20"><a href="#目的-20" class="headerlink" title="目的"></a>目的</h4><p>在函数中定义了算法的骨架，将具体某些步骤交给子类来实现。Template Method让子类重定义部分步骤，而不用改变整个算法的结构。   </p>
+<h4 id="结构-21"><a href="#结构-21" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_template.png" alt="template method">  </p>
+<p><strong>AbstractClass</strong>: 定义了抽象的primitive函数，让子类来具体实现这几步。实现了一个模版方法，决定了算法的骨架。template method 调用了primitive方法，还有一些其他方法。<br><strong>ConcreteClass</strong>: 实现了primitive方法，从而达到定制算法某些步骤的目的。   </p>
+<h4 id="何时使用-21"><a href="#何时使用-21" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>实现算法中不可变的部分，将可变的部分交给子类去实现。  </li>
+<li>当几个子类的函数中有着共同部分行为，可以将这共同的部分在父类中实现，避免代码的重复。有一种通过重构达到一般化的目的。  </li>
+<li>控制子类的扩展。你可以定义一个template方法在指定位置调用“hook”操作，从而限制子类只能在这些hook的位置进行扩展。   </li>
+</ol>
+<hr>
+<h3 id="23-Visitor"><a href="#23-Visitor" class="headerlink" title="23. Visitor"></a>23. Visitor</h3><h4 id="目的-21"><a href="#目的-21" class="headerlink" title="目的"></a>目的</h4><p>表示一个可以对结构体中的元素进行操作的模式。可以对其中的元素添加新的操作，而无需修改该元素对应的类。   </p>
+<h4 id="结构-22"><a href="#结构-22" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_visitor.png" alt="visitor">  </p>
+<p><strong>Visitor</strong>: 给每个结构中的类定义了一个访问函数。函数名指明了它能能够访问的对象。Visitor决定了自己可以访问的元素，通过特定的参数，visitor能够直接的访问这些元素。<br><strong>Concrete Visitor</strong>: 实现Visitor声明的每个操作，每个操作位结构中对应的元素实现了算法的一个片段，Concrete Visitor提供了算法的上下文，并且存储了本地状态，可以加速遍历。<br><strong>Element</strong>: 定义了可以接受Visitor的接口。<br><strong>ConcreteElement</strong>: 实现了接受接口。<br><strong>ObjectStructure</strong>: 可以列举自己的element。提供了一个更高层次的接口来让visitor来访问它的元素。可以是一个composite结构，也可以是一个列表、集合等。   </p>
+<h4 id="何时使用-22"><a href="#何时使用-22" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
+<li>一个结构体中有着很多接口不同的元素对象，同时你希望对其中的这些元素进行操作。   </li>
+<li>你需要对一个结构体中的对象进行很多不同的，并且不相关的操作，同时你不希望“污染”这些原有的类。Visitor可以让你将这些无关的操作定义在一个类中。</li>
+<li>结构体中对象的类很少变化，但是你常常想对结构添加新的操作。修改结构体中的类的接口，会导致需要重新定义visitor的接口，这些代价很大。所以如果结构体中的类如果常常变化，那么最好还是将操作定义在这些类中，而不要用visitor。</li>
+</ol>
 </div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/写在2017的开始/" class="next">NEXT</a></div><div data-thread-key="2017/02/15/32个设计模式/" data-title="23个设计模式" data-url="http://itanch.github.io/2017/02/15/32个设计模式/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
