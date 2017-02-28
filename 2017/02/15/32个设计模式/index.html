@@ -224,8 +224,19 @@
 <h4 id="何时使用-22"><a href="#何时使用-22" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
 <li>一个结构体中有着很多接口不同的元素对象，同时你希望对其中的这些元素进行操作。   </li>
 <li>你需要对一个结构体中的对象进行很多不同的，并且不相关的操作，同时你不希望“污染”这些原有的类。Visitor可以让你将这些无关的操作定义在一个类中。</li>
-<li>结构体中对象的类很少变化，但是你常常想对结构添加新的操作。修改结构体中的类的接口，会导致需要重新定义visitor的接口，这些代价很大。所以如果结构体中的类如果常常变化，那么最好还是将操作定义在这些类中，而不要用visitor。</li>
+<li>结构体中对象的类很少变化，但是你常常想对结构添加新的操作。修改结构体中的类的接口，会导致需要重新定义visitor的接口，这些代价很大。所以如果结构体中的类如果常常变化，那么最好还是将操作定义在这些类中，而不要用visitor。   </li>
 </ol>
+<hr>
+<blockquote>
+<p>整理完了23个设计模式，经常回顾，必将会受益匪浅。</p>
+</blockquote>
+<div class="tip"><br>    本文可以转载，但请注明文章来自：<a href="http://itanch.github.io/">http://itanch.github.io/</a><br></div>
+
+
+
+
+
+
 </div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/写在2017的开始/" class="next">NEXT</a></div><div data-thread-key="2017/02/15/32个设计模式/" data-title="23个设计模式" data-url="http://itanch.github.io/2017/02/15/32个设计模式/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
