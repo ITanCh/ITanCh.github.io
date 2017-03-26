@@ -40,7 +40,7 @@
 <p>gid指明了该资源权限所在的用户组，当然一个权限可以拥有多个用户组。应用获取权限就是加入相应的用户组。Package的申请的权限已经保存到它对应的PackageSetting对象中，如果当前package使用的是共享uid，则它获得权限与它共享的linux用户的资源权限相同。对于有自己独立uid的应用，它会首先获得一组默认的用户权限，这是所有应用都具有的基本权限。然后会一一验证应用申请的权限是否合法，如果合法，则会为其增加该项权限。</p>
 <p>现在，应用已经被安装、分配uid和分配权限，接下来需要将这些应用的信息保存下来以备下次使用。保存的位置就是<code>/data/system/packages.xml</code>。注意，在保存uid时，userId和sharedUserId只能有一个。</p>
 <p>Android系统就是通过用户id和用户组id来限制应用的资源访问权限，防止破坏其它应用的数据。分配的uid和gid会在创建应用进程时使用，是该进程在特定的用户组下运行。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android系统源码阅读-18-Android应用的显示/" class="prev">上一篇</a><a href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" class="next">下一篇</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-17-Android应用的安装/" data-title="Android系统源码阅读(17):Android应用的安装" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-17-Android应用的安装/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
+</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android系统源码阅读-18-Android应用的显示/" class="prev">PREV</a><a href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" class="next">NEXT</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-17-Android应用的安装/" data-title="Android系统源码阅读(17):Android应用的安装" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-17-Android应用的安装/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
