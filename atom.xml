@@ -1759,9 +1759,9 @@
     
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
-    
       <category term="MESOS" scheme="http://itanch.github.io/tags/MESOS/"/>
+    
+      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
   </entry>
   
@@ -1807,9 +1807,9 @@
     
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="MooseFS" scheme="http://itanch.github.io/tags/MooseFS/"/>
-    
       <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
+    
+      <category term="MooseFS" scheme="http://itanch.github.io/tags/MooseFS/"/>
     
   </entry>
   
