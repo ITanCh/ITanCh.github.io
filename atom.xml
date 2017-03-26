@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-03-26T15:24:20.000Z</updated>
+  <updated>2017-03-26T16:41:23.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://itanch.github.io/2017/03/26/Java%E6%8D%A1%E6%BC%8F/"/>
     <id>http://itanch.github.io/2017/03/26/Java捡漏/</id>
     <published>2017-03-26T09:01:59.000Z</published>
-    <updated>2017-03-26T15:24:20.000Z</updated>
+    <updated>2017-03-26T16:41:23.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>在本科时没有好好听老师讲课，现在只能重新再学学Java，😭。</p>
@@ -29,6 +29,7 @@
 <p>java version “1.8.0_121”<br>Java(TM) SE Runtime Environment (build 1.8.0_121-b13)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</p>
 </blockquote>
 <h2 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h2><p><strong>bootstrap classloader</strong>: 加载java的核心库的类。<br><strong>ExtClassLoader</strong>: 加载扩展的java库中的类。<br><strong>AppClassLoader</strong>: 加载应用中的类。</p>
+<a id="more"></a>
 <h2 id="i"><a href="#i" class="headerlink" title="i++"></a>i++</h2><h3 id="1-前-和后"><a href="#1-前-和后" class="headerlink" title="1. 前++和后++"></a>1. 前++和后++</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		<span class="comment">//局部变量，不影响下面的x</span></div><div class="line">		<span class="keyword">int</span> x = <span class="number">5</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//jvm会初始化全局变量x，y为0。局部变量则无初始值。</span></div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> x, y;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">//x变为-1</span></div><div class="line">		x--;</div><div class="line">		</div><div class="line">		myMethod();</div><div class="line">		</div><div class="line">		<span class="comment">//1. 此时x=1,y=0</span></div><div class="line">		<span class="comment">//2. y++的++先不执行，而是y先参与运算，结果为2</span></div><div class="line">		System.out.println(x + y++ + x); <span class="comment">//2</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">myMethod</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">//1. x++的++先不运算，还是原始的x作为参数，所以此刻相当于x + ++x</span></div><div class="line">		<span class="comment">//2. ++x的++会执行，所以x此时变为0</span></div><div class="line">		<span class="comment">//3. 此时x为0，y = 0+0=0</span></div><div class="line">		<span class="comment">//4. x++在运算结束后开始执行，所以x为1</span></div><div class="line">		y = x++ + ++x;</div><div class="line">		</div><div class="line">		System.out.println(x+<span class="string">" "</span>+y); <span class="comment">// x=1,y=0</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure>
 <h3 id="2-的缓存机制"><a href="#2-的缓存机制" class="headerlink" title="2. ++的缓存机制"></a>2. ++的缓存机制</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> j = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</div><div class="line">			<span class="comment">//执行顺序拆解为如下</span></div><div class="line">			<span class="comment">//temp=j</span></div><div class="line">			<span class="comment">//j++</span></div><div class="line">			<span class="comment">//j=temp</span></div><div class="line">			j = j++;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		System.out.println(j); <span class="comment">//0</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure>
 <h3 id="3-各种"><a href="#3-各种" class="headerlink" title="3. 各种++"></a>3. 各种++</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">		<span class="comment">//1. 先执行i + ++i，++i为1，所以temp = 1 +1 =2</span></div><div class="line">		<span class="comment">//2. i++执行，变为2，但是没什么作用  </span></div><div class="line">		<span class="comment">//3. i=temp，结果是2</span></div><div class="line">		i = i++ + ++i;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> j = <span class="number">0</span>;</div><div class="line">		<span class="comment">//1. ++j 使得j为1，1号j++的++先不执行，所以temp= j + j= 1+1</span></div><div class="line">		<span class="comment">//2. 加法函数执行完了，所以1号j++执行，j=2</span></div><div class="line">		<span class="comment">//3. temp = temp + j++，2号j++同样先不执行，所以temp= 1+1+2</span></div><div class="line">		<span class="comment">//4. 2号j++执行，j=3</span></div><div class="line">		<span class="comment">//5. temp =temp +j++，3号j++同理，temp=1+1+2+3</span></div><div class="line">		<span class="comment">//6. 3号j++执行，得到j=4</span></div><div class="line">		<span class="comment">//7. j=temp，j最后变为7</span></div><div class="line">		j = ++j + j++ + j++ + j++;</div><div class="line">		</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> k = <span class="number">0</span>;</div><div class="line">		<span class="comment">//1. 1号k++先不执行，k为0，temp=0。</span></div><div class="line">		<span class="comment">//2. 1号k++执行，k=1</span></div><div class="line">		<span class="comment">//3. 到2号k++，该++不执行，所以temp=0+1</span></div><div class="line">		<span class="comment">//4. 2号k++执行，k=2</span></div><div class="line">		<span class="comment">//5. 到3号k++，temp=0+1+2</span></div><div class="line">		<span class="comment">//6. 3号k++执行，k=3，</span></div><div class="line">		<span class="comment">//7. ++k后，k=4</span></div><div class="line">		<span class="comment">//8. temp=0+1+2+4</span></div><div class="line">		<span class="comment">//9. k=temp=7</span></div><div class="line">		k = k++ + k++ + k++ + ++k;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> h = <span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="comment">//1. 第一个++h执行后，temp=1</span></div><div class="line">		<span class="comment">//2. 2号++h执行后temp=1+2=3</span></div><div class="line">		<span class="comment">//3. h=temp=3</span></div><div class="line">		h = ++h + ++h;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> p1 = <span class="number">0</span>, p2 = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> q1 = <span class="number">0</span>, q2 = <span class="number">0</span>;</div><div class="line">		<span class="comment">//++p1后p1=1，q1=p1=1</span></div><div class="line">		q1 = ++p1;</div><div class="line">		<span class="comment">//temp=p2=0，p2++后p2=1</span></div><div class="line">		<span class="comment">//q2=temp=0</span></div><div class="line">		q2 = p2++;</div><div class="line">		System.out.println(<span class="string">" i "</span> + i); <span class="comment">//2</span></div><div class="line">		System.out.println(<span class="string">" j "</span> + j); <span class="comment">//7</span></div><div class="line">		System.out.println(<span class="string">" k "</span> + k); <span class="comment">//7</span></div><div class="line">		System.out.println(<span class="string">" h "</span> + h); <span class="comment">//3</span></div><div class="line">		System.out.println(<span class="string">" p1 "</span> + p1); <span class="comment">//1</span></div><div class="line">		System.out.println(<span class="string">" p2 "</span> + p2); <span class="comment">//1</span></div><div class="line">		System.out.println(<span class="string">" q1 "</span> + q1); <span class="comment">//1</span></div><div class="line">		System.out.println(<span class="string">" q2 "</span> + q2); <span class="comment">//0</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure>
@@ -48,7 +49,10 @@
       &lt;blockquote&gt;
 &lt;p&gt;在本科时没有好好听老师讲课，现在只能重新再学学Java，😭。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&quot;我的java环境&quot;&gt;&lt;a href=&quot;#我的java环境&quot; class=&quot;headerlink&quot; title=&quot;我的java环境&quot;&gt;
+&lt;h2 id=&quot;我的java环境&quot;&gt;&lt;a href=&quot;#我的java环境&quot; class=&quot;headerlink&quot; title=&quot;我的java环境&quot;&gt;&lt;/a&gt;我的java环境&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;java version “1.8.0_121”&lt;br&gt;Java(TM) SE Runtime Environment (build 1.8.0_121-b13)&lt;br&gt;Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;ClassLoader&quot;&gt;&lt;a href=&quot;#ClassLoader&quot; class=&quot;headerlink&quot; title=&quot;ClassLoader&quot;&gt;&lt;/a&gt;ClassLoader&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;bootstrap classloader&lt;/strong&gt;: 加载java的核心库的类。&lt;br&gt;&lt;strong&gt;ExtClassLoader&lt;/strong&gt;: 加载扩展的java库中的类。&lt;br&gt;&lt;strong&gt;AppClassLoader&lt;/strong&gt;: 加载应用中的类。&lt;/p&gt;
     
     </summary>
     
@@ -62,7 +66,7 @@
     <link href="http://itanch.github.io/2017/02/15/32%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     <id>http://itanch.github.io/2017/02/15/32个设计模式/</id>
     <published>2017-02-15T06:10:00.000Z</published>
-    <updated>2017-02-28T15:52:18.000Z</updated>
+    <updated>2017-03-26T16:42:43.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本篇文章是对<em>Design Patterns: Elements of Reusable Object-Oriented Software</em>的总结。</p>
@@ -158,7 +162,7 @@
 <h3 id="10-Facade"><a href="#10-Facade" class="headerlink" title="10. Facade"></a>10. Facade</h3><h4 id="目的-9"><a href="#目的-9" class="headerlink" title="目的"></a>目的</h4><p>为一个子系统的一组接口提供一个统一地接口。Facade定义了一个更高层次的接口，是的子系统更加易于使用。</p>
 <h4 id="结构-9"><a href="#结构-9" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_fcd.png" alt="image"></p>
 <p><strong>Facade</strong>: 知道在子系统中哪一个类应该对一个请求进行处理，并且将适当的请求交给相应的类。<br><strong>subsystem classes</strong>: 实现子系统的功能，处理Facade交给的任务，但是它们并不知道Facade存在。   </p>
-<h5 id="何时使用-9"><a href="#何时使用-9" class="headerlink" title="何时使用"></a>何时使用</h5><ol>
+<h4 id="何时使用-9"><a href="#何时使用-9" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
 <li>你如果想给一个复杂的系统提供一个简单的接口，请用Facade。子系统会随着升级越来越复杂，可能会导致许多细粒度的类出现，虽然这增加了子系统的可定制性，但是对用户而说却越来越难使用。Facade可以给这些用户提供一个相对简单的视图，只有在用户需要定制子系统时，才需要越过Facade来观察子系统。  </li>
 <li>在传统的系统中，客户端和子系统之间会产生复杂的依赖关系，而Facade的引入可以很好的将用户和子系统进行解耦，因此可以提升子系统的独立性和可携带性。</li>
 <li>将子系统进行层次化。用facade来定义每个子系统的接口，如果子系统之间有依赖关系，你就可以让这些子系统之间只通过他们的facade接口来进行交互，从而简化他们之间的依赖。</li>
@@ -394,9 +398,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -461,9 +465,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -539,9 +543,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -595,9 +599,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -665,9 +669,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -793,9 +797,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -882,9 +886,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -958,9 +962,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1000,9 +1004,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1068,9 +1072,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1116,9 +1120,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1186,9 +1190,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1265,9 +1269,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1299,9 +1303,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1335,9 +1339,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1369,9 +1373,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1406,9 +1410,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1451,9 +1455,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1503,9 +1507,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1543,9 +1547,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   

@@ -92,7 +92,7 @@
 <h3 id="10-Facade"><a href="#10-Facade" class="headerlink" title="10. Facade"></a>10. Facade</h3><h4 id="目的-9"><a href="#目的-9" class="headerlink" title="目的"></a>目的</h4><p>为一个子系统的一组接口提供一个统一地接口。Facade定义了一个更高层次的接口，是的子系统更加易于使用。</p>
 <h4 id="结构-9"><a href="#结构-9" class="headerlink" title="结构"></a>结构</h4><p><img src="http://7xky03.com1.z0.glb.clouddn.com/23dp_fcd.png" alt="image"></p>
 <p><strong>Facade</strong>: 知道在子系统中哪一个类应该对一个请求进行处理，并且将适当的请求交给相应的类。<br><strong>subsystem classes</strong>: 实现子系统的功能，处理Facade交给的任务，但是它们并不知道Facade存在。   </p>
-<h5 id="何时使用-9"><a href="#何时使用-9" class="headerlink" title="何时使用"></a>何时使用</h5><ol>
+<h4 id="何时使用-9"><a href="#何时使用-9" class="headerlink" title="何时使用"></a>何时使用</h4><ol>
 <li>你如果想给一个复杂的系统提供一个简单的接口，请用Facade。子系统会随着升级越来越复杂，可能会导致许多细粒度的类出现，虽然这增加了子系统的可定制性，但是对用户而说却越来越难使用。Facade可以给这些用户提供一个相对简单的视图，只有在用户需要定制子系统时，才需要越过Facade来观察子系统。  </li>
 <li>在传统的系统中，客户端和子系统之间会产生复杂的依赖关系，而Facade的引入可以很好的将用户和子系统进行解耦，因此可以提升子系统的独立性和可携带性。</li>
 <li>将子系统进行层次化。用facade来定义每个子系统的接口，如果子系统之间有依赖关系，你就可以让这些子系统之间只通过他们的facade接口来进行交互，从而简化他们之间的依赖。</li>
