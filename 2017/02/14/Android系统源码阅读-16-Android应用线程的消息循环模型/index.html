@@ -49,7 +49,7 @@
 <p>普通java线程Thread是最简单的一种方法，但是比较难管理，与主线程通信主要靠handler。而且，该中线程只能向主线程发消息，而主线程无法向子线程发消息。</p>
 <p>HandlerThread则是可以有自己的looper和消息队列，将任务发送入消息队列来实现异步任务的处理，同时还方便管理。主线程和子线程可以通过对方的Handler相互发送消息。</p>
 <p>AsyncTask是比较适用于Android应用的一种异步任务实现方式。虽然归根结底还是通过handler来向主进程发消息，但是整个异步任务执行过程的划分和管理更为科学，屏蔽了内部实现的复杂，为用户提供了更为简单实用的接口。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" class="prev">PREV</a><a href="/2017/02/14/Android系统源码阅读-15-Android应用进程的启动/" class="next">NEXT</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" data-title="Android系统源码阅读(16):Android应用线程的消息循环模型" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
+</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" class="prev">上一篇</a><a href="/2017/02/14/Android系统源码阅读-15-Android应用进程的启动/" class="next">下一篇</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" data-title="Android系统源码阅读(16):Android应用线程的消息循环模型" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
