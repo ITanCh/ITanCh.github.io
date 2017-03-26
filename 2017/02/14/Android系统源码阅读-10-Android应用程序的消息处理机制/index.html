@@ -38,7 +38,7 @@
 <h2 id="4-接着说两句"><a href="#4-接着说两句" class="headerlink" title="4. 接着说两句"></a>4. 接着说两句</h2><p>在1.2中涉及到的IdleHandler，在没有消息需要处理时，会调返回这个空闲Handler。那么，我们来看一下这个Handler如何工作的。</p>
 <p>在MessageQueue中，有mIdleHandlers来存放IdleHandler。在next函数中，如果没有获得一个消息，则会开始处理idler。这里会判断是否有idler在mIdleHandlers中，没有或者原来已经发送过一个了，则无需发送，所以一个线程的一次next调用，最多只会发送一次idler。</p>
 <p>如果有idler，且为第一次发送，则开始处理这些idler。这里会调用IdleHandler的queueIdler函数。同样，这里需要自己实现IdlerHandler接口，来处理一些不紧急的事情。</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android-Monkey-源代码阅读/" class="prev">PREV</a><a href="/2017/02/14/Android系统源码阅读-9-ContentProvider数据更新通知/" class="next">NEXT</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-10-Android应用程序的消息处理机制/" data-title="Android系统源码阅读(10):Android应用程序的消息处理机制" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-10-Android应用程序的消息处理机制/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
+</div></article></div></main><footer><div class="paginator"><a href="/2017/02/14/Android-Monkey-源代码阅读/" class="prev">上一篇</a><a href="/2017/02/14/Android系统源码阅读-9-ContentProvider数据更新通知/" class="next">下一篇</a></div><div data-thread-key="2017/02/14/Android系统源码阅读-10-Android应用程序的消息处理机制/" data-title="Android系统源码阅读(10):Android应用程序的消息处理机制" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-10-Android应用程序的消息处理机制/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"tianchi"};
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
