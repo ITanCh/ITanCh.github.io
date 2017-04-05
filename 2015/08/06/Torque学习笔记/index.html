@@ -37,7 +37,7 @@
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/img/long.png">
   
   <link rel="stylesheet" type="text/css" href="/./main.234bc0.css">
   <style type="text/css">
@@ -75,7 +75,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/技术/">随笔</a></li>
+				<li><a href="/tags/技术/">技术</a></li>
 	        
 				<li><a href="/tags/记录/">记录</a></li>
 	        
@@ -151,7 +151,7 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/技术/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/技术/">技术</a></li>
 		        
 					<li style="width: 33.333333333333336%"><a href="/tags/记录/">记录</a></li>
 		        
@@ -240,7 +240,7 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 
       
 
@@ -485,6 +485,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
@@ -494,10 +498,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -572,7 +572,7 @@
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">计算机界的一个小学生</div>
   	  	
     	</section>
     
