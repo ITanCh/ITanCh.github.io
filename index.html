@@ -154,6 +154,78 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-用React-Native写一个微博客户端_1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: 用React-Native写一个微博客户端(1)<br>date: 2017-04-06 20:01:14</p>
+<h2 id="tags-技术-React-Native-Android"><a href="#tags-技术-React-Native-Android" class="headerlink" title="tags: [技术,React-Native,Android]"></a>tags: [技术,React-Native,Android]</h2><blockquote>
+<p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。   </p>
+</blockquote>
+<p>开发环境：macOS</p>
+<p>部分效果：  </p>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_2.gif?imageView2/0/h/300" alt=""></p>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_1.gif?imageView2/0/h/300" alt=""> </p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>如何安装<a href="https://facebook.github.io/react-native/docs/getting-started.html" target="_blank" rel="external">官网</a>很清楚，如果网页打不开可以参考<a href="http://reactnative.cn/docs/0.40/getting-started.html#content" target="_blank" rel="external">国内文档</a>。</p>
+<p>首先安装node和watchman。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install node </div><div class="line">brew install watchman</div></pre></td></tr></table></figure>
+<p>然后安装react native cli。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g react-native-cli</div></pre></td></tr></table></figure>
+<p>安装Android开发环境就不再赘述。 </p>
+<p>创建项目、运行项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">react-native init AwesomeProject </div><div class="line">cd AwesomeProject </div><div class="line">react-native run-android</div></pre></td></tr></table></figure>
+<p>这样可以直接将应用在手机上运行起来，并且可以通过晃动手机（😓）来唤出命令界面，进行动态的更新js实现的功能。但是这样的运行的应用性能并不高，仅仅适用于调试，所以还是需要打包进行发布。</p>
+<h2 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h2><p>生成签名密钥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -v -keystore my-release-key.keystore -alias tianchi -keyalg RSA -keysize 2048 -validity 10000</div></pre></td></tr></table></figure>  
+<p><code>-alias</code>后的参数你可以起个好听的名字，比如“tianchi”。这里设置了10000天的有效期。   </p>
+<p>设置gradle变量。多谢这些成熟的构建工具和框架，react-native在创建android项目时已经帮你生成了一个很完善的gradle配置文件，下面需要对其进行修改来满足自己的定制需求。</p>
+<p>把生成的my-release-key.keystore文件放到android/app下面，然后在用户Home下创建并且编辑<code>~/.gradle/gradle.properties</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">MYAPP_RELEASE_STORE_FILE=my-release-key.keystore</div><div class="line">MYAPP_RELEASE_KEY_ALIAS=tianchi</div><div class="line">MYAPP_RELEASE_STORE_PASSWORD=******</div><div class="line">MYAPP_RELEASE_KEY_PASSWORD=******</div></pre></td></tr></table></figure>
+<p>添加签名文件到<code>android/app/build.gradle</code>：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>混淆压缩apk。在<code>android/app/build.gradle</code>文件中，修改：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Run Proguard to shrink the Java bytecode in release builds.</div><div class="line"> */</div><div class="line"><span class="keyword">def</span> enableProguardInReleaseBuilds = <span class="literal">true</span></div></pre></td></tr></table></figure>
+<p>打包和安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew assembleRelease</div><div class="line">./gradlew installRelease</div></pre></td></tr></table></figure></p>
+<h2 id="引入微博api"><a href="#引入微博api" class="headerlink" title="引入微博api"></a>引入微博api</h2><p>进入微<a href="http://open.weibo.com/apps" target="_blank" rel="external">博开发平台</a>，申请一个开发者账号，创建一个移动应用，关键是得到一个app key。然后研究weibo提供的android sdk<a href="https://github.com/sinaweibosdk/weibo_android_sdk" target="_blank" rel="external">文档</a>。</p>
+<p>这里需要特别注意的是，要想成功使用微博的api，你首先要在微博开发平台&gt;应用信息&gt;测试信息中填写你的测试账号，否则无法登陆。同时，将你的开发的app安装到手机上，用微博提供的<code>app_signatures.apk</code>获得该应用的Android签名，然后填写到微博开发平台&gt;应用信息&gt;基本信息中的<code>Android包名：com.welone</code>和<code>Android签名:xxxx你获得的签名xxxxxxx</code>。完成以上两个步骤才能正常使用微博的api，呵呵。  </p>
+<p>下面需要通过gradle引入微博的api，官网最近版本已经提供了gradle的引入方式，但是移除了open api的功能。因为我是用的是旧的版本，并且使用了open api，所以引入了一个其他开发者提供的微博api仓库。在<code>android/app/build.gradle</code>中修改如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">repositories &#123;</div><div class="line">    jcenter()</div><div class="line">    maven &#123; url <span class="string">"https://jitpack.io"</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//...</span></div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">    compile <span class="string">'com.github.8tory:weibo-android-sdk:-SNAPSHOT'</span></div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure>
+<p>在构建的时候会自动的下载该库进行编译。</p>
+<h2 id="让你的UI更好看"><a href="#让你的UI更好看" class="headerlink" title="让你的UI更好看"></a>让你的UI更好看</h2><p>使用react-native提供的component比较朴素，当然自己可以通过调制创建出漂亮的组建。这里，有<a href="http://nativebase.io/docs/v0.5.13/getting-started#" target="_blank" rel="external">NativeBase</a>已经帮我们创建好了，官网提供了很详细的安装教程，这里先安装好，我们将来要使用。其中<code>react-native-vector-icons</code>组件需要特殊的配置一下。</p>
+<blockquote>
+<p>这里主要介绍了开始编写一个react-native的微博客户端的准备工作，下面一章将会详细介绍。</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/04/06/用React-Native写一个微博客户端_1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-Java捡漏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -195,6 +267,10 @@
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
@@ -402,11 +478,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -473,11 +549,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -546,11 +622,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -618,11 +694,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -692,11 +768,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -766,11 +842,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -781,79 +857,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android系统源码阅读-12-InputChannel的注册过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/">Android系统源码阅读(12):InputChannel的注册过程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:24:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>请对照AOSP版本：6.0.1_r50。 </p>
-</blockquote>
-<p>InputManager可以获得输入事件并分发，Activity需要处理这些输入事件。那么，这两者之间如何建立的连接呢？这就需要InputChannel作为桥梁建立两者之间的通道。</p>
-<h2 id="1-ViewRootImpl创建InputChannel"><a href="#1-ViewRootImpl创建InputChannel" class="headerlink" title="1. ViewRootImpl创建InputChannel"></a>1. ViewRootImpl创建InputChannel</h2><p>这里ViewRoot类已经消失了，由ViewRootImpl替代。Activity在创建时会将自己的DecorView设置给对应的ViewRootImpl。</p>
-<p><img src="http://img.blog.csdn.net/20160924164736978" alt="这里写图片描述"></p>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-12-InputChannel的注册过程/">展开全文 >></a>
         </p>
       
 
@@ -960,15 +963,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -981,10 +984,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1004,11 +1003,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
               </li>
              
               <li class="article-tag-list-item">

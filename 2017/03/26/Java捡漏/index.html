@@ -24,7 +24,7 @@ ClassLoaderboo">
 java version “1.8.0_121”Java(TM) SE Runtime Environment (build 1.8.0_121-b13)Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
 
 ClassLoaderboo">
-<meta property="og:updated_time" content="2017-03-26T16:46:36.000Z">
+<meta property="og:updated_time" content="2017-04-06T12:02:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 知识点">
 <meta name="twitter:description" content="在本科时没有好好听老师讲课，现在只能重新再学学Java，😭。
@@ -208,6 +208,72 @@ ClassLoaderboo">
 <p>反射主要是指程序可以访问、检测和修改它本身的状态或行为的一种能力。  </p>
 </blockquote>
 <p>在java中具体体现为一个类可以反射出一个class对象，通过class对象可以访问该类内部的成员变量和成员函数的详细信息。</p>
+<h2 id="Object类中的方法"><a href="#Object类中的方法" class="headerlink" title="Object类中的方法"></a>Object类中的方法</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>protected Object</td>
+<td>clone()</td>
+<td>Creates and returns a copy of this object.</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>equals(Object obj)</td>
+<td>Indicates whether some other object is “equal to” this one.</td>
+</tr>
+<tr>
+<td>protected void</td>
+<td>finalize()</td>
+<td>Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.</td>
+</tr>
+<tr>
+<td>Class&lt;?&gt;</td>
+<td>getClass()</td>
+<td>Returns the runtime class of this Object.</td>
+</tr>
+<tr>
+<td>int</td>
+<td>hashCode()</td>
+<td>Returns a hash code value for the object.</td>
+</tr>
+<tr>
+<td>void</td>
+<td>notify()</td>
+<td>Wakes up a single thread that is waiting on this object’s monitor.</td>
+</tr>
+<tr>
+<td>void</td>
+<td>notifyAll()</td>
+<td>Wakes up all threads that are waiting on this object’s monitor.</td>
+</tr>
+<tr>
+<td>String</td>
+<td>toString()</td>
+<td>Returns a string representation of the object.</td>
+</tr>
+<tr>
+<td>void</td>
+<td>wait()</td>
+<td>Causes the current thread to wait until another thread invokes the notify() method or the notifyAll() method for this object.</td>
+</tr>
+<tr>
+<td>void</td>
+<td>wait(long timeout)</td>
+<td>Causes the current thread to wait until either another thread invokes the notify() method or the notifyAll() method for this object, or a specified amount of time has elapsed.</td>
+</tr>
+<tr>
+<td>void</td>
+<td>wait(long timeout, int nanos)</td>
+<td>Causes the current thread to wait until another thread invokes the notify() method or the notifyAll() method for this object, or some other thread interrupts the current thread, or a certain amount of real time has elapsed.</td>
+</tr>
+</tbody>
+</table>
 
       
 
@@ -220,6 +286,10 @@ ClassLoaderboo">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
@@ -290,6 +360,15 @@ ClassLoaderboo">
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/04/06/用React-Native写一个微博客户端_1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2017/02/15/32个设计模式/" id="article-nav-older" class="article-nav-link-wrap">
@@ -411,15 +490,15 @@ ClassLoaderboo">
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -432,10 +511,6 @@ ClassLoaderboo">
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -455,11 +530,15 @@ ClassLoaderboo">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
               </li>
              
               <li class="article-tag-list-item">
