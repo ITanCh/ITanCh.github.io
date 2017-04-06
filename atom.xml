@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-06T14:42:14.000Z</updated>
+  <updated>2017-04-06T14:50:25.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,13 +20,14 @@
     <link href="http://itanch.github.io/2017/04/06/%E7%94%A8React-Native%E5%86%99%E4%B8%80%E4%B8%AA%E5%BE%AE%E5%8D%9A%E5%AE%A2%E6%88%B7%E7%AB%AF_1/"/>
     <id>http://itanch.github.io/2017/04/06/用React-Native写一个微博客户端_1/</id>
     <published>2017-04-06T12:01:14.000Z</published>
-    <updated>2017-04-06T14:42:14.000Z</updated>
+    <updated>2017-04-06T14:50:25.000Z</updated>
     
-    <content type="html"><![CDATA[<p>title: 用React-Native写一个微博客户端(1)<br>date: 2017-04-06 20:01:14</p>
+    <content type="html"><![CDATA[<p>title: 用ReactNative写一个微博客户端(1)<br>date: 2017-04-06 20:01:14</p>
 <h2 id="tags-技术-React-Native-Android"><a href="#tags-技术-React-Native-Android" class="headerlink" title="tags: [技术,React-Native,Android]"></a>tags: [技术,React-Native,Android]</h2><blockquote>
 <p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。   </p>
 </blockquote>
 <p>开发环境：macOS</p>
+<a id="more"></a>
 <p>部分效果：  </p>
 <p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_2.gif?imageView2/0/h/300" alt=""></p>
 <p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_1.gif?imageView2/0/h/300" alt=""> </p>
@@ -63,8 +64,11 @@
     
     <summary type="html">
     
-      &lt;p&gt;title: 用React-Native写一个微博客户端(1)&lt;br&gt;date: 2017-04-06 20:01:14&lt;/p&gt;
-&lt;h2 id=&quot;tags-技术-React-Native-Android&quot;&gt;&lt;a href=&quot;#tags-技术-React-Native-And
+      &lt;p&gt;title: 用ReactNative写一个微博客户端(1)&lt;br&gt;date: 2017-04-06 20:01:14&lt;/p&gt;
+&lt;h2 id=&quot;tags-技术-React-Native-Android&quot;&gt;&lt;a href=&quot;#tags-技术-React-Native-Android&quot; class=&quot;headerlink&quot; title=&quot;tags: [技术,React-Native,Android]&quot;&gt;&lt;/a&gt;tags: [技术,React-Native,Android]&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;用React-Native技术实现一个简单的微博客户端。项目开源地址：&lt;a href=&quot;https://github.com/ITanCh/Welone&quot;&gt;github&lt;/a&gt;。项目还在持续更新中😊。   &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;开发环境：macOS&lt;/p&gt;
     
     </summary>
     
@@ -522,9 +526,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -589,9 +593,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -667,9 +671,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -723,9 +727,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -793,9 +797,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -921,9 +925,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1010,9 +1014,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1086,9 +1090,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1128,9 +1132,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1196,9 +1200,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1244,9 +1248,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1314,9 +1318,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1393,9 +1397,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1427,9 +1431,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1463,9 +1467,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1497,9 +1501,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1534,9 +1538,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1579,9 +1583,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1631,9 +1635,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1671,9 +1675,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2092,6 +2096,39 @@
   </entry>
   
   <entry>
+    <title>ubuntu14.04基本配置</title>
+    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
+    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
+    <published>2015-08-06T03:59:57.000Z</published>
+    <updated>2017-02-23T07:42:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
+<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
+<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
+<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
+<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li>取消某个软件(tomcat)开机自启动。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Torque安装笔记(多ubuntu节点)</title>
     <link href="http://itanch.github.io/2015/08/06/Torque%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>http://itanch.github.io/2015/08/06/Torque学习笔记/</id>
@@ -2171,39 +2208,6 @@
       <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
       <category term="Torque" scheme="http://itanch.github.io/tags/Torque/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ubuntu14.04基本配置</title>
-    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
-    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
-    <published>2015-08-06T03:59:57.000Z</published>
-    <updated>2017-02-23T07:42:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
-<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
-<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
-<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
-<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
-<li>取消某个软件(tomcat)开机自启动。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
   </entry>
   
