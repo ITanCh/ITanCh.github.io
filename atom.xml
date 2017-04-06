@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-06T15:04:25.000Z</updated>
+  <updated>2017-04-06T12:02:19.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -14,33 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://itanch.github.io/2017/04/06/%E7%94%A8React-Native%E5%86%99%E4%B8%80%E4%B8%AA%E5%BE%AE%E5%8D%9A%E5%AE%A2%E6%88%B7%E7%AB%AF-1/"/>
-    <id>http://itanch.github.io/2017/04/06/用React-Native写一个微博客户端-1/</id>
-    <published>2017-04-06T12:01:14.000Z</published>
-    <updated>2017-04-06T15:04:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>title: 用React-Native写一个微博客户端(1)<br>date: 2017-04-06 20:01:14</p>
-<h2 id="tags-技术-Android-ReactNative"><a href="#tags-技术-Android-ReactNative" class="headerlink" title="tags: [技术,Android,ReactNative]"></a>tags: [技术,Android,ReactNative]</h2><blockquote>
-<p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。   </p>
-</blockquote>
-<p>开发环境：macOS</p>
-<a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;title: 用React-Native写一个微博客户端(1)&lt;br&gt;date: 2017-04-06 20:01:14&lt;/p&gt;
-&lt;h2 id=&quot;tags-技术-Android-ReactNative&quot;&gt;&lt;a href=&quot;#tags-技术-Android-ReactNative&quot; class=&quot;headerlink&quot; title=&quot;tags: [技术,Android,ReactNative]&quot;&gt;&lt;/a&gt;tags: [技术,Android,ReactNative]&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;用React-Native技术实现一个简单的微博客户端。项目开源地址：&lt;a href=&quot;https://github.com/ITanCh/Welone&quot;&gt;github&lt;/a&gt;。项目还在持续更新中😊。   &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;开发环境：macOS&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>Java 知识点</title>
@@ -402,6 +375,35 @@
 
 
 
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本篇文章是对&lt;em&gt;Design Patterns: Elements of Reusable Object-Oriented Software&lt;/em&gt;的总结。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;看完&lt;em&gt;Design Patterns: Elements of Reusable Object-Oriented Software&lt;/em&gt;已经有些时日了，现在提笔将其概括总结一下，以备将来的参考。此书总结了23中不同的设计模式，并且将它们的设计目的、结构、用法等方面进行的很好的介绍，是一本值得放在手边随时查阅的工具书。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="设计模式" scheme="http://itanch.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>23个设计模式</title>
+    <link href="http://itanch.github.io/2017/02/15/%E7%94%A8React-Native%E5%86%99%E4%B8%80%E4%B8%AA%E5%BE%AE%E5%8D%9A%E5%AE%A2%E6%88%B7%E7%AB%AF-1/"/>
+    <id>http://itanch.github.io/2017/02/15/用React-Native写一个微博客户端-1/</id>
+    <published>2017-02-15T06:10:00.000Z</published>
+    <updated>2017-04-06T15:05:43.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>本篇文章是对<em>Design Patterns: Elements of Reusable Object-Oriented Software</em>的总结。</p>
+</blockquote>
+<p>看完<em>Design Patterns: Elements of Reusable Object-Oriented Software</em>已经有些时日了，现在提笔将其概括总结一下，以备将来的参考。此书总结了23中不同的设计模式，并且将它们的设计目的、结构、用法等方面进行的很好的介绍，是一本值得放在手边随时查阅的工具书。<br><a id="more"></a></p>
 ]]></content>
     
     <summary type="html">
@@ -2154,7 +2156,7 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
