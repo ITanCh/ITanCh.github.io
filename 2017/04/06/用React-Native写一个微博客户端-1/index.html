@@ -8,8 +8,8 @@
   <link rel="dns-prefetch" href="http://itanch.github.io">
   <title>Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 23个设计模式ddddddate: 2017-02-15 14:10:00
-tags: [技术,设计模式]
+  <meta name="description" content="title: 用React-Native写一个微博客户端(1)date: 2017-04-06 20:01:14
+tags: [技术,Android,ReactNative]
 用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。   
 
 开发环境：macOS">
@@ -17,18 +17,18 @@ tags: [技术,设计模式]
 <meta property="og:title" content="Tianchi's Blog">
 <meta property="og:url" content="http://itanch.github.io/2017/04/06/用React-Native写一个微博客户端-1/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="title: 23个设计模式ddddddate: 2017-02-15 14:10:00
-tags: [技术,设计模式]
+<meta property="og:description" content="title: 用React-Native写一个微博客户端(1)date: 2017-04-06 20:01:14
+tags: [技术,Android,ReactNative]
 用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。   
 
 开发环境：macOS">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_2.gif?imageView2/0/h/300">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_1.gif?imageView2/0/h/300">
-<meta property="og:updated_time" content="2017-04-06T14:58:30.000Z">
+<meta property="og:updated_time" content="2017-04-06T15:01:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tianchi's Blog">
-<meta name="twitter:description" content="title: 23个设计模式ddddddate: 2017-02-15 14:10:00
-tags: [技术,设计模式]
+<meta name="twitter:description" content="title: 用React-Native写一个微博客户端(1)date: 2017-04-06 20:01:14
+tags: [技术,Android,ReactNative]
 用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。   
 
 开发环境：macOS">
@@ -173,8 +173,8 @@ tags: [技术,设计模式]
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 23个设计模式ddddd<br>date: 2017-02-15 14:10:00</p>
-<h2 id="tags-技术-设计模式"><a href="#tags-技术-设计模式" class="headerlink" title="tags: [技术,设计模式]"></a>tags: [技术,设计模式]</h2><blockquote>
+        <p>title: 用React-Native写一个微博客户端(1)<br>date: 2017-04-06 20:01:14</p>
+<h2 id="tags-技术-Android-ReactNative"><a href="#tags-技术-Android-ReactNative" class="headerlink" title="tags: [技术,Android,ReactNative]"></a>tags: [技术,Android,ReactNative]</h2><blockquote>
 <p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。   </p>
 </blockquote>
 <p>开发环境：macOS</p>
@@ -200,7 +200,7 @@ tags: [技术,设计模式]
 <p>添加签名文件到<code>android/app/build.gradle</code>：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>混淆压缩apk。在<code>android/app/build.gradle</code>文件中，修改：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Run Proguard to shrink the Java bytecode in release builds.</div><div class="line"> */</div><div class="line"><span class="keyword">def</span> enableProguardInReleaseBuilds = <span class="literal">true</span></div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Run Proguard to shrink the Java bytecode in release builds.</span></div><div class="line"><span class="keyword">def</span> enableProguardInReleaseBuilds = <span class="literal">true</span></div></pre></td></tr></table></figure>
 <p>打包和安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew assembleRelease</div><div class="line">./gradlew installRelease</div></pre></td></tr></table></figure></p>
 <h2 id="引入微博api"><a href="#引入微博api" class="headerlink" title="引入微博api"></a>引入微博api</h2><p>进入微<a href="http://open.weibo.com/apps" target="_blank" rel="external">博开发平台</a>，申请一个开发者账号，创建一个移动应用，关键是得到一个app key。然后研究weibo提供的android sdk<a href="https://github.com/sinaweibosdk/weibo_android_sdk" target="_blank" rel="external">文档</a>。</p>
 <p>这里需要特别注意的是，要想成功使用微博的api，你首先要在微博开发平台&gt;应用信息&gt;测试信息中填写你的测试账号，否则无法登陆。同时，将你的开发的app安装到手机上，用微博提供的<code>app_signatures.apk</code>获得该应用的Android签名，然后填写到微博开发平台&gt;应用信息&gt;基本信息中的<code>Android包名：com.welone</code>和<code>Android签名:xxxx你获得的签名xxxxxxx</code>。完成以上两个步骤才能正常使用微博的api，呵呵。  </p>
