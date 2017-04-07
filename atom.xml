@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-07T07:16:13.000Z</updated>
+  <updated>2017-04-07T07:18:43.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,26 +20,27 @@
     <link href="http://itanch.github.io/2017/04/07/2017%E4%B9%A6%E5%8D%95/"/>
     <id>http://itanch.github.io/2017/04/07/2017书单/</id>
     <published>2017-04-07T06:56:08.000Z</published>
-    <updated>2017-04-07T07:16:13.000Z</updated>
+    <updated>2017-04-07T07:18:43.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>书籍是人类退步的滑滑梯</p>
 </blockquote>
-<h3 id="0-无声告-🏊"><a href="#0-无声告-🏊" class="headerlink" title="0. 无声告 🏊"></a>0. 无声告 🏊</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51IhLqZfCML._SY346_.jpg" alt=""></p>
+<a id="more"></a>
+<h2 id="0-无声告-🏊"><a href="#0-无声告-🏊" class="headerlink" title="0. 无声告 🏊"></a>0. 无声告 🏊</h2><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51IhLqZfCML._SY346_.jpg" alt=""></p>
 <p>结束时间：01-05</p>
 <p>推荐指数：🌟🌟🌟🌟</p>
 <p>成为自己，还是成为别人期望的自己？</p>
-<h3 id="1-深入理解Java虚拟机-☕"><a href="#1-深入理解Java虚拟机-☕" class="headerlink" title="1. 深入理解Java虚拟机 ☕"></a>1. 深入理解Java虚拟机 ☕</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/5187D1yRGYL._SY346_.jpg" alt=""></p>
+<h2 id="1-深入理解Java虚拟机-☕"><a href="#1-深入理解Java虚拟机-☕" class="headerlink" title="1. 深入理解Java虚拟机 ☕"></a>1. 深入理解Java虚拟机 ☕</h2><p><img src="https://images-cn.ssl-images-amazon.com/images/I/5187D1yRGYL._SY346_.jpg" alt=""></p>
 <p>结束时间：01-29 </p>
 <p>推荐指数：🌟🌟🌟🌟🌟</p>
 <p>了解jvm的基本原理。</p>
-<h3 id="2-深入浅出nodejs-🚀"><a href="#2-深入浅出nodejs-🚀" class="headerlink" title="2. 深入浅出nodejs 🚀"></a>2. 深入浅出nodejs 🚀</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/410MzJTNnQL.jpg" alt=""></p>
+<h2 id="2-深入浅出nodejs-🚀"><a href="#2-深入浅出nodejs-🚀" class="headerlink" title="2. 深入浅出nodejs 🚀"></a>2. 深入浅出nodejs 🚀</h2><p><img src="https://images-cn.ssl-images-amazon.com/images/I/410MzJTNnQL.jpg" alt=""></p>
 <p>结束时间：02-15</p>
 <p>推荐指数：🌟🌟🌟🌟🌟</p>
 <p>了解nodejs的基本原理。</p>
-<h3 id="3-Android编程权威指南-⛳"><a href="#3-Android编程权威指南-⛳" class="headerlink" title="3. Android编程权威指南 ⛳"></a>3. Android编程权威指南 ⛳</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51qRgj3a3HL._SX260_.jpg" alt=""></p>
+<h2 id="3-Android编程权威指南-⛳"><a href="#3-Android编程权威指南-⛳" class="headerlink" title="3. Android编程权威指南 ⛳"></a>3. Android编程权威指南 ⛳</h2><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51qRgj3a3HL._SX260_.jpg" alt=""></p>
 <p>结束时间：03-26</p>
-<p>推荐指数：🌟🌟🌟🌟🌟</p>
+<p>推荐指数：🌟🌟🌟🌟</p>
 <p>从具体的项目学习Android开发中的组件使用技巧。</p>
 ]]></content>
     
@@ -48,7 +49,6 @@
       &lt;blockquote&gt;
 &lt;p&gt;书籍是人类退步的滑滑梯&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&quot;0-无声告-🏊&quot;&gt;&lt;a href=&quot;#0-无声告-🏊&quot; class=&quot;headerlink&quot; title=&quot;0. 无声告 🏊&quot;&gt;&lt;/a&gt;0. 无声告 🏊&lt;/h3&gt;&lt;
     
     </summary>
     
@@ -113,9 +113,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -572,9 +572,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -639,9 +639,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -717,9 +717,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -773,9 +773,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -843,9 +843,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -971,9 +971,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1060,9 +1060,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1136,9 +1136,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1178,9 +1178,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1246,9 +1246,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1294,9 +1294,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1364,9 +1364,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1443,9 +1443,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1477,9 +1477,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1513,9 +1513,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1547,9 +1547,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1584,9 +1584,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1629,9 +1629,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1681,9 +1681,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1721,9 +1721,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
