@@ -154,6 +154,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Android系统源码阅读-13-Input消息的分发过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/">Android系统源码阅读(13):Input消息的分发过程</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/" class="archive-article-date">
+  	<time datetime="2017-02-14T06:29:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android系统源码阅读（13）：Input消息的分发过程"><a href="#Android系统源码阅读（13）：Input消息的分发过程" class="headerlink" title="Android系统源码阅读（13）：Input消息的分发过程"></a>Android系统源码阅读（13）：Input消息的分发过程</h1><blockquote>
+<p>请对照AOSP版本：6.0.1_r50。学校电脑好渣，看源码时卡半天</p>
+</blockquote>
+<hr>
+<p>先回顾一下前两篇文章。在设备没有事件输入的时候，InputReader和InputDispatcher都处于睡眠状态。当输入事件发生，InputReader首先被激活，然后发送读取消息，激活Dispatcher。Dispatcher被激活以后，将消息发送给当前激活窗口的主线程，然后睡眠等待主线程处理完这个事件。主线程被激活后，会处理相应的消息，处理完毕后反馈给Dispatcher，从而Dispatcher可以继续发送消息。</p>
+<h2 id="1-InputReader获取事件"><a href="#1-InputReader获取事件" class="headerlink" title="1. InputReader获取事件"></a>1. InputReader获取事件</h2><p>回顾一下第11章4.2中，InputReader线程在获取事件以后，会调用<code>processEventsLocked(mEventBuffer, count);</code>处理事件。</p>
+<p><img src="http://img.blog.csdn.net/20160927222615741" alt="这里写图片描述"></p>
+        
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-13-Input消息的分发过程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-Android系统源码阅读-12-InputChannel的注册过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -195,11 +269,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -267,11 +341,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -337,11 +411,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -411,11 +485,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -486,11 +560,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -564,11 +638,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -639,11 +713,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -710,11 +784,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -781,11 +855,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -796,77 +870,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-5-Service在进程内绑定/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android系统源码阅读-4-Service在新进程中启动过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/">Android系统源码阅读(4):Service在新进程中启动过程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T05:54:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android系统源码阅读（4）：Service在新进程中启动过程"><a href="#Android系统源码阅读（4）：Service在新进程中启动过程" class="headerlink" title="Android系统源码阅读（4）：Service在新进程中启动过程"></a>Android系统源码阅读（4）：Service在新进程中启动过程</h1><blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
-</blockquote>
-<h2 id="Step1-Activity开始启动Service"><a href="#Step1-Activity开始启动Service" class="headerlink" title="Step1. Activity开始启动Service"></a>Step1. Activity开始启动Service</h2><p><img src="http://img.blog.csdn.net/20160818135053514" alt="这里写图片描述">  </p>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/">展开全文 >></a>
         </p>
       
 
@@ -973,15 +976,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -994,10 +1001,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1017,11 +1020,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
               </li>
              
               <li class="article-tag-list-item">

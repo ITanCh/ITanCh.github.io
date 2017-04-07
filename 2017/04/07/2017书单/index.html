@@ -6,33 +6,65 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(4):Service在新进程中启动过程 | Tianchi&#39;s Blog</title>
+  <title>2017书单 | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android系统源码阅读（4）：Service在新进程中启动过程
-该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+  <meta name="description" content="书籍是人类退步的滑滑梯
 
-Step1. Activity开始启动Service">
+0. 无声告 🏊
+结束时间：01-05
+推荐指数：🌟🌟🌟🌟
+成为自己，还是成为别人期望的自己？
+1. 深入理解Java虚拟机 ☕
+结束时间：01-29 
+推荐指数：🌟🌟🌟🌟🌟
+了解jvm的基本原理。
+2. 深入浅出nodejs 🚀
+结束时间：02-15
+推荐指数：🌟🌟🌟🌟🌟
+了解nodejs的基本原理。
+3. Android编程权威指南">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(4):Service在新进程中启动过程">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/index.html">
+<meta property="og:title" content="2017书单">
+<meta property="og:url" content="http://itanch.github.io/2017/04/07/2017书单/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="Android系统源码阅读（4）：Service在新进程中启动过程
-该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+<meta property="og:description" content="书籍是人类退步的滑滑梯
 
-Step1. Activity开始启动Service">
-<meta property="og:image" content="http://img.blog.csdn.net/20160818135053514">
-<meta property="og:image" content="http://img.blog.csdn.net/20160818135157155">
-<meta property="og:image" content="http://img.blog.csdn.net/20160818135237858">
-<meta property="og:image" content="http://img.blog.csdn.net/20160818135341778">
-<meta property="og:image" content="http://img.blog.csdn.net/20160818135416357">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+0. 无声告 🏊
+结束时间：01-05
+推荐指数：🌟🌟🌟🌟
+成为自己，还是成为别人期望的自己？
+1. 深入理解Java虚拟机 ☕
+结束时间：01-29 
+推荐指数：🌟🌟🌟🌟🌟
+了解jvm的基本原理。
+2. 深入浅出nodejs 🚀
+结束时间：02-15
+推荐指数：🌟🌟🌟🌟🌟
+了解nodejs的基本原理。
+3. Android编程权威指南">
+<meta property="og:image" content="https://images-cn.ssl-images-amazon.com/images/I/51IhLqZfCML._SY346_.jpg">
+<meta property="og:image" content="https://images-cn.ssl-images-amazon.com/images/I/5187D1yRGYL._SY346_.jpg">
+<meta property="og:image" content="https://images-cn.ssl-images-amazon.com/images/I/410MzJTNnQL.jpg">
+<meta property="og:image" content="https://images-cn.ssl-images-amazon.com/images/I/51qRgj3a3HL._SX260_.jpg">
+<meta property="og:updated_time" content="2017-04-07T07:16:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(4):Service在新进程中启动过程">
-<meta name="twitter:description" content="Android系统源码阅读（4）：Service在新进程中启动过程
-该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
+<meta name="twitter:title" content="2017书单">
+<meta name="twitter:description" content="书籍是人类退步的滑滑梯
 
-Step1. Activity开始启动Service">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160818135053514">
+0. 无声告 🏊
+结束时间：01-05
+推荐指数：🌟🌟🌟🌟
+成为自己，还是成为别人期望的自己？
+1. 深入理解Java虚拟机 ☕
+结束时间：01-29 
+推荐指数：🌟🌟🌟🌟🌟
+了解jvm的基本原理。
+2. 深入浅出nodejs 🚀
+结束时间：02-15
+推荐指数：🌟🌟🌟🌟🌟
+了解nodejs的基本原理。
+3. Android编程权威指南">
+<meta name="twitter:image" content="https://images-cn.ssl-images-amazon.com/images/I/51IhLqZfCML._SY346_.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -168,35 +200,45 @@ Step1. Activity开始启动Service">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-4-Service在新进程中启动过程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-2017书单" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(4):Service在新进程中启动过程
+      2017书单
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T05:54:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/04/07/2017书单/" class="archive-article-date">
+  	<time datetime="2017-04-07T06:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android系统源码阅读（4）：Service在新进程中启动过程"><a href="#Android系统源码阅读（4）：Service在新进程中启动过程" class="headerlink" title="Android系统源码阅读（4）：Service在新进程中启动过程"></a>Android系统源码阅读（4）：Service在新进程中启动过程</h1><blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
+        <blockquote>
+<p>书籍是人类退步的滑滑梯</p>
 </blockquote>
-<h2 id="Step1-Activity开始启动Service"><a href="#Step1-Activity开始启动Service" class="headerlink" title="Step1. Activity开始启动Service"></a>Step1. Activity开始启动Service</h2><p><img src="http://img.blog.csdn.net/20160818135053514" alt="这里写图片描述">  </p>
-<a id="more"></a>
-<h2 id="Step2-ActivityManagerService准备"><a href="#Step2-ActivityManagerService准备" class="headerlink" title="Step2. ActivityManagerService准备"></a>Step2. ActivityManagerService准备</h2><p><img src="http://img.blog.csdn.net/20160818135157155" alt="这里写图片描述">    </p>
-<h2 id="Step3-ActivityThread新进程启动"><a href="#Step3-ActivityThread新进程启动" class="headerlink" title="Step3. ActivityThread新进程启动"></a>Step3. ActivityThread新进程启动</h2><p><img src="http://img.blog.csdn.net/20160818135237858" alt="这里写图片描述">   </p>
-<h2 id="Step4-ActivityManagerService启动等待的Service"><a href="#Step4-ActivityManagerService启动等待的Service" class="headerlink" title="Step4. ActivityManagerService启动等待的Service"></a>Step4. ActivityManagerService启动等待的Service</h2><p><img src="http://img.blog.csdn.net/20160818135341778" alt="这里写图片描述"></p>
-<h2 id="Step5-Server创建"><a href="#Step5-Server创建" class="headerlink" title="Step5. Server创建"></a>Step5. Server创建</h2><p><img src="http://img.blog.csdn.net/20160818135416357" alt="这里写图片描述"></p>
+<h3 id="0-无声告-🏊"><a href="#0-无声告-🏊" class="headerlink" title="0. 无声告 🏊"></a>0. 无声告 🏊</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51IhLqZfCML._SY346_.jpg" alt=""></p>
+<p>结束时间：01-05</p>
+<p>推荐指数：🌟🌟🌟🌟</p>
+<p>成为自己，还是成为别人期望的自己？</p>
+<h3 id="1-深入理解Java虚拟机-☕"><a href="#1-深入理解Java虚拟机-☕" class="headerlink" title="1. 深入理解Java虚拟机 ☕"></a>1. 深入理解Java虚拟机 ☕</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/5187D1yRGYL._SY346_.jpg" alt=""></p>
+<p>结束时间：01-29 </p>
+<p>推荐指数：🌟🌟🌟🌟🌟</p>
+<p>了解jvm的基本原理。</p>
+<h3 id="2-深入浅出nodejs-🚀"><a href="#2-深入浅出nodejs-🚀" class="headerlink" title="2. 深入浅出nodejs 🚀"></a>2. 深入浅出nodejs 🚀</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/410MzJTNnQL.jpg" alt=""></p>
+<p>结束时间：02-15</p>
+<p>推荐指数：🌟🌟🌟🌟🌟</p>
+<p>了解nodejs的基本原理。</p>
+<h3 id="3-Android编程权威指南-⛳"><a href="#3-Android编程权威指南-⛳" class="headerlink" title="3. Android编程权威指南 ⛳"></a>3. Android编程权威指南 ⛳</h3><p><img src="https://images-cn.ssl-images-amazon.com/images/I/51qRgj3a3HL._SX260_.jpg" alt=""></p>
+<p>结束时间：03-26</p>
+<p>推荐指数：🌟🌟🌟🌟🌟</p>
+<p>从具体的项目学习Android开发中的组件使用技巧。</p>
 
       
 
@@ -210,11 +252,7 @@ Step1. Activity开始启动Service">
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
         		</li>
       		
 		</ul>
@@ -270,7 +308,7 @@ Step1. Activity开始启动Service">
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/04/07/2017书单/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -284,18 +322,9 @@ Step1. Activity开始启动Service">
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/Android系统源码阅读-5-Service在进程内绑定/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android系统源码阅读(5):Service在进程内绑定
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/14/Android系统源码阅读-3-子Activity在进程内的启动过程/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(3):子Activity在进程内的启动过程</div>
+    <a href="/2017/04/06/用React-Native写一个微博客户端-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用React-Native写一个微博客户端(1)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -309,7 +338,7 @@ Step1. Activity开始启动Service">
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Android系统源码阅读-4-Service在新进程中启动过程" data-title="Android系统源码阅读(4):Service在新进程中启动过程" data-url="http://itanch.github.io/2017/02/14/Android系统源码阅读-4-Service在新进程中启动过程/"></div>
+	<div class="ds-thread" data-thread-key="2017书单" data-title="2017书单" data-url="http://itanch.github.io/2017/04/07/2017书单/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
