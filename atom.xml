@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-09T07:50:10.000Z</updated>
+  <updated>2017-04-09T07:51:30.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,28 +20,29 @@
     <link href="http://itanch.github.io/2017/04/08/%E7%94%A8React-Native%E5%86%99%E4%B8%80%E4%B8%AA%E5%BE%AE%E5%8D%9A%E5%AE%A2%E6%88%B7%E7%AB%AF-2/"/>
     <id>http://itanch.github.io/2017/04/08/用React-Native写一个微博客户端-2/</id>
     <published>2017-04-08T08:47:49.000Z</published>
-    <updated>2017-04-09T07:50:10.000Z</updated>
+    <updated>2017-04-09T07:51:30.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。 </p>
 </blockquote>
 <h2 id="主界面设计"><a href="#主界面设计" class="headerlink" title="主界面设计"></a>主界面设计</h2><p>进入应用，首先看到的就是主界面，这里采用了经典的底部3个tab的主界面设计风格，如下所示。</p>
+<a id="more"></a>
 <p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_3tab.gif?imageView2/0/h/300" alt="3tab"></p>
 <p>react-native 框架已经为我们生成了一个简单的主界面于<code>index.android.js</code>，代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;View style=&#123;styles.container&#125;&gt;</div><div class="line">        &lt;Text style=&#123;styles.welcome&#125;&gt;</div><div class="line">          Welcome to React Native!</div><div class="line">        &lt;/Text&gt;</div><div class="line">        &lt;Text style=&#123;styles.instructions&#125;&gt;</div><div class="line">          To get started, edit index.ios.js</div><div class="line">        &lt;/Text&gt;</div><div class="line">        &lt;Text style=&#123;styles.instructions&#125;&gt;</div><div class="line">          Press Cmd+R to reload,&#123;'\n'&#125;</div><div class="line">          Cmd+D or shake for dev menu</div><div class="line">        &lt;/Text&gt;</div><div class="line">      &lt;/View&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">AppRegistry.registerComponent(<span class="string">'welone'</span>, () =&gt; welone);</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.welcome&#125;</span>&gt;</span></div><div class="line">          Welcome to React Native!</div><div class="line">        <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.instructions&#125;</span>&gt;</span></div><div class="line">          To get started, edit index.ios.js</div><div class="line">        <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.instructions&#125;</span>&gt;</span></div><div class="line">          Press Cmd+R to reload,&#123;'\n'&#125;</div><div class="line">          Cmd+D or shake for dev menu</div><div class="line">        <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">AppRegistry.registerComponent(<span class="string">'welone'</span>, () =&gt; welone);</div></pre></td></tr></table></figure>
 <p>这里我们所要做的就是将render()函数中的内容替换成我们的componet。这里我新建了一个MainTab组建，并且将它放置于<code>./app/comp/MainTab.android.js</code>中，android后缀表明编译android应用时选择该js文件作为编译对象，这样你也可以实现MainTab.ios.js，从而可以针对不同的系统采用不同的设计内容。这里我新建了一个app目录用来存放组件相关的代码和资源，我的文件组织目录如下图所示。</p>
 <p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_file.png?imageView2/0/h/200" alt="文件结构"></p>
 <p>修改后的<code>index.android.js</code>如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//...</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> MainTab <span class="keyword">from</span> <span class="string">'./app/comp/MainTab'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="comment">//主界面的MainTab组件</span></div><div class="line">    <span class="keyword">let</span> mainComponent = MainTab;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="comment">//这里是用了Navigator组件，目的是为了以后的导航栏作用</span></div><div class="line">      &lt;Navigator</div><div class="line">        initialRoute=&#123;&#123; <span class="attr">component</span>: mainComponent &#125;&#125;</div><div class="line">        configureScene=&#123;(route) =&gt; &#123;</div><div class="line">          <span class="keyword">return</span> Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">        &#125;&#125;</div><div class="line">        renderScene=&#123;(route, navigator) =&gt; &#123;</div><div class="line">          <span class="comment">//这里的组建就是MainTab</span></div><div class="line">          <span class="keyword">let</span> Comp = route.component;</div><div class="line">          <span class="comment">//MainTab</span></div><div class="line">          <span class="keyword">return</span> &lt;Comp &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</div><div class="line">        &#125;&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//...</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//...</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> MainTab <span class="keyword">from</span> <span class="string">'./app/comp/MainTab'</span>;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="comment">//主界面的MainTab组件</span></div><div class="line">    <span class="keyword">let</span> mainComponent = MainTab;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="comment">//这里是用了Navigator组件，目的是为了以后的导航栏作用</span></div><div class="line">      &lt;Navigator</div><div class="line">        initialRoute=&#123;&#123; <span class="attr">component</span>: mainComponent &#125;&#125;</div><div class="line">        configureScene=&#123;(route) =&gt; &#123;</div><div class="line">          <span class="keyword">return</span> Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">        &#125;&#125;</div><div class="line">        renderScene=&#123;(route, navigator) =&gt; &#123;</div><div class="line">          <span class="comment">//这里的组建就是MainTab</span></div><div class="line">          <span class="keyword">let</span> Comp = route.component;</div><div class="line">          <span class="comment">//MainTab</span></div><div class="line">          <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Comp</span> &#123;<span class="attr">...route.params</span>&#125; <span class="attr">navigator</span>=<span class="string">&#123;navigator&#125;</span> /&gt;</span></span></div><div class="line">        &#125;&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//...</div></pre></td></tr></table></figure>
 <p>先忽略Navigator组件在这里的作用，这里可以先理解为以MainTab作为当前的视图的根view：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;MainTab /&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">MainTab</span> /&gt;</span></span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在<code>app/comp/MainTab.android.js</code>里，我采用了同样经典的三段式配合3个tab来使用。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//...</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">MainTab</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            &lt;Container theme=&#123;TianTheme&#125;&gt;</div><div class="line">                //头部标题会跟着tab的切换变化</div><div class="line">                &lt;Header&gt;</div><div class="line">                 //标题内容</div><div class="line">                &lt;/Header&gt;</div><div class="line"></div><div class="line">                //主体，显示内容</div><div class="line">                &lt;Content style=&#123;&#123; backgroundColor: '#f8f9f9' &#125;&#125;&gt;</div><div class="line">                   //...</div><div class="line">                &lt;/Content&gt;</div><div class="line">                </div><div class="line">                //底部，显示3个tab</div><div class="line">                &lt;Footer style=&#123;&#123; borderTopWidth: 1, borderTopColor: '#e5e8e8' &#125;&#125;&gt;</div><div class="line">                    &lt;FooterTab&gt;</div><div class="line">                        &lt;Button onPress=&#123;() =&gt; this.onPressTab(TAB_LOVE)&#125;&gt;</div><div class="line">                            &lt;Icon name='ios-heart' /&gt;</div><div class="line">                        &lt;/Button&gt;</div><div class="line">                        &lt;Button onPress=&#123;() =&gt; this.onPressTab(TAB_ME)&#125;&gt;</div><div class="line">                            &lt;Icon name='ios-chatbubbles' /&gt;</div><div class="line">                        &lt;/Button&gt;</div><div class="line">                        &lt;Button onPress=&#123;() =&gt; this.onPressTab(TAB_SET)&#125;&gt;</div><div class="line">                            &lt;Icon name='ios-settings' /&gt;</div><div class="line">                        &lt;/Button&gt;</div><div class="line">                    &lt;/FooterTab&gt;</div><div class="line">                &lt;/Footer&gt;</div><div class="line">            &lt;/Container&gt;</div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其中Container、Header、Content、Footer等组件皆来自于Native-Base。我的建议是能用原始的react-native的组建就用原始的，Native-Base提供的组件虽然美观，但是缺少了定制的灵活性。</p>
 <p>当点击tab时，调用回调函数<code>onPressTab()</code>触发view的变化。根据传入的参数确定用户点击的哪一个tab，然后修改当前的状态。注意，这里涉及修改当前组件状态的操作<code>this.setState({ activeTab: tab })</code>，所以回调函数采用<code>&lt;Button onPress={() =&gt; this.onPressTab(TAB_SET)}&gt;</code>这种方式与button绑定，而不是<code>&lt;Button onPress={this.onPressTab(TAB_SET)}&gt;</code>。后者在不涉及修改state时并无大碍，如果涉及修改state，一定要采用异步操作。记住千万不要在<code>render</code>函数中直接修改state。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">onPressTab(tab) &#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">activeTab</span>: tab &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="内容显示"><a href="#内容显示" class="headerlink" title="内容显示"></a>内容显示</h2><p>在MainTab组件中，显示内容的部分需要根据用户的选择依次显示“关注”、“消息”和“设置”三个板块，为此我设计了一个<code>WeiboList</code>组件来显示具体内容，并且作为Content的子组件镶嵌进MainTab。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;Content style=&#123;&#123; <span class="attr">backgroundColor</span>: <span class="string">'#f8f9f9'</span> &#125;&#125;&gt;</div><div class="line">    &lt;View style=&#123;&#123; marginHorizontal: 7 &#125;&#125;&gt;</div><div class="line">        &lt;WeiboList</div><div class="line">            navigator=&#123;this.props.navigator&#125;</div><div class="line">            //保留weibolist组件的引用</div><div class="line">            ref=&#123;(weiboList) =&gt; &#123; this.weiboList = weiboList &#125;&#125;</div><div class="line">            //指明当前用户选择的哪一个tab</div><div class="line">            tab=&#123;this.state.activeTab&#125;</div><div class="line">        /&gt;</div><div class="line">    &lt;/View&gt;</div><div class="line">&lt;/Content&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;Content style=&#123;&#123; <span class="attr">backgroundColor</span>: <span class="string">'#f8f9f9'</span> &#125;&#125;&gt;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">marginHorizontal:</span> <span class="attr">7</span> &#125;&#125;&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">WeiboList</span></span></div><div class="line">            <span class="attr">navigator</span>=<span class="string">&#123;this.props.navigator&#125;</span></div><div class="line">            //保留<span class="attr">weibolist</span>组件的引用</div><div class="line">            <span class="attr">ref</span>=<span class="string">&#123;(weiboList)</span> =&gt; &#123; this.weiboList = weiboList &#125;&#125;</div><div class="line">            //指明当前用户选择的哪一个tab</div><div class="line">            tab=&#123;this.state.activeTab&#125;</div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Content</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这里为WeiboList组件添加了属性<code>tab</code>，描述当前用户选择的tab类型。同时，为MainTab保留了一个weibolist的应用，为的是从MainTab组件中调用WeiboList的函数，当然这种设计方式不算优美，将来我会用其它方式进行改进。</p>
 <p>在WeiboList组件中，实现render()函数如下：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">       <span class="keyword">if</span> (<span class="keyword">this</span>.props.tab === TAB_LOVE) &#123;</div><div class="line">           <span class="comment">//关注人的微博列表</span></div><div class="line">           <span class="keyword">return</span> (</div><div class="line">               &lt;ListView</div><div class="line">                   //设置数据源</div><div class="line">                   dataSource=&#123;this.state.loveSource&#125;</div><div class="line">                   //列表中的子组件</div><div class="line">                   renderRow=&#123;(rowData) =&gt; &lt;WeiboCard weiData=&#123;rowData&#125; navigator=&#123;this.props.navigator&#125; /&gt;&#125;</div><div class="line">                   //列表底部组件</div><div class="line">                   renderFooter=&#123;() =&gt; this.getEnd(GET_MORE_WEIBO)&#125;</div><div class="line">               /&gt;</div><div class="line">           );</div><div class="line">       &#125; else if (this.props.tab === TAB_ME) &#123;</div><div class="line">           //用户消息</div><div class="line">           //...</div><div class="line">       &#125; else &#123;</div><div class="line">           //用户设置</div><div class="line">           //...</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
@@ -73,14 +74,16 @@
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;用React-Native技术实现一个简单的微博客户端。项目开源地址：&lt;a href=&quot;https://github.com/ITanCh/Welone&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;github&lt;/a&gt;。项目还在
+&lt;p&gt;用React-Native技术实现一个简单的微博客户端。项目开源地址：&lt;a href=&quot;https://github.com/ITanCh/Welone&quot;&gt;github&lt;/a&gt;。项目还在持续更新中😊。 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;主界面设计&quot;&gt;&lt;a href=&quot;#主界面设计&quot; class=&quot;headerlink&quot; title=&quot;主界面设计&quot;&gt;&lt;/a&gt;主界面设计&lt;/h2&gt;&lt;p&gt;进入应用，首先看到的就是主界面，这里采用了经典的底部3个tab的主界面设计风格，如下所示。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -188,9 +191,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -647,9 +650,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -714,9 +717,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -792,9 +795,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -848,9 +851,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -918,9 +921,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1046,9 +1049,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1135,9 +1138,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1211,9 +1214,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1253,9 +1256,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1321,9 +1324,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1369,9 +1372,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1439,9 +1442,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1518,9 +1521,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1552,9 +1555,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1588,9 +1591,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1622,9 +1625,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1659,9 +1662,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1704,9 +1707,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1756,9 +1759,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1796,9 +1799,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2217,39 +2220,6 @@
   </entry>
   
   <entry>
-    <title>ubuntu14.04基本配置</title>
-    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
-    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
-    <published>2015-08-06T03:59:57.000Z</published>
-    <updated>2017-02-23T07:42:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
-<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
-<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
-<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
-<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
-<li>取消某个软件(tomcat)开机自启动。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Torque安装笔记(多ubuntu节点)</title>
     <link href="http://itanch.github.io/2015/08/06/Torque%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>http://itanch.github.io/2015/08/06/Torque学习笔记/</id>
@@ -2308,7 +2278,7 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
@@ -2329,6 +2299,39 @@
       <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
       <category term="Torque" scheme="http://itanch.github.io/tags/Torque/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu14.04基本配置</title>
+    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
+    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
+    <published>2015-08-06T03:59:57.000Z</published>
+    <updated>2017-02-23T07:42:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
+<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
+<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
+<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
+<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li>取消某个软件(tomcat)开机自启动。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
   </entry>
   
