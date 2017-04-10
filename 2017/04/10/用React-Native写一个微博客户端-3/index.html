@@ -6,17 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Tag: slurm | Tianchi&#39;s Blog</title>
+  <title>用React-Native写一个微博客户端(3) | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="南大计算机科学与技术系小学生，程序猿">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tianchi's Blog">
-<meta property="og:url" content="http://itanch.github.io/tags/slurm/index.html">
+  <meta name="description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。 
+
+这一章节主要讲一下在设计该app时遇到的一些问题。
+导航Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用React-Native写一个微博客户端(3)">
+<meta property="og:url" content="http://itanch.github.io/2017/04/10/用React-Native写一个微博客户端-3/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="南大计算机科学与技术系小学生，程序猿">
+<meta property="og:description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。 
+
+这一章节主要讲一下在设计该app时遇到的一些问题。
+导航Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合">
+<meta property="og:updated_time" content="2017-04-10T14:44:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tianchi's Blog">
-<meta name="twitter:description" content="南大计算机科学与技术系小学生，程序猿">
+<meta name="twitter:title" content="用React-Native写一个微博客户端(3)">
+<meta name="twitter:description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。 
+
+这一章节主要讲一下在设计该app时遇到的一些问题。
+导航Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -152,68 +162,156 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-用React-Native写一个微博客户端-3" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/09/10/slurm安装/" class="archive-article-date">
-  	<time datetime="2015-09-10T09:17:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/09/10/slurm安装/">slurm安装</a>
+    <h1 class="article-title" itemprop="name">
+      用React-Native写一个微博客户端(3)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/04/10/用React-Native写一个微博客户端-3/" class="archive-article-date">
+  	<time datetime="2017-04-10T13:21:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。 </p>
+</blockquote>
+<p>这一章节主要讲一下在设计该app时遇到的一些问题。</p>
+<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合用户的操作习惯，所以在通过react-native设计app时，也需要有组件来实现这种功能，所以这里就使用了<code>Navigator</code>组件。</p>
+<a id="more"></a>
+<p>在app中，当用户点击一个微博时，界面会跳进所点击微博的内容，显示微博内容详情，并且可以查看微博评论。当用户点击叉号，会退到浏览微博的页面。</p>
+<p><img src="" alt="导航"></p>
+<p>再看一下写在<code>android/welone/index.android.js</code>中的导航组件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> mainComponent = MainTab;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;Navigator</div><div class="line">        //初始化route的属性</div><div class="line">        initialRoute=&#123;&#123; component: mainComponent &#125;&#125;</div><div class="line">        //设置界面切换的动画效果</div><div class="line">        configureScene=&#123;(route) =&gt; &#123;</div><div class="line">          return Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">        &#125;&#125;</div><div class="line">        //根据route属性，渲染当前界面组件</div><div class="line">        renderScene=&#123;(route, navigator) =&gt; &#123;</div><div class="line">          let Comp = route.component;</div><div class="line">          return &lt;Comp &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</div><div class="line">        &#125;&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">```   </div><div class="line"></div><div class="line">这里将MainTab设置为当前初始的主界面，并且将`navigator`作为属性传递给MainTab，同时还传递了一个`route.params`属性，这里该属性为空，所以暂时没有什么作用，以后会用到。</div><div class="line"></div><div class="line">通过props，我将navigator对象依次传递到了`WeiboCard`，也就是显示每一个微博内容的卡片。当点击该卡片时，就会触发界面跳转的功能。</div><div class="line"></div><div class="line">```js</div><div class="line">    //start the weibo content</div><div class="line">    startWeiboContent(data) &#123;</div><div class="line">        const &#123; navigator &#125; = this.props;</div><div class="line">        if (navigator) &#123;</div><div class="line">            //向导航栈中放入需要跳转的组件</div><div class="line">            navigator.push(&#123;</div><div class="line">                component: WeiboContent,</div><div class="line">                //将微博内容作为参数传递给了下一个界面，可以参考上一段代码</div><div class="line">                params: &#123;</div><div class="line">                    data: data</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这里调用了navigator的push函数，放入了需要占据屏幕的界面<code>WeiboContent</code>。这时，MainTab就会被覆盖，显示WeiboContent界面。</p>
+<p>在WeiboContent界面，如果需要返回上一个界面MainTab，点击叉号，则会调用如下函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//navigate to the parent</span></div><div class="line">pressBack() &#123;</div><div class="line">    <span class="keyword">const</span> &#123; navigator &#125; = <span class="keyword">this</span>.props;</div><div class="line">    <span class="keyword">if</span> (navigator) &#123;</div><div class="line">        navigator.pop();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>navigator只需要pop一下就可以了。</p>
+<h2 id="数据传递"><a href="#数据传递" class="headerlink" title="数据传递"></a>数据传递</h2><p>在React中，父组件向子组件传递数据，主要的方式就是通过设置子组件的props，组件内部的状态通过states来保存。props是外部给组件的属性，states时组件自己的属性。数据流从父节点流向子节点。这种貌似完美的设计方式，在有些情况下会不方便。</p>
+<p>比如，子节点需要更新父节点的状态、或者调用父亲节点的功能。则需要将函数通过props将函数传递到子节点。如下代码所示：  </p>
+<p>在父节点WeiboContent中，将函数getComments作为属性传递给了子组件WeiboCard。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;WeiboCard weiData=&#123;<span class="keyword">this</span>.props.data&#125; getComments=&#123;<span class="keyword">this</span>.getComments.bind(<span class="keyword">this</span>)&#125; /&gt;</div></pre></td></tr></table></figure></p>
+<p>在WeiboCard中，调用传入的getComments来更新评论内容.上段代码中的bind指明了该函数在当前组件的上下文中执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">getComments() &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.props.getComments) &#123;</div><div class="line">        <span class="keyword">this</span>.props.getComments(NEW_COMMENT);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果父组件想要调用子组件的函数呢？这就用到<code>ref</code>属性。</p>
+<p>在父节点MainTab中，保留了子组件的引用，如下所示。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">  &lt;WeiboList</div><div class="line">  navigator=&#123;<span class="keyword">this</span>.props.navigator&#125;</div><div class="line">  ref=&#123;(weiboList) =&gt; &#123; <span class="keyword">this</span>.weiboList = weiboList &#125;&#125;</div><div class="line">  tab=&#123;<span class="keyword">this</span>.state.activeTab&#125;</div><div class="line">  /&gt;</div><div class="line"><span class="string">``</span><span class="string">`  </span></div><div class="line">将WeiboList组件保存在weibolist变量中，这样父组件就可以调用子节点的函数了。如下：  </div><div class="line">`<span class="string">``</span>js</div><div class="line">    onPressTab(tab) &#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.weiboList != <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.weiboList.getTimeLine(NEW_WEIBO);</div><div class="line">      &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>显然这种设计方式是不优美的，破坏了组件之间的独立性。以后的章节中，我将会寻找更好的保存组件状态的方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">slurm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">React Native</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/04/10/用React-Native写一个微博客户端-3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/04/08/用React-Native写一个微博客户端-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用React-Native写一个微博客户端(2)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -236,9 +334,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

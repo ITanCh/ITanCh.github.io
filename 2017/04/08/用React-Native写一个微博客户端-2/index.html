@@ -20,7 +20,7 @@
 主界面设计进入应用，首先看到的就是主界面，这里采用了经典的底部3个tab的主界面设计风格，如下所示。">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_3tab.gif?imageView2/0/h/300">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_file.png?imageView2/0/h/200">
-<meta property="og:updated_time" content="2017-04-09T07:51:30.000Z">
+<meta property="og:updated_time" content="2017-04-10T06:19:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React-Native写一个微博客户端(2)">
 <meta name="twitter:description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。 
@@ -211,8 +211,7 @@
 <p>dataSourece的数据源来自<code>this.state.loveSource</code>，该状态在WeiboList中进行初始化。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line"></div><div class="line">    <span class="comment">//创建一个DataSource，并且设置判断当前视图是否发生滚动的判断函数，以此来减少绘制列表的消耗。</span></div><div class="line">    <span class="keyword">let</span> ds1 = <span class="keyword">new</span> ListView.DataSource(&#123; <span class="attr">rowHasChanged</span>: <span class="function">(<span class="params">r1, r2</span>) =&gt;</span> r1 !== r2 &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">        <span class="attr">loveSource</span>: ds1,</div><div class="line">    &#125;;</div><div class="line">    <span class="comment">//用来存储当前获取的微博内容数组</span></div><div class="line">    <span class="keyword">this</span>.loveData = [];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>到此为止，视图已经设计完毕，但是还没有数据。接下来需要完成获取数据的部分。</p>
-<p>##数据获取</p>
-<p>这里采用的微博api的Android版本，是一个java库，幸运的是react-native提供了接口让我们开发原生模块在js中调用。当然，也可以研究一下是否可以直接调用微博的js库。</p>
+<h2 id="数据获取"><a href="#数据获取" class="headerlink" title="数据获取"></a>数据获取</h2><p>这里采用的微博api的Android版本，是一个java库，幸运的是react-native提供了接口让我们开发原生模块在js中调用。当然，也可以研究一下是否可以直接调用微博的js库。</p>
 <p>先看一下微博api中提供了什么样的接口供开发者调用。在<code>com/sina/weibo/sdk/openapi/StatusesAPI.java</code>中，提供了一些与获取微博内容有关的函数，并且提供了详细的文档说明，这里需要使用的就是如下接口。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取当前登录用户及其所关注用户的最新微博。</div><div class="line"> * </div><div class="line"> * <span class="doctag">@param</span> since_id    若指定此参数，则返回ID比since_id大的微博（即比since_id时间晚的微博），默认为0</div><div class="line"> * <span class="doctag">@param</span> max_id      若指定此参数，则返回ID小于或等于max_id的微博，默认为0。</div><div class="line"> * <span class="doctag">@param</span> count       单页返回的记录条数，默认为50。</div><div class="line"> * <span class="doctag">@param</span> page        返回结果的页码，默认为1。</div><div class="line"> * <span class="doctag">@param</span> base_app    是否只获取当前应用的数据。false为否（所有数据），true为是（仅当前应用），默认为false。</div><div class="line"> * <span class="doctag">@param</span> featureType 过滤类型ID，0：全部、1：原创、2：图片、3：视频、4：音乐，默认为0。</div><div class="line"> *                    &lt;li&gt;&#123;<span class="doctag">@link</span> #FEATURE_ALL&#125;</div><div class="line"> *                    &lt;li&gt;&#123;<span class="doctag">@link</span> #FEATURE_ORIGINAL&#125;</div><div class="line"> *                    &lt;li&gt;&#123;<span class="doctag">@link</span> #FEATURE_PICTURE&#125;</div><div class="line"> *                    &lt;li&gt;&#123;<span class="doctag">@link</span> #FEATURE_VIDEO&#125;</div><div class="line"> *                    &lt;li&gt;&#123;<span class="doctag">@link</span> #FEATURE_MUSICE&#125;</div><div class="line"> * <span class="doctag">@param</span> trim_user   返回值中user字段开关，false：返回完整user字段、true：user字段仅返回user_id，默认为false。</div><div class="line"> * <span class="doctag">@param</span> listener    异步请求回调接口</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">friendsTimeline</span><span class="params">(<span class="keyword">long</span> since_id, <span class="keyword">long</span> max_id, <span class="keyword">int</span> count, <span class="keyword">int</span> page, <span class="keyword">boolean</span> base_app,</span></span></div><div class="line">        <span class="keyword">int</span> featureType, <span class="keyword">boolean</span> trim_user, RequestListener listener) &#123;</div><div class="line">    WeiboParameters params = </div><div class="line">            buildTimeLineParamsBase(since_id, max_id, count, page, base_app, trim_user, featureType);</div><div class="line">    requestAsync(sAPIList.get(READ_API_FRIENDS_TIMELINE), params, HTTPMETHOD_GET, listener);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在Android项目文件夹下添加了微博模块：<code>android/app/src/main/java/com/welone/weibo/WeiboModule.java</code>。实现了如下函数：</p>
@@ -242,11 +241,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -320,6 +319,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2017/04/10/用React-Native写一个微博客户端-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          用React-Native写一个微博客户端(3)
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/04/07/2017书单/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">2017书单</div>
@@ -334,25 +342,7 @@
 
 
   
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="用React-Native写一个微博客户端-2" data-title="用React-Native写一个微博客户端(2)" data-url="http://itanch.github.io/2017/04/08/用React-Native写一个微博客户端-2/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"tianchi"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
+    <div class="duoshuo"></div>
   
 
 
@@ -440,7 +430,7 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -448,11 +438,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -468,11 +458,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -480,11 +466,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Torque</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
