@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://aosabook.org/images/git/packed-format.png">
 <meta property="og:image" content="http://gitbook.liuhui998.com/assets/images/figure/packfile-index.png">
 <meta property="og:image" content="http://aosabook.org/images/git/merge-history.png">
-<meta property="og:updated_time" content="2017-04-11T09:29:16.000Z">
+<meta property="og:updated_time" content="2017-04-11T09:46:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git架构">
 <meta name="twitter:description" content="文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫The Architecture of Open Source Applications的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译">
@@ -56,10 +56,10 @@
 			<img src="/img/long.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</a></h1>
+		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
 		</hgroup>
 		
-		<p class="header-subtitle">阅读 思考 实践</p>
+		<p class="header-subtitle">阅读 思考 实践 &lt;br&gt;⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/&lt;br&gt;</p>
 		
 
 		<nav class="header-menu">
@@ -112,10 +112,10 @@
 				<img src="/img/long.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</h1>
+			  <h1 class="header-author js-header-author">Tian chi</h1>
 			</hgroup>
 			
-			<p class="header-subtitle"><i class="icon icon-quo-left"></i>阅读 思考 实践<i class="icon icon-quo-right"></i></p>
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>阅读 思考 实践 &lt;br&gt;⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/&lt;br&gt;<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -183,7 +183,8 @@
         <blockquote>
 <p>文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫<em>The Architecture of Open Source Applications</em>的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译完所有的文章，搞个大新闻，结果就这两片孤零零的在仓库里。现在回想起来本科即将毕业的自己，雄心勃勃的要干一番大事业，如今读研到了找工作的时节却又多些心酸和迷茫。往前走终会有路，热血不会冷却。</p>
 </blockquote>
-<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。  </p>
+<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。</p>
+<a id="more"></a>  
 <p>这一章节将会阐明Git用来实现这些功能的许多不为人知的方面，并且会提及Git与其它版本控制系统（VCSs）的不同之处。   </p>
 <h2 id="6-2-Git起源"><a href="#6-2-Git起源" class="headerlink" title="6.2 Git起源"></a>6.2 Git起源</h2><p>为了更好地理解Git的设计哲学，首先你要知道在Linux内核社区中Git项目是在什么样的环境下启动的。  </p>
 <p>Linux内核相对于那时的其它商业软件项目而言是特立独行的，因为Linux内核的贡献者数量庞大，并且贡献者的参与程度和对现有代码库的了解程度参差不齐。几年来，内核一直是利用打包工具和打补丁来维护，所以核心开发社区一直在竭力寻求一个能够满足他们大部分需求的VCS。  </p>
@@ -449,7 +450,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/
+    		&copy; 2017 Tian chi
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -540,14 +541,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">AngularJS</a>
               </li>
              
@@ -557,6 +550,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -576,15 +581,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
               </li>
              
               <li class="article-tag-list-item">

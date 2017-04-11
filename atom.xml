@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Tianchi&#39;s Blog</title>
-  <subtitle>阅读 思考 实践</subtitle>
+  <subtitle>阅读 思考 实践 &lt;br&gt;⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/&lt;br&gt;</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-11T09:40:17.000Z</updated>
+  <updated>2017-04-11T09:46:51.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
-    <name>Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</name>
+    <name>Tian chi</name>
     
   </author>
   
@@ -20,13 +20,14 @@
     <link href="http://itanch.github.io/2017/04/11/eclipse%E6%9E%B6%E6%9E%84/"/>
     <id>http://itanch.github.io/2017/04/11/eclipse架构/</id>
     <published>2017-04-11T09:24:23.000Z</published>
-    <updated>2017-04-11T09:40:17.000Z</updated>
+    <updated>2017-04-11T09:46:51.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。</p>
 <p>an integrated development environment(IDE) for anything and nothing in particular.<br>eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     </p>
 </blockquote>
 <h3 id="最初的愿景"><a href="#最初的愿景" class="headerlink" title="最初的愿景"></a>最初的愿景</h3><p>eclispe 不仅仅局限于一个工具集合，而是一个框架。作为一个框架，它应该具有模块化和可扩展的特点。eclipse 是想作为一个基于组件的平台，一个可以为其他开发者建立自己的工具而服务的平台。    </p>
+<a id="more"></a>
 <hr>
 <h2 id="Early-eclipse"><a href="#Early-eclipse" class="headerlink" title="Early eclipse"></a>Early eclipse</h2><p>早期的eclispe是为了将开发者从繁琐的开发过程中解放出来，从而开发者可以更加专注于开发新的工具。<br>早期主要有三大元素：<code>Platform</code> <code>JDT(Java Development Tools)</code> <code>PDE(Plug-in Development Environment)</code>  </p>
 <h3 id="1-Platform"><a href="#1-Platform" class="headerlink" title="1.Platform"></a>1.Platform</h3><p>Platform 是由<code>plugin</code>组成的。plugin是Eclipse组件模型的基础，它是由一个JAR文件和manifest描述文件组成。manifest存在<code>plug-in.xml</code>文件里。  </p>
@@ -78,7 +79,9 @@
     
       &lt;blockquote&gt;
 &lt;p&gt;矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。&lt;/p&gt;
-&lt;p&gt;an integrated development environment(IDE) for anything and nothing in partic
+&lt;p&gt;an integrated development environment(IDE) for anything and nothing in particular.&lt;br&gt;eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;最初的愿景&quot;&gt;&lt;a href=&quot;#最初的愿景&quot; class=&quot;headerlink&quot; title=&quot;最初的愿景&quot;&gt;&lt;/a&gt;最初的愿景&lt;/h3&gt;&lt;p&gt;eclispe 不仅仅局限于一个工具集合，而是一个框架。作为一个框架，它应该具有模块化和可扩展的特点。eclipse 是想作为一个基于组件的平台，一个可以为其他开发者建立自己的工具而服务的平台。    &lt;/p&gt;
     
     </summary>
     
@@ -96,12 +99,13 @@
     <link href="http://itanch.github.io/2017/04/11/Git%E6%9E%B6%E6%9E%84/"/>
     <id>http://itanch.github.io/2017/04/11/Git架构/</id>
     <published>2017-04-11T09:08:21.000Z</published>
-    <updated>2017-04-11T09:29:16.000Z</updated>
+    <updated>2017-04-11T09:46:32.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫<em>The Architecture of Open Source Applications</em>的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译完所有的文章，搞个大新闻，结果就这两片孤零零的在仓库里。现在回想起来本科即将毕业的自己，雄心勃勃的要干一番大事业，如今读研到了找工作的时节却又多些心酸和迷茫。往前走终会有路，热血不会冷却。</p>
 </blockquote>
-<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。  </p>
+<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。</p>
+<a id="more"></a>  
 <p>这一章节将会阐明Git用来实现这些功能的许多不为人知的方面，并且会提及Git与其它版本控制系统（VCSs）的不同之处。   </p>
 <h2 id="6-2-Git起源"><a href="#6-2-Git起源" class="headerlink" title="6.2 Git起源"></a>6.2 Git起源</h2><p>为了更好地理解Git的设计哲学，首先你要知道在Linux内核社区中Git项目是在什么样的环境下启动的。  </p>
 <p>Linux内核相对于那时的其它商业软件项目而言是特立独行的，因为Linux内核的贡献者数量庞大，并且贡献者的参与程度和对现有代码库的了解程度参差不齐。几年来，内核一直是利用打包工具和打补丁来维护，所以核心开发社区一直在竭力寻求一个能够满足他们大部分需求的VCS。  </p>
@@ -245,7 +249,9 @@
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫&lt;em&gt;The Architecture of Open Source Applications&lt;/em&gt;的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导
+&lt;p&gt;文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫&lt;em&gt;The Architecture of Open Source Applications&lt;/em&gt;的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译完所有的文章，搞个大新闻，结果就这两片孤零零的在仓库里。现在回想起来本科即将毕业的自己，雄心勃勃的要干一番大事业，如今读研到了找工作的时节却又多些心酸和迷茫。往前走终会有路，热血不会冷却。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;6-1-Git简介&quot;&gt;&lt;a href=&quot;#6-1-Git简介&quot; class=&quot;headerlink&quot; title=&quot;6.1 Git简介&quot;&gt;&lt;/a&gt;6.1 Git简介&lt;/h2&gt;&lt;p&gt;Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。&lt;/p&gt;
     
     </summary>
     
@@ -2602,7 +2608,7 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
