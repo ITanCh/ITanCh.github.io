@@ -48,7 +48,7 @@
 			<img src="/img/long.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		  <h1 class="header-author"><a href="/">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</a></h1>
 		</hgroup>
 		
 		<p class="header-subtitle">阅读 思考 实践</p>
@@ -83,7 +83,7 @@
 				
 					<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
 			</div>
 		</nav>
@@ -104,7 +104,7 @@
 				<img src="/img/long.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Tian chi</h1>
+			  <h1 class="header-author js-header-author">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</h1>
 			</hgroup>
 			
 			<p class="header-subtitle"><i class="icon icon-quo-left"></i>阅读 思考 实践<i class="icon icon-quo-right"></i></p>
@@ -124,7 +124,7 @@
 					
 						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
 			</nav>
@@ -153,6 +153,336 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-eclipse架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/11/eclipse架构/">eclipse架构</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/11/eclipse架构/" class="archive-article-date">
+  	<time datetime="2017-04-11T09:24:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。</p>
+<p>an integrated development environment(IDE) for anything and nothing in particular.<br>eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     </p>
+</blockquote>
+<h3 id="最初的愿景"><a href="#最初的愿景" class="headerlink" title="最初的愿景"></a>最初的愿景</h3><p>eclispe 不仅仅局限于一个工具集合，而是一个框架。作为一个框架，它应该具有模块化和可扩展的特点。eclipse 是想作为一个基于组件的平台，一个可以为其他开发者建立自己的工具而服务的平台。    </p>
+<hr>
+<h2 id="Early-eclipse"><a href="#Early-eclipse" class="headerlink" title="Early eclipse"></a>Early eclipse</h2><p>早期的eclispe是为了将开发者从繁琐的开发过程中解放出来，从而开发者可以更加专注于开发新的工具。<br>早期主要有三大元素：<code>Platform</code> <code>JDT(Java Development Tools)</code> <code>PDE(Plug-in Development Environment)</code>  </p>
+<h3 id="1-Platform"><a href="#1-Platform" class="headerlink" title="1.Platform"></a>1.Platform</h3><p>Platform 是由<code>plugin</code>组成的。plugin是Eclipse组件模型的基础，它是由一个JAR文件和manifest描述文件组成。manifest存在<code>plug-in.xml</code>文件里。  </p>
+<h4 id="requires"><a href="#requires" class="headerlink" title="requires"></a>requires</h4><p>plugin通过requires来说明对其他plugin的依赖。  </p>
+<h4 id="extension-vs-extension-point"><a href="#extension-vs-extension-point" class="headerlink" title="extension vs extension point"></a>extension vs extension point</h4><p>开发者可以通过extension和extension point 机制来对Ecipse进行功能上的扩展。它们之间的关系可以用插座和插头来比喻。详细参考<a href="http://wiki.eclipse.org/FAQ_What_are_extensions_and_extension_points%3F" target="_blank" rel="external">1</a> <a href="http://www.vogella.com/tutorials/EclipseExtensionPoint/article.html#extensionpoints" target="_blank" rel="external">2</a>。    </p>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/extensions.png" alt="extension"><br><strong>extension point</strong><br>插座：如果一个plugin希望其它plugin能够对其进行扩展，则需要定义extension point。extension point说明了对其扩展的extension需要遵守的规约。只有特定的插头才能符合条件。  </p>
+<p>种类：说明性的，没有具体代码；提供可被重写的接口；将关联的元素组织在一起，例如<code>org.eclipse.ui.views</code>extension point将view组织在一起管理。<br><strong>extension</strong><br>插头：为某个plugin特定的extension point扩展功能。例如<code>org.eclipse.ui.views</code>extension point下，定义的一些view。</p>
+<h4 id="plugin的激活过程"><a href="#plugin的激活过程" class="headerlink" title="plugin的激活过程"></a>plugin的激活过程</h4><p>当Eclipse启动的时候，runtime platform会扫描你安装的所有plugin的manifest，在内存里建立plugin注册表，并且该信息会存在硬盘中，下次启动可以直接加载。plugin通过注册被发现，但是直到它们被使用的时候才真的被激活加载，这种方式叫做<code>lazy activation</code>。  </p>
+<h4 id="早期Eclipse架构"><a href="#早期Eclipse架构" class="headerlink" title="早期Eclipse架构"></a>早期Eclipse架构</h4><blockquote>
+<p>everything is a plugin    </p>
+</blockquote>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/platform.png" alt="early eclipse architecture">   </p>
+<p><strong>workbench</strong><br>workbench是组织Eclipse怎么样在桌面上进行显示的UI元素。它由<code>perspective</code> <code>views</code> <code>editors</code>组成。<br>Eclipse workbench是建立在<code>Standard Widget Toolkit(SWT)</code>和<code>JFace</code>之上。  </p>
+<p><strong>SWT</strong><br>Widget toolkits被分为两类：<br>1.<code>native</code>:使用系统调用来实现UI组件。“像素优先”，和桌面上得其他应用看上去很和谐。但是随着系统的不断变化，widget更新起来很困难，并且造成不一致性，导致程序可移植性也很差。<br>2.<code>emulated</code>:独立于操作系统。试图模仿操作系统的风格，很大的灵活性。但是运行很慢，和系统风格不协调。  </p>
+<p><code>Abstract Window Toolkit(AWT)</code>是Java提供的一个native的WT库,但是错误百出，饱受诟病。然后又出现了<code>Swing</code>，一个emulated的WT，同样也是有很多错误，耗费时间和内存。所以这些都不是理想的选择。  </p>
+<p>最后选择了SWT，SWT在当时比较成功。SWT是native的，它画质精良，让人不禁惊叹：“<em>I can’t believe it’s a Java program.</em>”。   </p>
+<p><strong>JFace</strong><br>JFace 是建立在SWT上的UI组件，但是它是纯JAVA代码，没有使用系统的代码。  </p>
+<p><strong>Help</strong><br>可以扩展<code>org.eclipse.help.toc</code>来写自己的help。  </p>
+<p><strong>Team</strong><br>代码库支持等。   </p>
+<p>Eclipse 的一个目的就是鼓励开发人员来扩展eclipse 的功能，实现自己的工具，所以一个稳定的API是十分必要的，所以有句话说的好：“<em>API is forever</em>”。  </p>
+<h3 id="2-Java-Development-Tools-JDT"><a href="#2-Java-Development-Tools-JDT" class="headerlink" title="2.Java Development Tools(JDT)"></a>2.Java Development Tools(JDT)</h3><p>JDT 提供了Java编辑器，导航，重构，debugger，编译和增量编译等功能。  </p>
+<p>其中为了摆脱命令行编译的繁琐，所以eclipse团队写了一个独立的编译器，并且该编译器可以进行增量编译。通过一个队列，将所有有变化的类进行重新编译，然后因为该变化而牵连的类也要放入队列等待重新编译，最后直到队列为空为止。  </p>
+<h3 id="3-Plug-in-Development-Environment-PDE"><a href="#3-Plug-in-Development-Environment-PDE" class="headerlink" title="3.Plug-in Development Environment(PDE)"></a>3.Plug-in Development Environment(PDE)</h3><p>PDE提供了开发、建立、配置和测试plugin的工具。eclipse团队自己写了<code>PDE Build</code>来创建plugin。   </p>
+<hr>
+<h2 id="Eclipse-3-0-Runtime-RCP-and-Robots"><a href="#Eclipse-3-0-Runtime-RCP-and-Robots" class="headerlink" title="Eclipse 3.0:Runtime,RCP and Robots"></a>Eclipse 3.0:Runtime,RCP and Robots</h2><h3 id="1-Runtime"><a href="#1-Runtime" class="headerlink" title="1.Runtime"></a>1.Runtime</h3><p>该版本对原来的requires,extensions和extension points组件模型进行了改进，决定用一个现有的方案来替代旧的方法，最后选择了OSGi。  </p>
+<h4 id="OSGi-Open-Service-Gateway-Initiative"><a href="#OSGi-Open-Service-Gateway-Initiative" class="headerlink" title="OSGi(Open Service Gateway Initiative)"></a>OSGi(Open Service Gateway Initiative)</h4><p>为什么选择OSGi?<br>1.OSGi拥有语义上的版本控制策略来处理依赖问题。对外的接口也是明确指明的。<br>2.拥有自己的类加载器。<br>3.可以被广泛的接受。<br>4.OSGi社区也是充满活力的。<br>5.这个框架实现了一个优雅、完整和动态的组件模型。应用程序（称为bundle）无需重新引导可以被远程安装、启动、升级和卸载（其中Java包／类的管理被详细定义）。  </p>
+<p>选择OSGi后Eclipse <code>plugin</code>被称为<code>bundle</code>。<code>plugin.xml</code>仍然保留extensions和extension points这些信息，其他的信息被转移到<code>META-INF/MANIFEST.MF</code>。</p>
+<p><strong>依赖问题</strong><br>OSGI框架会通过检测bundle的manifest里的依赖信息来生成该bundle的classpath。同样，manifest中会指明哪些package是对外开放的。  </p>
+<p><strong>生命周期</strong><br>OSGi是一个动态框架，依旧保持原来Eclipse中的<code>lazy activation</code>，需要的时候类才会被加载。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/bundlelifecycle.png" alt="bundle lifecycle">       </p>
+<p><strong>版本命名</strong><br>一套规范的四部分命名规则。  </p>
+<p><strong>Service</strong><br>提供了进一步的bundle之间的解耦。extension是被启动时就注册，而service是动态注册。使用service的bundle需要import该package，并且由框架决定该service的启用。  </p>
+<p><strong>workbench</strong><br>Eclipse 启动自己的extensin是<code>org.eclipse.ui.ide.workbench</code>，是对extension point<code>org.eclipse.core.runtime.application</code>的扩展。  </p>
+<h3 id="2-Rich-Client-Platform-RCP"><a href="#2-Rich-Client-Platform-RCP" class="headerlink" title="2.Rich Client Platform(RCP)"></a>2.Rich Client Platform(RCP)</h3><p>因为RCP不需要所有的IDE功能，所以对Eclipse进行了重构，将一些bundle分割，方便开发RCP应用。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/rcp.png" alt="rcp">      </p>
+<hr>
+<h2 id="Eclipse-3-4"><a href="#Eclipse-3-4" class="headerlink" title="Eclipse 3.4"></a>Eclipse 3.4</h2><h3 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h3><p>feature是一组被打包的bundle,它们能够被统一的建立和安装。<code>update manager</code>对一个bundle的升级需要升级整个feature。<br><code>feature.xml</code>中说明了包含的bundle和一些性质。  </p>
+<h3 id="p2-Concepts"><a href="#p2-Concepts" class="headerlink" title="p2 Concepts"></a>p2 Concepts</h3><p>p2是关于<code>installation units(IU)</code>的概念。IU说明了安装组件的名字、id、组件的功能和它的依赖。它可以对安装的组件进行版本控制，并且方便的让组件从一个版本更新到另一个版本。将冲突在安装时发现，而不是在运行时发现。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/p2.png" alt="p2">         </p>
+<p><strong>profile</strong><br>你现有的安装组件的清单。说明了一些运行环境，安装位置等。<br><strong>director</strong><br>执行版本控制。<code>planner</code>检测现有的profile，决定更新一个安装组件的必须要执行的操作。<code>engine</code>执行把新的组件安装到硬盘上。<br><strong>touchpoint</strong><br>处理运行环境。  </p>
+<hr>
+<h2 id="Eclipse-4-0"><a href="#Eclipse-4-0" class="headerlink" title="Eclipse 4.0"></a>Eclipse 4.0</h2><p>新版本的目的是简化Eclipse模型，吸引新的社区加入，让平台能够利用新的网络技术。  </p>
+<h3 id="Model-Workbench"><a href="#Model-Workbench" class="headerlink" title="Model Workbench"></a>Model Workbench</h3><p>model的变化会立即在workbench中展现出来。  </p>
+<h3 id="Cascading-Style-Sheet-Sytling"><a href="#Cascading-Style-Sheet-Sytling" class="headerlink" title="Cascading Style Sheet Sytling"></a>Cascading Style Sheet Sytling</h3><p>可以使用<code>CSS stylesheets</code>来展现界面。  </p>
+<h3 id="Dependency-Injection"><a href="#Dependency-Injection" class="headerlink" title="Dependency Injection"></a>Dependency Injection</h3><p>服务编程模型包含：producer，consumer，broker。中间人是负责管理生产者和消费者。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/context.png" alt="context"><br>生产者向context中添加service和对象。service向消费者注入context。消费者声明自己的需求。</p>
+<h3 id="Application-Services"><a href="#Application-Services" class="headerlink" title="Application Services"></a>Application Services</h3><p>为用户提供更加简单独立的API，让服务也可以用于其他语言。  </p>
+<hr>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>基于组件架构的Eclipse不断吸收新的技术来发展，并且兼顾旧的版本。所以Eclipse社区不断壮大，用户也不断增加。    </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">架构</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">eclipse</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/04/11/eclipse架构/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-Git架构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/11/Git架构/">Git架构</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/11/Git架构/" class="archive-article-date">
+  	<time datetime="2017-04-11T09:08:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫<em>The Architecture of Open Source Applications</em>的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译完所有的文章，搞个大新闻，结果就这两片孤零零的在仓库里。现在回想起来本科即将毕业的自己，雄心勃勃的要干一番大事业，如今读研到了找工作的时节却又多些心酸和迷茫。往前走终会有路，热血不会冷却。</p>
+</blockquote>
+<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。  </p>
+<p>这一章节将会阐明Git用来实现这些功能的许多不为人知的方面，并且会提及Git与其它版本控制系统（VCSs）的不同之处。   </p>
+<h2 id="6-2-Git起源"><a href="#6-2-Git起源" class="headerlink" title="6.2 Git起源"></a>6.2 Git起源</h2><p>为了更好地理解Git的设计哲学，首先你要知道在Linux内核社区中Git项目是在什么样的环境下启动的。  </p>
+<p>Linux内核相对于那时的其它商业软件项目而言是特立独行的，因为Linux内核的贡献者数量庞大，并且贡献者的参与程度和对现有代码库的了解程度参差不齐。几年来，内核一直是利用打包工具和打补丁来维护，所以核心开发社区一直在竭力寻求一个能够满足他们大部分需求的VCS。  </p>
+<p>为了解决这些需求和在2005年遇到的困境，Git作为一个开源项目诞生了。在当时，核心开发成员们使用了两种VCS:BitKeeper和CVS来管理Linux内核代码库。其中BitKeeper提出了一个与众不同的设计理念，深受Linus喜欢。  </p>
+<p>在BitKeeper的开发商BitMover宣布要撤销一些Linux内核核心开发者的许可证之后不久，Linus Torvalds急忙地着手开发一个自己的VCS，也就是后来的Git。他开始时写了一组脚本来帮助他管理邮件补丁，然后逐渐应用于管理其它软件补丁。原始脚本的目的是能够快速地终止合并，所以维护人员可以把中期补丁流修改成手动合并，然后继续合并后续的补丁。  </p>
+<p>从表面上来看，对于Git，Torvals有一个哲学目标–反CVS–加上三个实用的设计目标：  </p>
+<ul>
+<li>和BitKeeper类似，Git要能够支持<code>分布式工作流(distributed workflows)</code>  </li>
+<li>提供避免内容错误的<code>安全保障</code>  </li>
+<li>具有<code>高性能</code>   </li>
+</ul>
+<p>在某种程度上，这些设计目标已经被实现并将保持下去，就像下面我要展现的一样。接下来会我说明Git如何利用有向无环图（DAG）来处理内容存储，头部指针的引用，对象模型的表现和远程协议；最后会说到Git如何追踪树的合并。  </p>
+<p>尽管BitKeeper对Git的早期设计产生了影响，但是Git的实现使用了根本不同的方法，并且Git能允许用户分布式地增加更多的本地工作流，这一点是BitKeeper无法做到的。Monotone，一个在2003年启动的开源分布式VCS，可能是早期Git开发的另一个灵感来源。  </p>
+<p>分布式的版本控制系统通常能花费很小的代价提供很好的工作流的灵活性。分布式模型有如下优点：  </p>
+<ul>
+<li>让合作者能够线下工作并且递增的提交  </li>
+<li>让某个合作者自己决定他何时分享他的工作  </li>
+<li>让合作者能够在线下访问仓库历史  </li>
+<li>允许被管理的工作发布到多样的仓库中去，发布的工作中潜在的含有分支和细小的变化  </li>
+</ul>
+<p>在Git项目开始的时期，三个其它的开源分布式VCS（dVCS）也被发起。（其中有一个在The Architecture of Open Source Applications 的第一卷中被讨论过。）所有的这些分布式VCS都用了稍微不同的方法来提供具有很大的灵活性工作流，这一点将它们从其它VCS中分离出来。注意：SubVersion有一个被不同开发者维护着的叫SVK的扩展，它用来支持服务器到服务器的同步。  </p>
+<p>如今，比较流行的并且被积极维护着的dVCS有：Bazaar，Darcs，Fossil，Git，Mercurial和Veracity。  </p>
+<h2 id="6-3-版本控制系统设计"><a href="#6-3-版本控制系统设计" class="headerlink" title="6.3 版本控制系统设计"></a>6.3 版本控制系统设计</h2><p>现在让我们回顾一下在开发Git时可选择的VCS解决方案。了解它们的不同之处，有利于我们探究在Git开发时面临的架构选择。  </p>
+<p>一个版本控制系统通常有三个核心需求，分别是：  </p>
+<ul>
+<li>存储内容  </li>
+<li>追踪内容变化（含有合并信息的历史记录）  </li>
+<li>在合作者之间分布式的管理内容和历史记录   </li>
+</ul>
+<p>注意：不是所有的VCS都要求第三点。  </p>
+<h3 id="内容的存储"><a href="#内容的存储" class="headerlink" title="内容的存储"></a>内容的存储</h3><p>在版本控制系统界里，为了实现存储内容功能，最一般的选择是利用基于delta的变化集合，或者利用有向无环图（DAG）的内容表示。  </p>
+<p>基于Delta的变化集合会将两个版本的扁平化内容的相异点封装进来，同时附加一些元数据，这种方式只关心具体的差异。  </p>
+<p>Git用有DAG来表示文件，关心的是文件的整体变化，用层次结构的对象关系来表示树状结构的文件系统，不同的文件类型用不同的对象来表示。为了提高性能，只有变化的文件才新建立快照并保存在仓库里，没有修改的文件则会利用原来的快照做一个引用。   </p>
+<p><img src="http://aosabook.org/images/git/dag-example.png" alt="6.1"></p>
+<h3 id="提交（commit）与合并（merge）历史记录"><a href="#提交（commit）与合并（merge）历史记录" class="headerlink" title="提交（commit）与合并（merge）历史记录"></a>提交（commit）与合并（merge）历史记录</h3><p>在历史记录和向前变更追踪方面，大部分VCS软件使用了下列方法之一：  </p>
+<ul>
+<li>线性历史记录    </li>
+<li>用有向无环图表示的历史记录   </li>
+</ul>
+<p>Git再一次使用了DAG，不过这次是使用在存储历史记录方面。每一个commit都包含了它的祖先的元数据；Git中一次commit可能有零个或者多个（理论上可以有无限个）父节点。例如，在Git仓库里的第一次commit就没有父节点，然而通过三路合并而来的commit就有三个父节点。   </p>
+<p>Git和Subversion（使用的是线性历史祖先）另一个重要的区别是，Git能够直接地支持分支，并且分支能够记录大部分的历史事件。  </p>
+<p>Git通过DAG存储内容可以充分的发挥分支的能力。一个文件的历史记录是连续不断的。从该文件到根目录都是连着的，根目录又连着一个提交节点。这个提交节点，依次又有一个或多个父节点。这样，Git就有两个很好的特性，利用这两个特性我们就能够确切地推断出历史记录和内容，比从RCS发展而来的一些VCS更为准确，具体是：  </p>
+<ul>
+<li>如果图中的一个内容节点与其它提交中的某个节点有相同的引用ID（在Git使用SHA），则这两个节点一定含有相同的内容，这样Git就有效地缩短了内容的差异对比过程。  </li>
+<li>当合并两个分支的时候，我们合并的是DAG中两个节点的内容。DAG使得Git可以“高效地”（相对于RCS家族的那些VCS）判定出这些节点的共同祖先。  </li>
+</ul>
+<h3 id="分布"><a href="#分布" class="headerlink" title="分布"></a>分布</h3><p>VCS用如下三种方法中的一种来处理一项工作在合作者之间的分配：  </p>
+<ul>
+<li><em>仅本地</em>：作为一个VCS解决方法，没有满足上面提到的第三个需求。  </li>
+<li><em>中心服务器</em>：所有对仓库的改变必须由一个特定的仓库来记录。  </li>
+<li><em>分布式模型</em>：在该模型中，一般合作者会有一个可访问的公共仓库来进行“推送”，但是可以在本地提交并且在稍后推送，允许离线工作。  </li>
+</ul>
+<p>为了阐明每个关键的设计选择的优点与局限，我们将含有同样内容的SubVersion仓库和Git仓库进行对比（例如,Git仓库默认分支的HEAD上的内容与Subversion仓库主干上最新版本的内容相同）。一个叫Alex的开发者，签出（checkout）一个Subversion的本地仓库，同时克隆（clone）了一个Git的本地仓库。   </p>
+<p>我们假设，在本地的Subversion仓库中，Alex改变了一个1MB大小的文件，并且提交了这个改变。在本地，签出的这个文件会做出相应的改变并且本地的元数据也会更新。在Alex提交到中心Subversion代码库中的时候，会将旧文件的快照和新的改变进行对比，生成一个对比文件，该对比文件会存在仓库中。  </p>
+<p>下面和Git的工作过程对比一下。当Alex在本地的Git仓库中对同一个文件做了相同的修改后，修改首先会存储在本地，然后Alex“推送”本地待定的提交到公共仓库里，以便该项目的其他合作者能够分享。最后该内容变化会一致的存储在每一个含有这次提交的Git仓库里。在本地提交时（最简单的情况下），本地的Git仓库会创建一个新的对象表示一个新的文件，而新文件表示这次修改后的文件（新文件包含了所有的内容）。对被修改文件上面的每一层目录（包括根目录），都会创建一个具有新ID的新对象。从新的根节点到新的叶节点，一个新的DAG被创建出来了（对于在本次提交中没有修改的文件，它们的叶节点引用会被再利用），新DAG会引用新建的叶节点，而不是被修改文件在原来那棵树中的旧叶节点。（叶节点表示存在仓库里的文件。） </p>
+<p>在这时，这次提交还在Alex的本地设备中的Git仓库里。当Alex“推送”这次提交后，这次提交才算进入公共Git仓库里。在公共仓库核定这次提交适用于该分支后，在本地仓库中创建的那些对象才被存储在公共仓库中。  </p>
+<p>Git的解决方案更加灵活，它们既是底层的，又是用户层的。这些功能让用户能够明确地表达出是想在远程仓库里分享修改还是仅仅在本地提交。但是，增加这两个层次的复杂性可以为团队在工作流和发布能力上提供极大的灵活性，就像在“Git起源”中提到的一样。  </p>
+<p>在Subversion的解决方案中，合作者准好分享修改时，他没必要记得把修改推送到远程仓库中。当对大文件进行小的修改时，基于delta的存储比存储各个版本的整个文件更为有效。但是，就如我们将要看到的，Git在某些方面利用了变通的方案。  </p>
+<h2 id="6-4-工具包（ToolKit）"><a href="#6-4-工具包（ToolKit）" class="headerlink" title="6.4 工具包（ToolKit）"></a>6.4 工具包（ToolKit）</h2><p>如今，Git生态系统中，有很多命令行和UI工具适用于各种操作系统（包括原来几乎不支持的Windows系统）。其中大部分工具都是建立在Git工具包之上的。  </p>
+<p>因为Git一开始是Linus写的，并且在Linux社区里启动，所以Git遵循的是Unix传统的命令行模式的工具设计哲学。  </p>
+<p>Git工具包分为两个部分：“铅（plumbing底层命令）”和“瓷（porcelain高层命令）”。plumbing是指一些底层的命令，这些命令可以提供基本的内容追踪和DAG操作功能。porcelain是较小的<code>git</code>命令集合，用户可能用这些命令来维护仓库和在各个仓库间进行交流。  </p>
+<p>尽管工具包已经为许多编码器提供了足够多的细小粒度的功能，但是应用开发者仍旧抱怨Git缺少一个可以链接的函数库。因为Git的可执行函数为<code>die()</code>，它不可重入并且没有界面，网络接口和长时间运行的服务器必须用fork/exec命令来调用Git的二进制文件，这样做十分低效。  </p>
+<p>为应用开发者改变这种状况的工作正在进行中；详情请看“现在和未来的动作”部分。   </p>
+<h2 id="6-5-仓库，缓存区和工作区（The-Repository-Index-and-Working-Areas）"><a href="#6-5-仓库，缓存区和工作区（The-Repository-Index-and-Working-Areas）" class="headerlink" title="6.5 仓库，缓存区和工作区（The Repository, Index and Working Areas）"></a>6.5 仓库，缓存区和工作区（The Repository, Index and Working Areas）</h2><p><code>git init</code>会创建一个.git子文件，如下图所示。    </p>
+<pre>tree .git/
+.git/
+|-- HEAD
+|-- index
+|-- config
+|-- description
+|-- hooks
+|   |-- applypatch-msg.sample
+|   |-- commit-msg.sample
+|   |-- post-commit.sample
+|   |-- post-receive.sample
+|   |-- post-update.sample
+|   |-- pre-applypatch.sample
+|   |-- pre-commit.sample
+|   |-- pre-rebase.sample
+|   |-- prepare-commit-msg.sample
+|   |-- update.sample
+|-- info
+|   |-- exclude
+|-- objects
+|   |-- info
+|   |-- pack
+|-- refs
+    |-- heads
+    |-- tags
+</pre>  
+
+<p><strong>Configuration:</strong><br>初步配置本地仓库。  </p>
+<p><code>.git/config</code>  </p>
+<ul>
+<li>repositoryformatversion:如果需要改变仓库在磁盘上的形式，就可以修改这个参数。  </li>
+<li>filemode: ture or false。是否注意文件的执行权限。false指当文件权限变化时，没有修改提示。   </li>
+<li>bare：ture是指该仓库没有工作目录，只有git的相关文件。  </li>
+<li>logallrefupdates: 记录所有的更新日志。  </li>
+<li>ignorecase: 是否对大小写敏感。   </li>
+</ul>
+<p><code>.git/info/exclude</code><br>如果你不想提交一些在本地的文件，<code>.gitignore</code>文件是一个选择。但是exclude文件不会被分享给其他人。   </p>
+<p><strong>Hooks</strong><br><code>.git/hooks</code><br>一些常用的示例hooks被放在仓库里，它们只在特定的时刻触发，可以进行检查和提示。默认不生效，将“.sample”去掉可使其生效。  </p>
+<p><strong>Staging Area</strong><br><code>.git/index</code><br>缓冲区。在工作目录下的修改，使用<code>git add</code>命令后，可以将修改添加进缓冲区，这是并没有提交到仓库，使用<code>git commit</code>后才真正的提交到仓库中。这样方便多个修改一次性提交。  </p>
+<pre><code>1. 运行 “git add README”. 这会导致 git:
+    1. 拷贝内容（ README ）到git对象存储区，并将其内容包含为一个blob.
+    2. 在git index中记录: 文件名 README 和存储于对象存储区的 README blob的哈希值.
+    3. 标记 (记住) 这个 README 现在在用户的工作目录中状态为 “追踪”.
+2. 运行 “git commit” ，以 “git index” 中指代的文件为参数，创建commit对象，Tree对象，最后建立新的树（树中的对象也放在对象存储区），并将它们保存到git仓库里.  
+</code></pre><p><img src="http://git-scm.com/figures/18333fig0106-tn.png" alt="image">  </p>
+<p>详情参考：<a href="http://http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/?lang=zh" target="_blank" rel="external">git index</a>  </p>
+<p><strong>Object Database</strong><br><code>.git/objects</code><br>一个对象数据库，包含了所有的内容和指向内容的指针，对象一旦创建就不可变了。.git文件比较大，并且用.git文件可以恢复出所有的工作目录。  </p>
+<p><strong>References</strong><br><code>.git/refs</code><br>存储了本地和远程的branch、tag和commit。是一个指向一个对象的指针，一般是tag或者commit。  </p>
+<p><strong>git checkout [branch]</strong><br>将本地仓库的HEAD引用变成branch的引用，用该branch的数据填充缓冲区，更新工作目录下的文件为该branch的内容。  </p>
+<p><strong>git add [files]</strong><br>会将工作目录下的文件和index中的文件的校验和进行比较，看是否需要更新index中的文件，git仓库并没有改变。  </p>
+<h2 id="6-6-对象数据库（The-Object-Database）"><a href="#6-6-对象数据库（The-Object-Database）" class="headerlink" title="6.6.对象数据库（The Object Database）"></a>6.6.对象数据库（The Object Database）</h2><p><img src="http://aosabook.org/images/git/object-hierarchy.png" alt="Figure 6.2: Git objects">  </p>
+<p>所有的对象都如下参数：类型，大小和内容。  </p>
+<p><em>Tree</em>: 一般是表示一个目录。<br><em>Blob</em>: 用来表示一个存储在仓库里的文件。<br><em>Commit</em>: 指向一棵树，指向父commit，记录该次提交的一些信息。<br><em>Tag</em>: 标记一个commit，可以给某个时间点记录别名和附加信息。  </p>
+<p>对象使用SHA来引用，这是一个由40个十六进制的数字组成的ID。ID具有如下属性：  </p>
+<ul>
+<li>如果两个对象完全相同，则它们拥有相同的SHA。  </li>
+<li>不同对象有不同的SHA。  </li>
+<li>对象的缺失和错误会通过重新计算SHA发现。   </li>
+</ul>
+<h2 id="6-7-存储和压缩"><a href="#6-7-存储和压缩" class="headerlink" title="6.7. 存储和压缩"></a>6.7. 存储和压缩</h2><p><strong>技术</strong><br>将对象打包，用压缩到的形式存储，用一个目录文件来索引某个对象。git add命令会将工作目录下的修改文件创建对象，放入对象数据库，是没有被打包的，松散的对象。git会周期的进行压缩，或者通过命令（git gc）直接压缩。<code>.git/objects/pack/</code>有两个文件，一个<em>.idx</em>文件和一个<em>.pack</em>文件,如图所示。<br><img src="http://aosabook.org/images/git/packed-format.png" alt="Figure 6.3: Diagram of a pack file with corresponding index file">   </p>
+<p>打包文件有两个版本，如图所示，<a href="http://gitbook.liuhui998.com/7_5.html" target="_blank" rel="external">详细解释</a>。<br><img src="http://gitbook.liuhui998.com/assets/images/figure/packfile-index.png" alt="image"><br>版本2包含了每个对象的CRC校验值, 因此在重打包的过程中, 压缩过的对象可以直接进行包间拷贝(from pack to pack)而不用担心数据损坏. 版本2的打包文件索引同时亦支持大于4G的打包文件。  </p>
+<p>在第1版中, offset(偏移)和SHA值存在在同一位置. 但是在第2版中, SHA值, CRC值和offset被放在不同的表中. 两个版本的文件最后都是索引文件以及指向的打包文件的CRC校验值。</p>
+<p>很重要的一点是， 要从打包文件中提取(extract)出一个对象, 索引文件不是必不可少的. 索引文件的作用是帮助用户快速地从打包文件中提取对象。 那些”上传打包”(upload-pack)和”取回打包”(receive-pack)程序(译注: 实现push和fetch协议的程序)使用打包文件格式(packfile format)去传输对象, 但是没有使用索引–索引可以在上传或者取回打包文件之后通过扫描打包文件重新建立。</p>
+<h2 id="6-8-历史记录合并（Merge-Histories）"><a href="#6-8-历史记录合并（Merge-Histories）" class="headerlink" title="6.8. 历史记录合并（Merge Histories）"></a>6.8. 历史记录合并（Merge Histories）</h2><p>Subversion这一类用线状历史的VCS，高版本的会取代它之前所有旧的版本，所以不直接支持分支。分支合并到主线后，无法知晓哪些变化来自哪些分支。  </p>
+<p>Git使用基于DAG的历史合并，某一分支的某次合并可以通过它父节点的SHA知道它由哪些分支合并而来。如图。<br><img src="http://aosabook.org/images/git/merge-history.png" alt="Figure 6.4: Diagram showing merge history lineage">  </p>
+<h2 id="6-9-接下来要做的事"><a href="#6-9-接下来要做的事" class="headerlink" title="6.9. 接下来要做的事"></a>6.9. 接下来要做的事</h2><p>不仅要方便脚本使用，还需要进一步设计来方便地嵌入其它应用，方便的集成进开发环境。现在已经开发出了一些可以被其他语言调用的库，同时还有一些支持Git存储的后端被开发出来。  </p>
+<h2 id="6-10-经验和教训"><a href="#6-10-经验和教训" class="headerlink" title="6.10. 经验和教训"></a>6.10. 经验和教训</h2><blockquote>
+<p>In software, every design decision is ultimately a trade-off.  </p>
+</blockquote>
+<p>每一个设计策略的选择都最终是一个权衡的过程。  </p>
+<ol>
+<li>原来的Git工具包的设计为其它IDE的集成带来了麻烦。早期，命令行的形式导致Git的可移植性很差，特别是对Windows而言，导致受众范围很小。   </li>
+<li>Git命令也难记，错误信息也难以理解。   </li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">架构</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/04/11/Git架构/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
   
     <article id="post-用React-Native写一个微博客户端-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -730,150 +1060,6 @@
 
 
   
-    <article id="post-Android系统源码阅读-17-Android应用的安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/">Android系统源码阅读(17):Android应用的安装</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" class="archive-article-date">
-  	<time datetime="2017-02-14T07:00:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>学到的才是自己的，干活都是扯淡</p>
-</blockquote>
-<h2 id="1-应用的安装"><a href="#1-应用的安装" class="headerlink" title="1. 应用的安装"></a>1. 应用的安装</h2><p>PackageManagerService负责管理应用的安装。在第14章中讲到，SystemService会启动PackageManagerService，那么我们就从SystemService启动PackageManagerService开始分析。</p>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android系统源码阅读-16-Android应用线程的消息循环模型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/">Android系统源码阅读(16):Android应用线程的消息循环模型</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:53:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>读书不宜拖沓</p>
-</blockquote>
-<h2 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h2><p>Android应用的主线程为ActivityThread，在第（10）章已经讲过，它主要负责处理界面事件，所以开发者应该避免在主线程中处理耗时的任务。为了减轻主线程的负担，开发者应该启用多线程来处理耗时的任务。在Android中可以创建多种线程，有的线程可以有自己的消息循环，有的线程则可以向主线程发送消息来使得界面发生改变。</p>
-<p>##1. 主线程的消息循环</p>
-<p>应用程序的主线程创建过程如下：ActivityManagerService线程请求Zygote进程创建应用进程；Zygote通过fork来创建一个新进程，新进程将ActivityThread的main作为入口进入Looper循环；Looper会调用静态成员函数prepareMainLooper创建一个Looper对象，并且在该应用进程中，该方法只会调用一次，因为只有一个主线程。<br>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -888,7 +1074,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Tian chi
+    		&copy; 2017 Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -963,6 +1149,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -971,11 +1161,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -991,7 +1185,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -999,7 +1193,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1008,6 +1202,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">

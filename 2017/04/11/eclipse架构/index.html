@@ -6,21 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(18):Android应用的显示 | Tianchi&#39;s Blog</title>
+  <title>eclipse架构 | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
+  <meta name="description" content="矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。
+an integrated development environment(IDE) for anything and nothing in particular.eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     
+
+最初的愿景eclispe 不仅仅局限于一个工具集合">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(18):Android应用的显示">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-18-Android应用的显示/index.html">
+<meta property="og:title" content="eclipse架构">
+<meta property="og:url" content="http://itanch.github.io/2017/04/11/eclipse架构/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:description" content="矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。
+an integrated development environment(IDE) for anything and nothing in particular.eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     
+
+最初的愿景eclispe 不仅仅局限于一个工具集合">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/extensions.png">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/platform.png">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/bundlelifecycle.png">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/rcp.png">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/p2.png">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/context.png">
+<meta property="og:updated_time" content="2017-04-11T09:40:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(18):Android应用的显示">
-<meta name="twitter:description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
+<meta name="twitter:title" content="eclipse架构">
+<meta name="twitter:description" content="矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。
+an integrated development environment(IDE) for anything and nothing in particular.eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     
+
+最初的愿景eclispe 不仅仅局限于一个工具集合">
+<meta name="twitter:image" content="http://7xky03.com1.z0.glb.clouddn.com/extensions.png">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -156,43 +169,76 @@ frameworks/base/services/java/com/android/serv">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-18-Android应用的显示" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-eclipse架构" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(18):Android应用的显示
+      eclipse架构
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-18-Android应用的显示/" class="archive-article-date">
-  	<time datetime="2017-02-14T07:04:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/04/11/eclipse架构/" class="archive-article-date">
+  	<time datetime="2017-04-11T09:24:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-启动ActivityManagerService"><a href="#1-启动ActivityManagerService" class="headerlink" title="1. 启动ActivityManagerService"></a>1. 启动ActivityManagerService</h2><p>在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。</p>
-<p><em>frameworks/base/services/java/com/android/server/SystemServer.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Activity manager runs the show.</span></div><div class="line">mActivityManagerService = mSystemServiceManager.startService(ActivityManagerService.Lifecycle.class).getService();</div></pre></td></tr></table></figure>   </p>
-<p>startService就是创建了ActivityManagerService的实例对象mActivityManagerService，然后启动了ActivityManagerService的looper线程。在SystemServer启动了基本服务后，就会调用mActivityManagerService的systemReady函数来启动HomeActivity。<br><a id="more"></a></p>
-<h2 id="2-启动HomeActivity"><a href="#2-启动HomeActivity" class="headerlink" title="2. 启动HomeActivity"></a>2. 启动HomeActivity</h2><p>目前仍在SystemServer主线程中调用的systemReady函数。该函数又会接着调用startHomeActivityLocked函数来启动HomeActivity，具体如下：</p>
-<p><em>frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">startHomeActivityLocked</span><span class="params">(<span class="keyword">int</span> userId, String reason)</span> </span>&#123;</div><div class="line">      <span class="comment">//...</span></div><div class="line">      <span class="comment">//先创建一个启动Home的Intent，Intent的category为android.intent.category.home</span></div><div class="line">      Intent intent = getHomeIntent();</div><div class="line">      ActivityInfo aInfo =</div><div class="line">          resolveActivityInfo(intent, STOCK_PM_FLAGS, userId);</div><div class="line">      <span class="keyword">if</span> (aInfo != <span class="keyword">null</span>) &#123;</div><div class="line">          intent.setComponent(<span class="keyword">new</span> ComponentName(</div><div class="line">                  aInfo.applicationInfo.packageName, aInfo.name));</div><div class="line">          <span class="comment">// Don't do this if the home app is currently being</span></div><div class="line">          <span class="comment">// instrumented.</span></div><div class="line">          aInfo = <span class="keyword">new</span> ActivityInfo(aInfo);</div><div class="line">          aInfo.applicationInfo = getAppInfoForUser(aInfo.applicationInfo, userId);</div><div class="line">          <span class="comment">//因为是第一次启动home，所以还没有相应的进程，所以app为null</span></div><div class="line">          ProcessRecord app = getProcessRecordLocked(aInfo.processName,</div><div class="line">                  aInfo.applicationInfo.uid, <span class="keyword">true</span>);</div><div class="line">          <span class="keyword">if</span> (app == <span class="keyword">null</span> || app.instrumentationClass == <span class="keyword">null</span>) &#123;</div><div class="line">              intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);</div><div class="line">              <span class="comment">//这里开始启动HomeActivity</span></div><div class="line">              mStackSupervisor.startHomeActivity(intent, aInfo, reason);</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>   </p>
-<p>这里交给了mStackSupervisor.startHomeActivity函数来启动HomeActivity，然后就会调用startActivityLocked函数。到这里，就开始重复第2章中，启动普通应用的activity的过程了，不再赘述。其中，在Launcher的Manifest中指明了它的类型为android.intent.category.home，所以启动的就是Laucher应用。</p>
-<h2 id="3-Launcher展示应用"><a href="#3-Launcher展示应用" class="headerlink" title="3. Launcher展示应用"></a>3. Launcher展示应用</h2><p>下面从Launcher的onCreate函数开始讲起，部分代码如下：</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/Launcher.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">LauncherAppState app = LauncherAppState.getInstance();</div><div class="line"><span class="comment">//将该launcher设置为mModel的callback函数</span></div><div class="line">mModel = app.setLauncher(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!mRestoring) &#123;</div><div class="line">    <span class="keyword">if</span> (DISABLE_SYNCHRONOUS_BINDING_CURRENT_PAGE) &#123;</div><div class="line">        <span class="comment">// If the user leaves launcher, then we should just load items asynchronously when</span></div><div class="line">        <span class="comment">// they return.</span></div><div class="line">        mModel.startLoader(PagedView.INVALID_RESTORE_PAGE);</div><div class="line">     &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// We only load the page synchronously if the user rotates (or triggers a</span></div><div class="line">        <span class="comment">// configuration change) while launcher is in the foreground</span></div><div class="line">        <span class="comment">//开始加载应用信息</span></div><div class="line">        mModel.startLoader(mWorkspace.getRestorePage());</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>其中mModel是一个LauncherModel对象，它负责加载应用信息。在重载的startLoader函数中：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startLoader</span><span class="params">(<span class="keyword">int</span> synchronousBindPage, <span class="keyword">int</span> loadFlags)</span> </span>&#123;</div><div class="line">       <span class="comment">//...</span></div><div class="line">       <span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">           <span class="comment">//...</span></div><div class="line">           <span class="comment">// Don't bother to start the thread if we know it's not going to do anything</span></div><div class="line">           <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span> &amp;&amp; mCallbacks.get() != <span class="keyword">null</span>) &#123;</div><div class="line">               <span class="comment">//需要重新加载了，所以先把原来的加载任务停了</span></div><div class="line">               <span class="comment">// If there is already one running, tell it to stop.</span></div><div class="line">               stopLoaderLocked();</div><div class="line">               <span class="comment">//创建了一个加载任务</span></div><div class="line">               mLoaderTask = <span class="keyword">new</span> LoaderTask(mApp.getContext(), loadFlags);</div><div class="line">               <span class="keyword">if</span> (synchronousBindPage != PagedView.INVALID_RESTORE_PAGE</div><div class="line">                   <span class="comment">//...</span></div><div class="line">               &#125; <span class="keyword">else</span> &#123;</div><div class="line">                   <span class="comment">//交给workThread来处理这个任务</span></div><div class="line">                   sWorkerThread.setPriority(Thread.NORM_PRIORITY);</div><div class="line">                   <span class="comment">//sWorker是sWorkerThread的Handler</span></div><div class="line">                   sWorker.post(mLoaderTask);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>   
-<p>因为加载所有安装的应用信息是一个比较耗时的过程，所以应该交给一个异步线程来处理。这里先创建了一个加载任务mLoaderTask，然后将它交给sWorkerThread来处理。sWorkerThread是一个HandlerThread，我们知道HandlerThread是一个独立的线程，并且有着自己的looper。mLoaderTask加载任务执行一次就可以结束，但是为什么需要用一个HandlerThread在这里不断等待着其它任务呢？因为桌面上应用可以动态的添加和删除，所以应用的加载可能是频繁的。这里使用HandlerThread可以避免重复的创建加载线程。</p>
-<p>下面我们就看LoaderTask.run函数中具体做了哪些任务。</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/LauncherModel.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">          <span class="keyword">if</span> (mStopped) &#123;</div><div class="line">              <span class="keyword">return</span>;</div><div class="line">          &#125;</div><div class="line">          mIsLoaderTaskRunning = <span class="keyword">true</span>;</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// Optimize for end-user experience: if the Launcher is up and // running with the</span></div><div class="line">      <span class="comment">// All Apps interface in the foreground, load All Apps first. Otherwise, load the</span></div><div class="line">      <span class="comment">// workspace first (default).</span></div><div class="line">      keep_running: &#123;</div><div class="line">          <span class="keyword">if</span> (DEBUG_LOADERS) Log.d(TAG, <span class="string">"step 1: loading workspace"</span>);</div><div class="line">          <span class="comment">//启动workspace</span></div><div class="line">          loadAndBindWorkspace();</div><div class="line">          <span class="keyword">if</span> (mStopped) &#123;</div><div class="line">              <span class="keyword">break</span> keep_running;</div><div class="line">          &#125;</div><div class="line">          waitForIdle();</div><div class="line">          <span class="comment">// second step</span></div><div class="line">          <span class="keyword">if</span> (DEBUG_LOADERS) Log.d(TAG, <span class="string">"step 2: loading all apps"</span>);</div><div class="line">          <span class="comment">//加载应用</span></div><div class="line">          loadAndBindAllApps();</div><div class="line">      &#125;</div><div class="line">      <span class="comment">//...</span></div><div class="line">  &#125;</div></pre></td></tr></table></figure>   </p>
-<p>WorkSpace就是Android桌面中的分屏，每个分屏有若干应用。先加载工作区，再加载应用更符合用户的心理预期？函数loadAndBindAllApps会判断是否已经加载过应用，如果已经加载过信息，则直接将app显示在桌面上即可；如果没有，则需要先调用函数loadAllApps，具体内容如下：</p>
-<p><em>packages/apps/Launcher3/src/com/android/luancher3/LauncherModel.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadAllApps</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">final</span> Callbacks oldCallbacks = mCallbacks.get();</div><div class="line"></div><div class="line">           <span class="comment">// Clear the list of apps</span></div><div class="line">           mBgAllAppsList.clear();</div><div class="line">           <span class="keyword">for</span> (UserHandleCompat user : profiles) &#123;</div><div class="line">               <span class="comment">// Query for the set of apps</span></div><div class="line">               <span class="comment">//获取所有的app信息，这里最终还是从PackageManagerService获取的应用信息</span></div><div class="line">               <span class="keyword">final</span> List&lt;LauncherActivityInfoCompat&gt; apps = mLauncherApps.getActivityList(<span class="keyword">null</span>, user);</div><div class="line">        </div><div class="line">               <span class="comment">// Create the ApplicationInfos</span></div><div class="line">               <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; apps.size(); i++) &#123;</div><div class="line">                   LauncherActivityInfoCompat app = apps.get(i);</div><div class="line">                   <span class="comment">//把每个应用信息封装成AppInfo</span></div><div class="line">                   <span class="comment">// This builds the icon bitmaps.</span></div><div class="line">                   mBgAllAppsList.add(<span class="keyword">new</span> AppInfo(mContext, app, user, mIconCache));</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="comment">//...</span></div><div class="line">           <span class="comment">// Huh? Shouldn't this be inside the Runnable below?</span></div><div class="line">           <span class="keyword">final</span> ArrayList&lt;AppInfo&gt; added = mBgAllAppsList.added;</div><div class="line">           mBgAllAppsList.added = <span class="keyword">new</span> ArrayList&lt;AppInfo&gt;();</div><div class="line">            </div><div class="line">           <span class="comment">//这里一直运行在Launcher中创建的一个HandlerThread子线程中</span></div><div class="line">           <span class="comment">//获取了应用信息后，需要通知主线程进行ui更新，mHandler是主线程的Handler</span></div><div class="line">           <span class="comment">// Post callback on main thread</span></div><div class="line">           mHandler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                   <span class="comment">//这个callback就是launcher</span></div><div class="line">                   <span class="keyword">final</span> Callbacks callbacks = tryGetCallbacks(oldCallbacks);</div><div class="line">                   <span class="keyword">if</span> (callbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                      <span class="comment">//显示所有应用</span></div><div class="line">                       callbacks.bindAllApplications(added);</div><div class="line">                      <span class="comment">//...</span></div><div class="line">                   &#125; <span class="keyword">else</span> &#123;</div><div class="line">                       <span class="comment">//...</span></div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;);</div><div class="line">           <span class="comment">//...</span></div><div class="line">       &#125;</div></pre></td></tr></table></figure>   </p>
-<p>mLauncherApps.getActivityList获取app信息的方法是通过向PackageManager发送请求的方式实现的。下面回到Launcher主线程，开始显示应用图标。首先看一眼这个回调函数：</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/Launcher.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">  * Add the icons for all apps.</div><div class="line">  *</div><div class="line">  * Implementation of the method from LauncherModel.Callbacks.</div><div class="line">  */</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindAllApplications</span><span class="params">(<span class="keyword">final</span> ArrayList&lt;AppInfo&gt; apps)</span> </span>&#123;</div><div class="line">     <span class="comment">//...</span></div><div class="line">     <span class="keyword">if</span> (mAppsView != <span class="keyword">null</span>) &#123;</div><div class="line">         <span class="comment">//mAppsView管理着所有应用的view</span></div><div class="line">         mAppsView.setApps(apps);</div><div class="line">     &#125;</div><div class="line">     <span class="comment">//...</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>   </p>
-<p>mAppsView是一个view的容器，维持了一个AlphabeticalAppsList列表，保存应用的信息。当向其中添加新的应用信息后，会对home上的应用进行更新。当home上的图标被点击后，会触发启动该应用。</p>
+        <blockquote>
+<p>矫情的话在前一篇文章已经说了，迁移完这篇文章就把github上的这个仓库删了。</p>
+<p>an integrated development environment(IDE) for anything and nothing in particular.<br>eclipse是一个集成开发环境，它既是所有事物的开发环境，又不为某一特定事物的开发环境。     </p>
+</blockquote>
+<h3 id="最初的愿景"><a href="#最初的愿景" class="headerlink" title="最初的愿景"></a>最初的愿景</h3><p>eclispe 不仅仅局限于一个工具集合，而是一个框架。作为一个框架，它应该具有模块化和可扩展的特点。eclipse 是想作为一个基于组件的平台，一个可以为其他开发者建立自己的工具而服务的平台。    </p>
+<hr>
+<h2 id="Early-eclipse"><a href="#Early-eclipse" class="headerlink" title="Early eclipse"></a>Early eclipse</h2><p>早期的eclispe是为了将开发者从繁琐的开发过程中解放出来，从而开发者可以更加专注于开发新的工具。<br>早期主要有三大元素：<code>Platform</code> <code>JDT(Java Development Tools)</code> <code>PDE(Plug-in Development Environment)</code>  </p>
+<h3 id="1-Platform"><a href="#1-Platform" class="headerlink" title="1.Platform"></a>1.Platform</h3><p>Platform 是由<code>plugin</code>组成的。plugin是Eclipse组件模型的基础，它是由一个JAR文件和manifest描述文件组成。manifest存在<code>plug-in.xml</code>文件里。  </p>
+<h4 id="requires"><a href="#requires" class="headerlink" title="requires"></a>requires</h4><p>plugin通过requires来说明对其他plugin的依赖。  </p>
+<h4 id="extension-vs-extension-point"><a href="#extension-vs-extension-point" class="headerlink" title="extension vs extension point"></a>extension vs extension point</h4><p>开发者可以通过extension和extension point 机制来对Ecipse进行功能上的扩展。它们之间的关系可以用插座和插头来比喻。详细参考<a href="http://wiki.eclipse.org/FAQ_What_are_extensions_and_extension_points%3F" target="_blank" rel="external">1</a> <a href="http://www.vogella.com/tutorials/EclipseExtensionPoint/article.html#extensionpoints" target="_blank" rel="external">2</a>。    </p>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/extensions.png" alt="extension"><br><strong>extension point</strong><br>插座：如果一个plugin希望其它plugin能够对其进行扩展，则需要定义extension point。extension point说明了对其扩展的extension需要遵守的规约。只有特定的插头才能符合条件。  </p>
+<p>种类：说明性的，没有具体代码；提供可被重写的接口；将关联的元素组织在一起，例如<code>org.eclipse.ui.views</code>extension point将view组织在一起管理。<br><strong>extension</strong><br>插头：为某个plugin特定的extension point扩展功能。例如<code>org.eclipse.ui.views</code>extension point下，定义的一些view。</p>
+<h4 id="plugin的激活过程"><a href="#plugin的激活过程" class="headerlink" title="plugin的激活过程"></a>plugin的激活过程</h4><p>当Eclipse启动的时候，runtime platform会扫描你安装的所有plugin的manifest，在内存里建立plugin注册表，并且该信息会存在硬盘中，下次启动可以直接加载。plugin通过注册被发现，但是直到它们被使用的时候才真的被激活加载，这种方式叫做<code>lazy activation</code>。  </p>
+<h4 id="早期Eclipse架构"><a href="#早期Eclipse架构" class="headerlink" title="早期Eclipse架构"></a>早期Eclipse架构</h4><blockquote>
+<p>everything is a plugin    </p>
+</blockquote>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/platform.png" alt="early eclipse architecture">   </p>
+<p><strong>workbench</strong><br>workbench是组织Eclipse怎么样在桌面上进行显示的UI元素。它由<code>perspective</code> <code>views</code> <code>editors</code>组成。<br>Eclipse workbench是建立在<code>Standard Widget Toolkit(SWT)</code>和<code>JFace</code>之上。  </p>
+<p><strong>SWT</strong><br>Widget toolkits被分为两类：<br>1.<code>native</code>:使用系统调用来实现UI组件。“像素优先”，和桌面上得其他应用看上去很和谐。但是随着系统的不断变化，widget更新起来很困难，并且造成不一致性，导致程序可移植性也很差。<br>2.<code>emulated</code>:独立于操作系统。试图模仿操作系统的风格，很大的灵活性。但是运行很慢，和系统风格不协调。  </p>
+<p><code>Abstract Window Toolkit(AWT)</code>是Java提供的一个native的WT库,但是错误百出，饱受诟病。然后又出现了<code>Swing</code>，一个emulated的WT，同样也是有很多错误，耗费时间和内存。所以这些都不是理想的选择。  </p>
+<p>最后选择了SWT，SWT在当时比较成功。SWT是native的，它画质精良，让人不禁惊叹：“<em>I can’t believe it’s a Java program.</em>”。   </p>
+<p><strong>JFace</strong><br>JFace 是建立在SWT上的UI组件，但是它是纯JAVA代码，没有使用系统的代码。  </p>
+<p><strong>Help</strong><br>可以扩展<code>org.eclipse.help.toc</code>来写自己的help。  </p>
+<p><strong>Team</strong><br>代码库支持等。   </p>
+<p>Eclipse 的一个目的就是鼓励开发人员来扩展eclipse 的功能，实现自己的工具，所以一个稳定的API是十分必要的，所以有句话说的好：“<em>API is forever</em>”。  </p>
+<h3 id="2-Java-Development-Tools-JDT"><a href="#2-Java-Development-Tools-JDT" class="headerlink" title="2.Java Development Tools(JDT)"></a>2.Java Development Tools(JDT)</h3><p>JDT 提供了Java编辑器，导航，重构，debugger，编译和增量编译等功能。  </p>
+<p>其中为了摆脱命令行编译的繁琐，所以eclipse团队写了一个独立的编译器，并且该编译器可以进行增量编译。通过一个队列，将所有有变化的类进行重新编译，然后因为该变化而牵连的类也要放入队列等待重新编译，最后直到队列为空为止。  </p>
+<h3 id="3-Plug-in-Development-Environment-PDE"><a href="#3-Plug-in-Development-Environment-PDE" class="headerlink" title="3.Plug-in Development Environment(PDE)"></a>3.Plug-in Development Environment(PDE)</h3><p>PDE提供了开发、建立、配置和测试plugin的工具。eclipse团队自己写了<code>PDE Build</code>来创建plugin。   </p>
+<hr>
+<h2 id="Eclipse-3-0-Runtime-RCP-and-Robots"><a href="#Eclipse-3-0-Runtime-RCP-and-Robots" class="headerlink" title="Eclipse 3.0:Runtime,RCP and Robots"></a>Eclipse 3.0:Runtime,RCP and Robots</h2><h3 id="1-Runtime"><a href="#1-Runtime" class="headerlink" title="1.Runtime"></a>1.Runtime</h3><p>该版本对原来的requires,extensions和extension points组件模型进行了改进，决定用一个现有的方案来替代旧的方法，最后选择了OSGi。  </p>
+<h4 id="OSGi-Open-Service-Gateway-Initiative"><a href="#OSGi-Open-Service-Gateway-Initiative" class="headerlink" title="OSGi(Open Service Gateway Initiative)"></a>OSGi(Open Service Gateway Initiative)</h4><p>为什么选择OSGi?<br>1.OSGi拥有语义上的版本控制策略来处理依赖问题。对外的接口也是明确指明的。<br>2.拥有自己的类加载器。<br>3.可以被广泛的接受。<br>4.OSGi社区也是充满活力的。<br>5.这个框架实现了一个优雅、完整和动态的组件模型。应用程序（称为bundle）无需重新引导可以被远程安装、启动、升级和卸载（其中Java包／类的管理被详细定义）。  </p>
+<p>选择OSGi后Eclipse <code>plugin</code>被称为<code>bundle</code>。<code>plugin.xml</code>仍然保留extensions和extension points这些信息，其他的信息被转移到<code>META-INF/MANIFEST.MF</code>。</p>
+<p><strong>依赖问题</strong><br>OSGI框架会通过检测bundle的manifest里的依赖信息来生成该bundle的classpath。同样，manifest中会指明哪些package是对外开放的。  </p>
+<p><strong>生命周期</strong><br>OSGi是一个动态框架，依旧保持原来Eclipse中的<code>lazy activation</code>，需要的时候类才会被加载。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/bundlelifecycle.png" alt="bundle lifecycle">       </p>
+<p><strong>版本命名</strong><br>一套规范的四部分命名规则。  </p>
+<p><strong>Service</strong><br>提供了进一步的bundle之间的解耦。extension是被启动时就注册，而service是动态注册。使用service的bundle需要import该package，并且由框架决定该service的启用。  </p>
+<p><strong>workbench</strong><br>Eclipse 启动自己的extensin是<code>org.eclipse.ui.ide.workbench</code>，是对extension point<code>org.eclipse.core.runtime.application</code>的扩展。  </p>
+<h3 id="2-Rich-Client-Platform-RCP"><a href="#2-Rich-Client-Platform-RCP" class="headerlink" title="2.Rich Client Platform(RCP)"></a>2.Rich Client Platform(RCP)</h3><p>因为RCP不需要所有的IDE功能，所以对Eclipse进行了重构，将一些bundle分割，方便开发RCP应用。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/rcp.png" alt="rcp">      </p>
+<hr>
+<h2 id="Eclipse-3-4"><a href="#Eclipse-3-4" class="headerlink" title="Eclipse 3.4"></a>Eclipse 3.4</h2><h3 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h3><p>feature是一组被打包的bundle,它们能够被统一的建立和安装。<code>update manager</code>对一个bundle的升级需要升级整个feature。<br><code>feature.xml</code>中说明了包含的bundle和一些性质。  </p>
+<h3 id="p2-Concepts"><a href="#p2-Concepts" class="headerlink" title="p2 Concepts"></a>p2 Concepts</h3><p>p2是关于<code>installation units(IU)</code>的概念。IU说明了安装组件的名字、id、组件的功能和它的依赖。它可以对安装的组件进行版本控制，并且方便的让组件从一个版本更新到另一个版本。将冲突在安装时发现，而不是在运行时发现。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/p2.png" alt="p2">         </p>
+<p><strong>profile</strong><br>你现有的安装组件的清单。说明了一些运行环境，安装位置等。<br><strong>director</strong><br>执行版本控制。<code>planner</code>检测现有的profile，决定更新一个安装组件的必须要执行的操作。<code>engine</code>执行把新的组件安装到硬盘上。<br><strong>touchpoint</strong><br>处理运行环境。  </p>
+<hr>
+<h2 id="Eclipse-4-0"><a href="#Eclipse-4-0" class="headerlink" title="Eclipse 4.0"></a>Eclipse 4.0</h2><p>新版本的目的是简化Eclipse模型，吸引新的社区加入，让平台能够利用新的网络技术。  </p>
+<h3 id="Model-Workbench"><a href="#Model-Workbench" class="headerlink" title="Model Workbench"></a>Model Workbench</h3><p>model的变化会立即在workbench中展现出来。  </p>
+<h3 id="Cascading-Style-Sheet-Sytling"><a href="#Cascading-Style-Sheet-Sytling" class="headerlink" title="Cascading Style Sheet Sytling"></a>Cascading Style Sheet Sytling</h3><p>可以使用<code>CSS stylesheets</code>来展现界面。  </p>
+<h3 id="Dependency-Injection"><a href="#Dependency-Injection" class="headerlink" title="Dependency Injection"></a>Dependency Injection</h3><p>服务编程模型包含：producer，consumer，broker。中间人是负责管理生产者和消费者。<br><img src="http://7xky03.com1.z0.glb.clouddn.com/context.png" alt="context"><br>生产者向context中添加service和对象。service向消费者注入context。消费者声明自己的需求。</p>
+<h3 id="Application-Services"><a href="#Application-Services" class="headerlink" title="Application Services"></a>Application Services</h3><p>为用户提供更加简单独立的API，让服务也可以用于其他语言。  </p>
+<hr>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>基于组件架构的Eclipse不断吸收新的技术来发展，并且兼顾旧的版本。所以Eclipse社区不断壮大，用户也不断增加。    </p>
 
       
 
@@ -206,11 +252,15 @@ frameworks/base/services/java/com/android/serv">
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">架构</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">eclipse</a>
         		</li>
       		
 		</ul>
@@ -266,7 +316,7 @@ frameworks/base/services/java/com/android/serv">
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-18-Android应用的显示/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/04/11/eclipse架构/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,18 +330,9 @@ frameworks/base/services/java/com/android/serv">
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/写在2017的开始/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          写在2017的开始
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(17):Android应用的安装</div>
+    <a href="/2017/04/11/Git架构/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Git架构</div>
       <i class="icon-circle-right"></i>
     </a>
   

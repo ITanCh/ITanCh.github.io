@@ -20,13 +20,15 @@
 
 这一章节主要讲一下在设计该app时遇到的一些问题。
 导航Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合">
-<meta property="og:updated_time" content="2017-04-10T14:44:34.000Z">
+<meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_nav.gif?imageView2/0/h/300">
+<meta property="og:updated_time" content="2017-04-11T09:44:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React-Native写一个微博客户端(3)">
 <meta name="twitter:description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。 
 
 这一章节主要讲一下在设计该app时遇到的一些问题。
 导航Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合">
+<meta name="twitter:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_nav.gif?imageView2/0/h/300">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -58,7 +60,7 @@
 			<img src="/img/long.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		  <h1 class="header-author"><a href="/">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</a></h1>
 		</hgroup>
 		
 		<p class="header-subtitle">阅读 思考 实践</p>
@@ -93,7 +95,7 @@
 				
 					<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
 			</div>
 		</nav>
@@ -114,7 +116,7 @@
 				<img src="/img/long.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Tian chi</h1>
+			  <h1 class="header-author js-header-author">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</h1>
 			</hgroup>
 			
 			<p class="header-subtitle"><i class="icon icon-quo-left"></i>阅读 思考 实践<i class="icon icon-quo-right"></i></p>
@@ -134,7 +136,7 @@
 					
 						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
 			</nav>
@@ -189,7 +191,7 @@
 <h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合用户的操作习惯，所以在通过react-native设计app时，也需要有组件来实现这种功能，所以这里就使用了<code>Navigator</code>组件。</p>
 <a id="more"></a>
 <p>在app中，当用户点击一个微博时，界面会跳进所点击微博的内容，显示微博内容详情，并且可以查看微博评论。当用户点击叉号，会退到浏览微博的页面。</p>
-<p><img src="" alt="导航"></p>
+<p><img src="http://7xky03.com1.z0.glb.clouddn.com/welone_nav.gif?imageView2/0/h/300" alt="导航"></p>
 <p>再看一下写在<code>android/welone/index.android.js</code>中的导航组件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">welone</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> mainComponent = MainTab;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;Navigator</div><div class="line">        //初始化route的属性</div><div class="line">        initialRoute=&#123;&#123; component: mainComponent &#125;&#125;</div><div class="line">        //设置界面切换的动画效果</div><div class="line">        configureScene=&#123;(route) =&gt; &#123;</div><div class="line">          return Navigator.SceneConfigs.VerticalDownSwipeJump;</div><div class="line">        &#125;&#125;</div><div class="line">        //根据route属性，渲染当前界面组件</div><div class="line">        renderScene=&#123;(route, navigator) =&gt; &#123;</div><div class="line">          let Comp = route.component;</div><div class="line">          return &lt;Comp &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</div><div class="line">        &#125;&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">```   </div><div class="line"></div><div class="line">这里将MainTab设置为当前初始的主界面，并且将`navigator`作为属性传递给MainTab，同时还传递了一个`route.params`属性，这里该属性为空，所以暂时没有什么作用，以后会用到。</div><div class="line"></div><div class="line">通过props，我将navigator对象依次传递到了`WeiboCard`，也就是显示每一个微博内容的卡片。当点击该卡片时，就会触发界面跳转的功能。</div><div class="line"></div><div class="line">```js</div><div class="line">    //start the weibo content</div><div class="line">    startWeiboContent(data) &#123;</div><div class="line">        const &#123; navigator &#125; = this.props;</div><div class="line">        if (navigator) &#123;</div><div class="line">            //向导航栈中放入需要跳转的组件</div><div class="line">            navigator.push(&#123;</div><div class="line">                component: WeiboContent,</div><div class="line">                //将微博内容作为参数传递给了下一个界面，可以参考上一段代码</div><div class="line">                params: &#123;</div><div class="line">                    data: data</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <p>这里调用了navigator的push函数，放入了需要占据屏幕的界面<code>WeiboContent</code>。这时，MainTab就会被覆盖，显示WeiboContent界面。</p>
 <p>在WeiboContent界面，如果需要返回上一个界面MainTab，点击叉号，则会调用如下函数。</p>
@@ -294,6 +296,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2017/04/11/Git架构/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Git架构
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/04/08/用React-Native写一个微博客户端-2/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">用React-Native写一个微博客户端(2)</div>
@@ -321,7 +332,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Tian chi
+    		&copy; 2017 Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -396,6 +407,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -404,11 +419,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -424,7 +443,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -432,7 +451,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -441,6 +460,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">

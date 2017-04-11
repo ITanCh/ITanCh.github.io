@@ -48,7 +48,7 @@
 			<img src="/img/long.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Tian chi</a></h1>
+		  <h1 class="header-author"><a href="/">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</a></h1>
 		</hgroup>
 		
 		<p class="header-subtitle">阅读 思考 实践</p>
@@ -83,7 +83,7 @@
 				
 					<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
 			</div>
 		</nav>
@@ -104,7 +104,7 @@
 				<img src="/img/long.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Tian chi</h1>
+			  <h1 class="header-author js-header-author">Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/</h1>
 			</hgroup>
 			
 			<p class="header-subtitle"><i class="icon icon-quo-left"></i>阅读 思考 实践<i class="icon icon-quo-right"></i></p>
@@ -124,7 +124,7 @@
 					
 						<a class="github" target="_blank" href="https://github.com/ITanCh" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
 			</nav>
@@ -153,6 +153,150 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Android系统源码阅读-17-Android应用的安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/">Android系统源码阅读(17):Android应用的安装</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" class="archive-article-date">
+  	<time datetime="2017-02-14T07:00:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>学到的才是自己的，干活都是扯淡</p>
+</blockquote>
+<h2 id="1-应用的安装"><a href="#1-应用的安装" class="headerlink" title="1. 应用的安装"></a>1. 应用的安装</h2><p>PackageManagerService负责管理应用的安装。在第14章中讲到，SystemService会启动PackageManagerService，那么我们就从SystemService启动PackageManagerService开始分析。</p>
+        
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android系统源码阅读-16-Android应用线程的消息循环模型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/">Android系统源码阅读(16):Android应用线程的消息循环模型</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/" class="archive-article-date">
+  	<time datetime="2017-02-14T06:53:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>读书不宜拖沓</p>
+</blockquote>
+<h2 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h2><p>Android应用的主线程为ActivityThread，在第（10）章已经讲过，它主要负责处理界面事件，所以开发者应该避免在主线程中处理耗时的任务。为了减轻主线程的负担，开发者应该启用多线程来处理耗时的任务。在Android中可以创建多种线程，有的线程可以有自己的消息循环，有的线程则可以向主线程发送消息来使得界面发生改变。</p>
+<p>##1. 主线程的消息循环</p>
+<p>应用程序的主线程创建过程如下：ActivityManagerService线程请求Zygote进程创建应用进程；Zygote通过fork来创建一个新进程，新进程将ActivityThread的main作为入口进入Looper循环；Looper会调用静态成员函数prepareMainLooper创建一个Looper对象，并且在该应用进程中，该方法只会调用一次，因为只有一个主线程。<br>
+        
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-16-Android应用线程的消息循环模型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
   
     <article id="post-Android系统源码阅读-15-Android应用进程的启动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -738,159 +882,6 @@
 
 
   
-    <article id="post-Android系统源码阅读-8-ContentProvider数据传输过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/">Android系统源码阅读(8):ContentProvider数据传输过程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。 </p>
-</blockquote>
-<h2 id="1-用户开始查询"><a href="#1-用户开始查询" class="headerlink" title="1. 用户开始查询"></a><em>1</em>. 用户开始查询</h2><p><img src="http://img.blog.csdn.net/20160905214338676" alt="这里写图片描述"></p>
-<ol>
-<li>用户调用<code>query</code>函数进行查询。首先尝试获得provider，这里分为两种，先是unstable，后是stable，暂时没有分清这两者之间的区别。在尝试获取Provider的过程中，将会类似于第7篇文章中的过程。这里假设该用户已经有该provider的记录，获取过程见1.2。在取得provider后，见1.5。</li>
-<li>继续获取Provider。</li>
-<li>继续获取Provider。</li>
-<li>ActivityThread将所有已经获得的Provider放在mProviderMap中。这里假设需要获取的Provider存在，返回一个<code>IContentProvider</code>类型的provider，这个接口指向了Content Provider的一个Transport代理对象，即ContentProviderProxy对象。</li>
-<li>使用provider的代理进行查询。这里会创建一个<code>BulkCursorToCursorAdaptor</code>对象。该版本没有创建CursorWindow对象，即没有创建匿名内存，和旧版本有些区别。那么，新版本中在哪里创建共享的内存区呢？最后，准备通过进程间通信发送消息，等待返回的BulkCursorDescriptor，然后可以获得对应的BulkCursorToCursorAdaptor，即一个AbstractWindowedCursor。</li>
-</ol>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android系统源码阅读-7-ContentProvider的启动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/">Android系统源码阅读(7):Content Provider的启动</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:01:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
-</blockquote>
-<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
-<li>Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。</li>
-<li>Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体积较大的数据。</li>
-<li>Cursor对象通过匿名共享内存来传输数据，而Bundle是通过Binder传递数据。</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -905,7 +896,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Tian chi
+    		&copy; 2017 Tian chi ⚠️版权声明：文章可以转载，但请注明文章来源：http://itanch.github.io/
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -980,6 +971,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -988,11 +983,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1008,7 +1007,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1016,7 +1015,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1025,6 +1024,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">

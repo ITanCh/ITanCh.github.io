@@ -6,21 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(18):Android应用的显示 | Tianchi&#39;s Blog</title>
+  <title>Git架构 | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
+  <meta name="description" content="文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫The Architecture of Open Source Applications的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(18):Android应用的显示">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-18-Android应用的显示/index.html">
+<meta property="og:title" content="Git架构">
+<meta property="og:url" content="http://itanch.github.io/2017/04/11/Git架构/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:description" content="文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫The Architecture of Open Source Applications的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译">
+<meta property="og:image" content="http://aosabook.org/images/git/dag-example.png">
+<meta property="og:image" content="http://git-scm.com/figures/18333fig0106-tn.png">
+<meta property="og:image" content="http://aosabook.org/images/git/object-hierarchy.png">
+<meta property="og:image" content="http://aosabook.org/images/git/packed-format.png">
+<meta property="og:image" content="http://gitbook.liuhui998.com/assets/images/figure/packfile-index.png">
+<meta property="og:image" content="http://aosabook.org/images/git/merge-history.png">
+<meta property="og:updated_time" content="2017-04-11T09:29:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(18):Android应用的显示">
-<meta name="twitter:description" content="1. 启动ActivityManagerService在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。
-frameworks/base/services/java/com/android/serv">
+<meta name="twitter:title" content="Git架构">
+<meta name="twitter:description" content="文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫The Architecture of Open Source Applications的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译">
+<meta name="twitter:image" content="http://aosabook.org/images/git/dag-example.png">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -156,43 +160,168 @@ frameworks/base/services/java/com/android/serv">
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-18-Android应用的显示" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Git架构" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(18):Android应用的显示
+      Git架构
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-18-Android应用的显示/" class="archive-article-date">
-  	<time datetime="2017-02-14T07:04:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/04/11/Git架构/" class="archive-article-date">
+  	<time datetime="2017-04-11T09:08:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-启动ActivityManagerService"><a href="#1-启动ActivityManagerService" class="headerlink" title="1. 启动ActivityManagerService"></a>1. 启动ActivityManagerService</h2><p>在前面第14章讲到，在System进程启动时，会启动系统的一些基本服务。启动就有ActivityManagerService和PackageManagerService。在SystemServer中如下启动ActivityManagerService。</p>
-<p><em>frameworks/base/services/java/com/android/server/SystemServer.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Activity manager runs the show.</span></div><div class="line">mActivityManagerService = mSystemServiceManager.startService(ActivityManagerService.Lifecycle.class).getService();</div></pre></td></tr></table></figure>   </p>
-<p>startService就是创建了ActivityManagerService的实例对象mActivityManagerService，然后启动了ActivityManagerService的looper线程。在SystemServer启动了基本服务后，就会调用mActivityManagerService的systemReady函数来启动HomeActivity。<br><a id="more"></a></p>
-<h2 id="2-启动HomeActivity"><a href="#2-启动HomeActivity" class="headerlink" title="2. 启动HomeActivity"></a>2. 启动HomeActivity</h2><p>目前仍在SystemServer主线程中调用的systemReady函数。该函数又会接着调用startHomeActivityLocked函数来启动HomeActivity，具体如下：</p>
-<p><em>frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">startHomeActivityLocked</span><span class="params">(<span class="keyword">int</span> userId, String reason)</span> </span>&#123;</div><div class="line">      <span class="comment">//...</span></div><div class="line">      <span class="comment">//先创建一个启动Home的Intent，Intent的category为android.intent.category.home</span></div><div class="line">      Intent intent = getHomeIntent();</div><div class="line">      ActivityInfo aInfo =</div><div class="line">          resolveActivityInfo(intent, STOCK_PM_FLAGS, userId);</div><div class="line">      <span class="keyword">if</span> (aInfo != <span class="keyword">null</span>) &#123;</div><div class="line">          intent.setComponent(<span class="keyword">new</span> ComponentName(</div><div class="line">                  aInfo.applicationInfo.packageName, aInfo.name));</div><div class="line">          <span class="comment">// Don't do this if the home app is currently being</span></div><div class="line">          <span class="comment">// instrumented.</span></div><div class="line">          aInfo = <span class="keyword">new</span> ActivityInfo(aInfo);</div><div class="line">          aInfo.applicationInfo = getAppInfoForUser(aInfo.applicationInfo, userId);</div><div class="line">          <span class="comment">//因为是第一次启动home，所以还没有相应的进程，所以app为null</span></div><div class="line">          ProcessRecord app = getProcessRecordLocked(aInfo.processName,</div><div class="line">                  aInfo.applicationInfo.uid, <span class="keyword">true</span>);</div><div class="line">          <span class="keyword">if</span> (app == <span class="keyword">null</span> || app.instrumentationClass == <span class="keyword">null</span>) &#123;</div><div class="line">              intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);</div><div class="line">              <span class="comment">//这里开始启动HomeActivity</span></div><div class="line">              mStackSupervisor.startHomeActivity(intent, aInfo, reason);</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>   </p>
-<p>这里交给了mStackSupervisor.startHomeActivity函数来启动HomeActivity，然后就会调用startActivityLocked函数。到这里，就开始重复第2章中，启动普通应用的activity的过程了，不再赘述。其中，在Launcher的Manifest中指明了它的类型为android.intent.category.home，所以启动的就是Laucher应用。</p>
-<h2 id="3-Launcher展示应用"><a href="#3-Launcher展示应用" class="headerlink" title="3. Launcher展示应用"></a>3. Launcher展示应用</h2><p>下面从Launcher的onCreate函数开始讲起，部分代码如下：</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/Launcher.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">LauncherAppState app = LauncherAppState.getInstance();</div><div class="line"><span class="comment">//将该launcher设置为mModel的callback函数</span></div><div class="line">mModel = app.setLauncher(<span class="keyword">this</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!mRestoring) &#123;</div><div class="line">    <span class="keyword">if</span> (DISABLE_SYNCHRONOUS_BINDING_CURRENT_PAGE) &#123;</div><div class="line">        <span class="comment">// If the user leaves launcher, then we should just load items asynchronously when</span></div><div class="line">        <span class="comment">// they return.</span></div><div class="line">        mModel.startLoader(PagedView.INVALID_RESTORE_PAGE);</div><div class="line">     &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// We only load the page synchronously if the user rotates (or triggers a</span></div><div class="line">        <span class="comment">// configuration change) while launcher is in the foreground</span></div><div class="line">        <span class="comment">//开始加载应用信息</span></div><div class="line">        mModel.startLoader(mWorkspace.getRestorePage());</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>其中mModel是一个LauncherModel对象，它负责加载应用信息。在重载的startLoader函数中：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startLoader</span><span class="params">(<span class="keyword">int</span> synchronousBindPage, <span class="keyword">int</span> loadFlags)</span> </span>&#123;</div><div class="line">       <span class="comment">//...</span></div><div class="line">       <span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">           <span class="comment">//...</span></div><div class="line">           <span class="comment">// Don't bother to start the thread if we know it's not going to do anything</span></div><div class="line">           <span class="keyword">if</span> (mCallbacks != <span class="keyword">null</span> &amp;&amp; mCallbacks.get() != <span class="keyword">null</span>) &#123;</div><div class="line">               <span class="comment">//需要重新加载了，所以先把原来的加载任务停了</span></div><div class="line">               <span class="comment">// If there is already one running, tell it to stop.</span></div><div class="line">               stopLoaderLocked();</div><div class="line">               <span class="comment">//创建了一个加载任务</span></div><div class="line">               mLoaderTask = <span class="keyword">new</span> LoaderTask(mApp.getContext(), loadFlags);</div><div class="line">               <span class="keyword">if</span> (synchronousBindPage != PagedView.INVALID_RESTORE_PAGE</div><div class="line">                   <span class="comment">//...</span></div><div class="line">               &#125; <span class="keyword">else</span> &#123;</div><div class="line">                   <span class="comment">//交给workThread来处理这个任务</span></div><div class="line">                   sWorkerThread.setPriority(Thread.NORM_PRIORITY);</div><div class="line">                   <span class="comment">//sWorker是sWorkerThread的Handler</span></div><div class="line">                   sWorker.post(mLoaderTask);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>   
-<p>因为加载所有安装的应用信息是一个比较耗时的过程，所以应该交给一个异步线程来处理。这里先创建了一个加载任务mLoaderTask，然后将它交给sWorkerThread来处理。sWorkerThread是一个HandlerThread，我们知道HandlerThread是一个独立的线程，并且有着自己的looper。mLoaderTask加载任务执行一次就可以结束，但是为什么需要用一个HandlerThread在这里不断等待着其它任务呢？因为桌面上应用可以动态的添加和删除，所以应用的加载可能是频繁的。这里使用HandlerThread可以避免重复的创建加载线程。</p>
-<p>下面我们就看LoaderTask.run函数中具体做了哪些任务。</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/LauncherModel.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">          <span class="keyword">if</span> (mStopped) &#123;</div><div class="line">              <span class="keyword">return</span>;</div><div class="line">          &#125;</div><div class="line">          mIsLoaderTaskRunning = <span class="keyword">true</span>;</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// Optimize for end-user experience: if the Launcher is up and // running with the</span></div><div class="line">      <span class="comment">// All Apps interface in the foreground, load All Apps first. Otherwise, load the</span></div><div class="line">      <span class="comment">// workspace first (default).</span></div><div class="line">      keep_running: &#123;</div><div class="line">          <span class="keyword">if</span> (DEBUG_LOADERS) Log.d(TAG, <span class="string">"step 1: loading workspace"</span>);</div><div class="line">          <span class="comment">//启动workspace</span></div><div class="line">          loadAndBindWorkspace();</div><div class="line">          <span class="keyword">if</span> (mStopped) &#123;</div><div class="line">              <span class="keyword">break</span> keep_running;</div><div class="line">          &#125;</div><div class="line">          waitForIdle();</div><div class="line">          <span class="comment">// second step</span></div><div class="line">          <span class="keyword">if</span> (DEBUG_LOADERS) Log.d(TAG, <span class="string">"step 2: loading all apps"</span>);</div><div class="line">          <span class="comment">//加载应用</span></div><div class="line">          loadAndBindAllApps();</div><div class="line">      &#125;</div><div class="line">      <span class="comment">//...</span></div><div class="line">  &#125;</div></pre></td></tr></table></figure>   </p>
-<p>WorkSpace就是Android桌面中的分屏，每个分屏有若干应用。先加载工作区，再加载应用更符合用户的心理预期？函数loadAndBindAllApps会判断是否已经加载过应用，如果已经加载过信息，则直接将app显示在桌面上即可；如果没有，则需要先调用函数loadAllApps，具体内容如下：</p>
-<p><em>packages/apps/Launcher3/src/com/android/luancher3/LauncherModel.java</em>  :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadAllApps</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">final</span> Callbacks oldCallbacks = mCallbacks.get();</div><div class="line"></div><div class="line">           <span class="comment">// Clear the list of apps</span></div><div class="line">           mBgAllAppsList.clear();</div><div class="line">           <span class="keyword">for</span> (UserHandleCompat user : profiles) &#123;</div><div class="line">               <span class="comment">// Query for the set of apps</span></div><div class="line">               <span class="comment">//获取所有的app信息，这里最终还是从PackageManagerService获取的应用信息</span></div><div class="line">               <span class="keyword">final</span> List&lt;LauncherActivityInfoCompat&gt; apps = mLauncherApps.getActivityList(<span class="keyword">null</span>, user);</div><div class="line">        </div><div class="line">               <span class="comment">// Create the ApplicationInfos</span></div><div class="line">               <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; apps.size(); i++) &#123;</div><div class="line">                   LauncherActivityInfoCompat app = apps.get(i);</div><div class="line">                   <span class="comment">//把每个应用信息封装成AppInfo</span></div><div class="line">                   <span class="comment">// This builds the icon bitmaps.</span></div><div class="line">                   mBgAllAppsList.add(<span class="keyword">new</span> AppInfo(mContext, app, user, mIconCache));</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="comment">//...</span></div><div class="line">           <span class="comment">// Huh? Shouldn't this be inside the Runnable below?</span></div><div class="line">           <span class="keyword">final</span> ArrayList&lt;AppInfo&gt; added = mBgAllAppsList.added;</div><div class="line">           mBgAllAppsList.added = <span class="keyword">new</span> ArrayList&lt;AppInfo&gt;();</div><div class="line">            </div><div class="line">           <span class="comment">//这里一直运行在Launcher中创建的一个HandlerThread子线程中</span></div><div class="line">           <span class="comment">//获取了应用信息后，需要通知主线程进行ui更新，mHandler是主线程的Handler</span></div><div class="line">           <span class="comment">// Post callback on main thread</span></div><div class="line">           mHandler.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                   <span class="comment">//这个callback就是launcher</span></div><div class="line">                   <span class="keyword">final</span> Callbacks callbacks = tryGetCallbacks(oldCallbacks);</div><div class="line">                   <span class="keyword">if</span> (callbacks != <span class="keyword">null</span>) &#123;</div><div class="line">                      <span class="comment">//显示所有应用</span></div><div class="line">                       callbacks.bindAllApplications(added);</div><div class="line">                      <span class="comment">//...</span></div><div class="line">                   &#125; <span class="keyword">else</span> &#123;</div><div class="line">                       <span class="comment">//...</span></div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;);</div><div class="line">           <span class="comment">//...</span></div><div class="line">       &#125;</div></pre></td></tr></table></figure>   </p>
-<p>mLauncherApps.getActivityList获取app信息的方法是通过向PackageManager发送请求的方式实现的。下面回到Launcher主线程，开始显示应用图标。首先看一眼这个回调函数：</p>
-<p><em>packages/apps/Launcher3/src/com/android/launcher3/Launcher.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">  * Add the icons for all apps.</div><div class="line">  *</div><div class="line">  * Implementation of the method from LauncherModel.Callbacks.</div><div class="line">  */</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindAllApplications</span><span class="params">(<span class="keyword">final</span> ArrayList&lt;AppInfo&gt; apps)</span> </span>&#123;</div><div class="line">     <span class="comment">//...</span></div><div class="line">     <span class="keyword">if</span> (mAppsView != <span class="keyword">null</span>) &#123;</div><div class="line">         <span class="comment">//mAppsView管理着所有应用的view</span></div><div class="line">         mAppsView.setApps(apps);</div><div class="line">     &#125;</div><div class="line">     <span class="comment">//...</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>   </p>
-<p>mAppsView是一个view的容器，维持了一个AlphabeticalAppsList列表，保存应用的信息。当向其中添加新的应用信息后，会对home上的应用进行更新。当home上的图标被点击后，会触发启动该应用。</p>
+        <blockquote>
+<p>文章写于2014年11月，当时的自己本科四年级，导师让我翻译一个叫<em>The Architecture of Open Source Applications</em>的书，然后就有了这两篇文章。至于为什么就翻译了两篇，因为翻译到第二篇的时候导师告诉我是叫我看，不是让我翻译。是不是我真的听错了已经不得而知，也许是看到我翻译的这么烂也不想让我继续下去了😂。两篇文章已经丢在github上有些年头了，本来是想翻译完所有的文章，搞个大新闻，结果就这两片孤零零的在仓库里。现在回想起来本科即将毕业的自己，雄心勃勃的要干一番大事业，如今读研到了找工作的时节却又多些心酸和迷茫。往前走终会有路，热血不会冷却。</p>
+</blockquote>
+<h2 id="6-1-Git简介"><a href="#6-1-Git简介" class="headerlink" title="6.1 Git简介"></a>6.1 Git简介</h2><p>Git能够让合作者们使用一个p2p的网络仓库来维护工作的电子文档部分（不仅仅局限于代码）。Git支持分布式的工作流程，允许部分工作暂时的分散，最后再聚集一起。  </p>
+<p>这一章节将会阐明Git用来实现这些功能的许多不为人知的方面，并且会提及Git与其它版本控制系统（VCSs）的不同之处。   </p>
+<h2 id="6-2-Git起源"><a href="#6-2-Git起源" class="headerlink" title="6.2 Git起源"></a>6.2 Git起源</h2><p>为了更好地理解Git的设计哲学，首先你要知道在Linux内核社区中Git项目是在什么样的环境下启动的。  </p>
+<p>Linux内核相对于那时的其它商业软件项目而言是特立独行的，因为Linux内核的贡献者数量庞大，并且贡献者的参与程度和对现有代码库的了解程度参差不齐。几年来，内核一直是利用打包工具和打补丁来维护，所以核心开发社区一直在竭力寻求一个能够满足他们大部分需求的VCS。  </p>
+<p>为了解决这些需求和在2005年遇到的困境，Git作为一个开源项目诞生了。在当时，核心开发成员们使用了两种VCS:BitKeeper和CVS来管理Linux内核代码库。其中BitKeeper提出了一个与众不同的设计理念，深受Linus喜欢。  </p>
+<p>在BitKeeper的开发商BitMover宣布要撤销一些Linux内核核心开发者的许可证之后不久，Linus Torvalds急忙地着手开发一个自己的VCS，也就是后来的Git。他开始时写了一组脚本来帮助他管理邮件补丁，然后逐渐应用于管理其它软件补丁。原始脚本的目的是能够快速地终止合并，所以维护人员可以把中期补丁流修改成手动合并，然后继续合并后续的补丁。  </p>
+<p>从表面上来看，对于Git，Torvals有一个哲学目标–反CVS–加上三个实用的设计目标：  </p>
+<ul>
+<li>和BitKeeper类似，Git要能够支持<code>分布式工作流(distributed workflows)</code>  </li>
+<li>提供避免内容错误的<code>安全保障</code>  </li>
+<li>具有<code>高性能</code>   </li>
+</ul>
+<p>在某种程度上，这些设计目标已经被实现并将保持下去，就像下面我要展现的一样。接下来会我说明Git如何利用有向无环图（DAG）来处理内容存储，头部指针的引用，对象模型的表现和远程协议；最后会说到Git如何追踪树的合并。  </p>
+<p>尽管BitKeeper对Git的早期设计产生了影响，但是Git的实现使用了根本不同的方法，并且Git能允许用户分布式地增加更多的本地工作流，这一点是BitKeeper无法做到的。Monotone，一个在2003年启动的开源分布式VCS，可能是早期Git开发的另一个灵感来源。  </p>
+<p>分布式的版本控制系统通常能花费很小的代价提供很好的工作流的灵活性。分布式模型有如下优点：  </p>
+<ul>
+<li>让合作者能够线下工作并且递增的提交  </li>
+<li>让某个合作者自己决定他何时分享他的工作  </li>
+<li>让合作者能够在线下访问仓库历史  </li>
+<li>允许被管理的工作发布到多样的仓库中去，发布的工作中潜在的含有分支和细小的变化  </li>
+</ul>
+<p>在Git项目开始的时期，三个其它的开源分布式VCS（dVCS）也被发起。（其中有一个在The Architecture of Open Source Applications 的第一卷中被讨论过。）所有的这些分布式VCS都用了稍微不同的方法来提供具有很大的灵活性工作流，这一点将它们从其它VCS中分离出来。注意：SubVersion有一个被不同开发者维护着的叫SVK的扩展，它用来支持服务器到服务器的同步。  </p>
+<p>如今，比较流行的并且被积极维护着的dVCS有：Bazaar，Darcs，Fossil，Git，Mercurial和Veracity。  </p>
+<h2 id="6-3-版本控制系统设计"><a href="#6-3-版本控制系统设计" class="headerlink" title="6.3 版本控制系统设计"></a>6.3 版本控制系统设计</h2><p>现在让我们回顾一下在开发Git时可选择的VCS解决方案。了解它们的不同之处，有利于我们探究在Git开发时面临的架构选择。  </p>
+<p>一个版本控制系统通常有三个核心需求，分别是：  </p>
+<ul>
+<li>存储内容  </li>
+<li>追踪内容变化（含有合并信息的历史记录）  </li>
+<li>在合作者之间分布式的管理内容和历史记录   </li>
+</ul>
+<p>注意：不是所有的VCS都要求第三点。  </p>
+<h3 id="内容的存储"><a href="#内容的存储" class="headerlink" title="内容的存储"></a>内容的存储</h3><p>在版本控制系统界里，为了实现存储内容功能，最一般的选择是利用基于delta的变化集合，或者利用有向无环图（DAG）的内容表示。  </p>
+<p>基于Delta的变化集合会将两个版本的扁平化内容的相异点封装进来，同时附加一些元数据，这种方式只关心具体的差异。  </p>
+<p>Git用有DAG来表示文件，关心的是文件的整体变化，用层次结构的对象关系来表示树状结构的文件系统，不同的文件类型用不同的对象来表示。为了提高性能，只有变化的文件才新建立快照并保存在仓库里，没有修改的文件则会利用原来的快照做一个引用。   </p>
+<p><img src="http://aosabook.org/images/git/dag-example.png" alt="6.1"></p>
+<h3 id="提交（commit）与合并（merge）历史记录"><a href="#提交（commit）与合并（merge）历史记录" class="headerlink" title="提交（commit）与合并（merge）历史记录"></a>提交（commit）与合并（merge）历史记录</h3><p>在历史记录和向前变更追踪方面，大部分VCS软件使用了下列方法之一：  </p>
+<ul>
+<li>线性历史记录    </li>
+<li>用有向无环图表示的历史记录   </li>
+</ul>
+<p>Git再一次使用了DAG，不过这次是使用在存储历史记录方面。每一个commit都包含了它的祖先的元数据；Git中一次commit可能有零个或者多个（理论上可以有无限个）父节点。例如，在Git仓库里的第一次commit就没有父节点，然而通过三路合并而来的commit就有三个父节点。   </p>
+<p>Git和Subversion（使用的是线性历史祖先）另一个重要的区别是，Git能够直接地支持分支，并且分支能够记录大部分的历史事件。  </p>
+<p>Git通过DAG存储内容可以充分的发挥分支的能力。一个文件的历史记录是连续不断的。从该文件到根目录都是连着的，根目录又连着一个提交节点。这个提交节点，依次又有一个或多个父节点。这样，Git就有两个很好的特性，利用这两个特性我们就能够确切地推断出历史记录和内容，比从RCS发展而来的一些VCS更为准确，具体是：  </p>
+<ul>
+<li>如果图中的一个内容节点与其它提交中的某个节点有相同的引用ID（在Git使用SHA），则这两个节点一定含有相同的内容，这样Git就有效地缩短了内容的差异对比过程。  </li>
+<li>当合并两个分支的时候，我们合并的是DAG中两个节点的内容。DAG使得Git可以“高效地”（相对于RCS家族的那些VCS）判定出这些节点的共同祖先。  </li>
+</ul>
+<h3 id="分布"><a href="#分布" class="headerlink" title="分布"></a>分布</h3><p>VCS用如下三种方法中的一种来处理一项工作在合作者之间的分配：  </p>
+<ul>
+<li><em>仅本地</em>：作为一个VCS解决方法，没有满足上面提到的第三个需求。  </li>
+<li><em>中心服务器</em>：所有对仓库的改变必须由一个特定的仓库来记录。  </li>
+<li><em>分布式模型</em>：在该模型中，一般合作者会有一个可访问的公共仓库来进行“推送”，但是可以在本地提交并且在稍后推送，允许离线工作。  </li>
+</ul>
+<p>为了阐明每个关键的设计选择的优点与局限，我们将含有同样内容的SubVersion仓库和Git仓库进行对比（例如,Git仓库默认分支的HEAD上的内容与Subversion仓库主干上最新版本的内容相同）。一个叫Alex的开发者，签出（checkout）一个Subversion的本地仓库，同时克隆（clone）了一个Git的本地仓库。   </p>
+<p>我们假设，在本地的Subversion仓库中，Alex改变了一个1MB大小的文件，并且提交了这个改变。在本地，签出的这个文件会做出相应的改变并且本地的元数据也会更新。在Alex提交到中心Subversion代码库中的时候，会将旧文件的快照和新的改变进行对比，生成一个对比文件，该对比文件会存在仓库中。  </p>
+<p>下面和Git的工作过程对比一下。当Alex在本地的Git仓库中对同一个文件做了相同的修改后，修改首先会存储在本地，然后Alex“推送”本地待定的提交到公共仓库里，以便该项目的其他合作者能够分享。最后该内容变化会一致的存储在每一个含有这次提交的Git仓库里。在本地提交时（最简单的情况下），本地的Git仓库会创建一个新的对象表示一个新的文件，而新文件表示这次修改后的文件（新文件包含了所有的内容）。对被修改文件上面的每一层目录（包括根目录），都会创建一个具有新ID的新对象。从新的根节点到新的叶节点，一个新的DAG被创建出来了（对于在本次提交中没有修改的文件，它们的叶节点引用会被再利用），新DAG会引用新建的叶节点，而不是被修改文件在原来那棵树中的旧叶节点。（叶节点表示存在仓库里的文件。） </p>
+<p>在这时，这次提交还在Alex的本地设备中的Git仓库里。当Alex“推送”这次提交后，这次提交才算进入公共Git仓库里。在公共仓库核定这次提交适用于该分支后，在本地仓库中创建的那些对象才被存储在公共仓库中。  </p>
+<p>Git的解决方案更加灵活，它们既是底层的，又是用户层的。这些功能让用户能够明确地表达出是想在远程仓库里分享修改还是仅仅在本地提交。但是，增加这两个层次的复杂性可以为团队在工作流和发布能力上提供极大的灵活性，就像在“Git起源”中提到的一样。  </p>
+<p>在Subversion的解决方案中，合作者准好分享修改时，他没必要记得把修改推送到远程仓库中。当对大文件进行小的修改时，基于delta的存储比存储各个版本的整个文件更为有效。但是，就如我们将要看到的，Git在某些方面利用了变通的方案。  </p>
+<h2 id="6-4-工具包（ToolKit）"><a href="#6-4-工具包（ToolKit）" class="headerlink" title="6.4 工具包（ToolKit）"></a>6.4 工具包（ToolKit）</h2><p>如今，Git生态系统中，有很多命令行和UI工具适用于各种操作系统（包括原来几乎不支持的Windows系统）。其中大部分工具都是建立在Git工具包之上的。  </p>
+<p>因为Git一开始是Linus写的，并且在Linux社区里启动，所以Git遵循的是Unix传统的命令行模式的工具设计哲学。  </p>
+<p>Git工具包分为两个部分：“铅（plumbing底层命令）”和“瓷（porcelain高层命令）”。plumbing是指一些底层的命令，这些命令可以提供基本的内容追踪和DAG操作功能。porcelain是较小的<code>git</code>命令集合，用户可能用这些命令来维护仓库和在各个仓库间进行交流。  </p>
+<p>尽管工具包已经为许多编码器提供了足够多的细小粒度的功能，但是应用开发者仍旧抱怨Git缺少一个可以链接的函数库。因为Git的可执行函数为<code>die()</code>，它不可重入并且没有界面，网络接口和长时间运行的服务器必须用fork/exec命令来调用Git的二进制文件，这样做十分低效。  </p>
+<p>为应用开发者改变这种状况的工作正在进行中；详情请看“现在和未来的动作”部分。   </p>
+<h2 id="6-5-仓库，缓存区和工作区（The-Repository-Index-and-Working-Areas）"><a href="#6-5-仓库，缓存区和工作区（The-Repository-Index-and-Working-Areas）" class="headerlink" title="6.5 仓库，缓存区和工作区（The Repository, Index and Working Areas）"></a>6.5 仓库，缓存区和工作区（The Repository, Index and Working Areas）</h2><p><code>git init</code>会创建一个.git子文件，如下图所示。    </p>
+<pre>tree .git/
+.git/
+|-- HEAD
+|-- index
+|-- config
+|-- description
+|-- hooks
+|   |-- applypatch-msg.sample
+|   |-- commit-msg.sample
+|   |-- post-commit.sample
+|   |-- post-receive.sample
+|   |-- post-update.sample
+|   |-- pre-applypatch.sample
+|   |-- pre-commit.sample
+|   |-- pre-rebase.sample
+|   |-- prepare-commit-msg.sample
+|   |-- update.sample
+|-- info
+|   |-- exclude
+|-- objects
+|   |-- info
+|   |-- pack
+|-- refs
+    |-- heads
+    |-- tags
+</pre>  
+
+<p><strong>Configuration:</strong><br>初步配置本地仓库。  </p>
+<p><code>.git/config</code>  </p>
+<ul>
+<li>repositoryformatversion:如果需要改变仓库在磁盘上的形式，就可以修改这个参数。  </li>
+<li>filemode: ture or false。是否注意文件的执行权限。false指当文件权限变化时，没有修改提示。   </li>
+<li>bare：ture是指该仓库没有工作目录，只有git的相关文件。  </li>
+<li>logallrefupdates: 记录所有的更新日志。  </li>
+<li>ignorecase: 是否对大小写敏感。   </li>
+</ul>
+<p><code>.git/info/exclude</code><br>如果你不想提交一些在本地的文件，<code>.gitignore</code>文件是一个选择。但是exclude文件不会被分享给其他人。   </p>
+<p><strong>Hooks</strong><br><code>.git/hooks</code><br>一些常用的示例hooks被放在仓库里，它们只在特定的时刻触发，可以进行检查和提示。默认不生效，将“.sample”去掉可使其生效。  </p>
+<p><strong>Staging Area</strong><br><code>.git/index</code><br>缓冲区。在工作目录下的修改，使用<code>git add</code>命令后，可以将修改添加进缓冲区，这是并没有提交到仓库，使用<code>git commit</code>后才真正的提交到仓库中。这样方便多个修改一次性提交。  </p>
+<pre><code>1. 运行 “git add README”. 这会导致 git:
+    1. 拷贝内容（ README ）到git对象存储区，并将其内容包含为一个blob.
+    2. 在git index中记录: 文件名 README 和存储于对象存储区的 README blob的哈希值.
+    3. 标记 (记住) 这个 README 现在在用户的工作目录中状态为 “追踪”.
+2. 运行 “git commit” ，以 “git index” 中指代的文件为参数，创建commit对象，Tree对象，最后建立新的树（树中的对象也放在对象存储区），并将它们保存到git仓库里.  
+</code></pre><p><img src="http://git-scm.com/figures/18333fig0106-tn.png" alt="image">  </p>
+<p>详情参考：<a href="http://http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/?lang=zh" target="_blank" rel="external">git index</a>  </p>
+<p><strong>Object Database</strong><br><code>.git/objects</code><br>一个对象数据库，包含了所有的内容和指向内容的指针，对象一旦创建就不可变了。.git文件比较大，并且用.git文件可以恢复出所有的工作目录。  </p>
+<p><strong>References</strong><br><code>.git/refs</code><br>存储了本地和远程的branch、tag和commit。是一个指向一个对象的指针，一般是tag或者commit。  </p>
+<p><strong>git checkout [branch]</strong><br>将本地仓库的HEAD引用变成branch的引用，用该branch的数据填充缓冲区，更新工作目录下的文件为该branch的内容。  </p>
+<p><strong>git add [files]</strong><br>会将工作目录下的文件和index中的文件的校验和进行比较，看是否需要更新index中的文件，git仓库并没有改变。  </p>
+<h2 id="6-6-对象数据库（The-Object-Database）"><a href="#6-6-对象数据库（The-Object-Database）" class="headerlink" title="6.6.对象数据库（The Object Database）"></a>6.6.对象数据库（The Object Database）</h2><p><img src="http://aosabook.org/images/git/object-hierarchy.png" alt="Figure 6.2: Git objects">  </p>
+<p>所有的对象都如下参数：类型，大小和内容。  </p>
+<p><em>Tree</em>: 一般是表示一个目录。<br><em>Blob</em>: 用来表示一个存储在仓库里的文件。<br><em>Commit</em>: 指向一棵树，指向父commit，记录该次提交的一些信息。<br><em>Tag</em>: 标记一个commit，可以给某个时间点记录别名和附加信息。  </p>
+<p>对象使用SHA来引用，这是一个由40个十六进制的数字组成的ID。ID具有如下属性：  </p>
+<ul>
+<li>如果两个对象完全相同，则它们拥有相同的SHA。  </li>
+<li>不同对象有不同的SHA。  </li>
+<li>对象的缺失和错误会通过重新计算SHA发现。   </li>
+</ul>
+<h2 id="6-7-存储和压缩"><a href="#6-7-存储和压缩" class="headerlink" title="6.7. 存储和压缩"></a>6.7. 存储和压缩</h2><p><strong>技术</strong><br>将对象打包，用压缩到的形式存储，用一个目录文件来索引某个对象。git add命令会将工作目录下的修改文件创建对象，放入对象数据库，是没有被打包的，松散的对象。git会周期的进行压缩，或者通过命令（git gc）直接压缩。<code>.git/objects/pack/</code>有两个文件，一个<em>.idx</em>文件和一个<em>.pack</em>文件,如图所示。<br><img src="http://aosabook.org/images/git/packed-format.png" alt="Figure 6.3: Diagram of a pack file with corresponding index file">   </p>
+<p>打包文件有两个版本，如图所示，<a href="http://gitbook.liuhui998.com/7_5.html" target="_blank" rel="external">详细解释</a>。<br><img src="http://gitbook.liuhui998.com/assets/images/figure/packfile-index.png" alt="image"><br>版本2包含了每个对象的CRC校验值, 因此在重打包的过程中, 压缩过的对象可以直接进行包间拷贝(from pack to pack)而不用担心数据损坏. 版本2的打包文件索引同时亦支持大于4G的打包文件。  </p>
+<p>在第1版中, offset(偏移)和SHA值存在在同一位置. 但是在第2版中, SHA值, CRC值和offset被放在不同的表中. 两个版本的文件最后都是索引文件以及指向的打包文件的CRC校验值。</p>
+<p>很重要的一点是， 要从打包文件中提取(extract)出一个对象, 索引文件不是必不可少的. 索引文件的作用是帮助用户快速地从打包文件中提取对象。 那些”上传打包”(upload-pack)和”取回打包”(receive-pack)程序(译注: 实现push和fetch协议的程序)使用打包文件格式(packfile format)去传输对象, 但是没有使用索引–索引可以在上传或者取回打包文件之后通过扫描打包文件重新建立。</p>
+<h2 id="6-8-历史记录合并（Merge-Histories）"><a href="#6-8-历史记录合并（Merge-Histories）" class="headerlink" title="6.8. 历史记录合并（Merge Histories）"></a>6.8. 历史记录合并（Merge Histories）</h2><p>Subversion这一类用线状历史的VCS，高版本的会取代它之前所有旧的版本，所以不直接支持分支。分支合并到主线后，无法知晓哪些变化来自哪些分支。  </p>
+<p>Git使用基于DAG的历史合并，某一分支的某次合并可以通过它父节点的SHA知道它由哪些分支合并而来。如图。<br><img src="http://aosabook.org/images/git/merge-history.png" alt="Figure 6.4: Diagram showing merge history lineage">  </p>
+<h2 id="6-9-接下来要做的事"><a href="#6-9-接下来要做的事" class="headerlink" title="6.9. 接下来要做的事"></a>6.9. 接下来要做的事</h2><p>不仅要方便脚本使用，还需要进一步设计来方便地嵌入其它应用，方便的集成进开发环境。现在已经开发出了一些可以被其他语言调用的库，同时还有一些支持Git存储的后端被开发出来。  </p>
+<h2 id="6-10-经验和教训"><a href="#6-10-经验和教训" class="headerlink" title="6.10. 经验和教训"></a>6.10. 经验和教训</h2><blockquote>
+<p>In software, every design decision is ultimately a trade-off.  </p>
+</blockquote>
+<p>每一个设计策略的选择都最终是一个权衡的过程。  </p>
+<ol>
+<li>原来的Git工具包的设计为其它IDE的集成带来了麻烦。早期，命令行的形式导致Git的可移植性很差，特别是对Windows而言，导致受众范围很小。   </li>
+<li>Git命令也难记，错误信息也难以理解。   </li>
+</ol>
 
       
 
@@ -206,11 +335,15 @@ frameworks/base/services/java/com/android/serv">
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">架构</a>
         		</li>
       		
 		</ul>
@@ -266,7 +399,7 @@ frameworks/base/services/java/com/android/serv">
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-18-Android应用的显示/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/04/11/Git架构/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,18 +413,18 @@ frameworks/base/services/java/com/android/serv">
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/写在2017的开始/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/04/11/eclipse架构/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          写在2017的开始
+          eclipse架构
         
       </div>
     </a>
   
   
-    <a href="/2017/02/14/Android系统源码阅读-17-Android应用的安装/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(17):Android应用的安装</div>
+    <a href="/2017/04/10/用React-Native写一个微博客户端-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用React-Native写一个微博客户端(3)</div>
       <i class="icon-circle-right"></i>
     </a>
   
