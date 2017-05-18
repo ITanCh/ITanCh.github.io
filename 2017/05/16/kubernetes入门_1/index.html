@@ -6,35 +6,51 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(8):ContentProvider数据传输过程 | Tianchi&#39;s Blog</title>
+  <title>kubernetes入门-1 | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。 
-
-1. 用户开始查询
-
-用户调用query函数进行查询。首先尝试获得provider，这里分为两种，先是unstable，后是stable，暂时没有分清这两者之间的区别。在尝试获取Provider的过程中，将会类似于第7篇文章">
+  <meta name="description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
+安装minikubeminikube是kubernetes的单机试玩版。
+Step 1
+首先需要安装一个虚拟机软件，这里采用了VirtualBox。
+Step 2
+安装kubernetes的命令行工具kubectl。
+下载kubectl:   
+1curl -LO h">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(8):ContentProvider数据传输过程">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/index.html">
+<meta property="og:title" content="kubernetes入门-1">
+<meta property="og:url" content="http://itanch.github.io/2017/05/16/kubernetes入门_1/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。 
-
-1. 用户开始查询
-
-用户调用query函数进行查询。首先尝试获得provider，这里分为两种，先是unstable，后是stable，暂时没有分清这两者之间的区别。在尝试获取Provider的过程中，将会类似于第7篇文章">
-<meta property="og:image" content="http://img.blog.csdn.net/20160905214338676">
-<meta property="og:image" content="http://img.blog.csdn.net/20160905214406127">
-<meta property="og:image" content="http://img.blog.csdn.net/20160906191744953">
-<meta property="og:image" content="http://img.blog.csdn.net/20160906191803016">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
+安装minikubeminikube是kubernetes的单机试玩版。
+Step 1
+首先需要安装一个虚拟机软件，这里采用了VirtualBox。
+Step 2
+安装kubernetes的命令行工具kubectl。
+下载kubectl:   
+1curl -LO h">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.45.21.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.39.45.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.17.14.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.34.01.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.02.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog">
+<meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog">
+<meta property="og:updated_time" content="2017-05-18T11:29:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(8):ContentProvider数据传输过程">
-<meta name="twitter:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。 
-
-1. 用户开始查询
-
-用户调用query函数进行查询。首先尝试获得provider，这里分为两种，先是unstable，后是stable，暂时没有分清这两者之间的区别。在尝试获取Provider的过程中，将会类似于第7篇文章">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160905214338676">
+<meta name="twitter:title" content="kubernetes入门-1">
+<meta name="twitter:description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
+安装minikubeminikube是kubernetes的单机试玩版。
+Step 1
+首先需要安装一个虚拟机软件，这里采用了VirtualBox。
+Step 2
+安装kubernetes的命令行工具kubectl。
+下载kubectl:   
+1curl -LO h">
+<meta name="twitter:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -170,64 +186,92 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-8-ContentProvider数据传输过程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-kubernetes入门_1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(8):ContentProvider数据传输过程
+      kubernetes入门-1
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/05/16/kubernetes入门_1/" class="archive-article-date">
+  	<time datetime="2017-05-16T11:55:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。 </p>
+        <h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><p>ubuntu 14.04<br>minikube version: v0.19.0<br>Docker version 1.12.1   </p>
+<h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube是kubernetes的单机试玩版。</p>
+<p><strong>Step 1</strong></p>
+<p>首先需要安装一个虚拟机软件，这里采用了<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="external">VirtualBox</a>。</p>
+<p><strong>Step 2</strong></p>
+<p>安装kubernetes的命令行工具<code>kubectl</code>。</p>
+<p>下载kubectl:   </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl <span class="_">-s</span> https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl</div></pre></td></tr></table></figure>
+<p>配置到环境中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod +x ./kubectl</div><div class="line">sudo mv ./kubectl /usr/<span class="built_in">local</span>/bin/kubectl</div></pre></td></tr></table></figure>
+<p>检查是否正常运行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl cluster-info</div></pre></td></tr></table></figure>
+<p><strong>Step 3</strong></p>
+<p>下载并安装minikube:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.19.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<h2 id="deployment"><a href="#deployment" class="headerlink" title="deployment"></a>deployment</h2><p>Deployment可以来创建和更新一个app。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog" alt=""></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="built_in">run</span> kubernetes-bootcamp <span class="comment">--image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080</span></div></pre></td></tr></table></figure>
+<h2 id="Pod和Node"><a href="#Pod和Node" class="headerlink" title="Pod和Node"></a>Pod和Node</h2><p>Pod 表示了一组关系密切的容器，这些容器之间会共享一些资源，如存储资源、网络、端口等。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.45.21.png-blog" alt=""></p>
+<p>Pod运行在一个Node上，Node指一个物理机器或者一个虚拟机。Master负责管理Node，将Pod分配到Node上。<code>Kubelet</code>负责Master和Node之间的通信。Container runtime (like Docker, rkt)负责获取容器镜像和运行容器。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.39.45.png-blog" alt=""></p>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service定义了一组pod的逻辑关系，并且设置了访问这些pod的策略。Pod拥有独立的IP，不对外暴露，Service负责将对外暴露地址。根据不同的暴露方式，Service被分为如下几类：</p>
+<ol>
+<li>ClusterIP(默认)：在集群中暴露一个内容IP，所以只有在集群内部可以访问service。    </li>
+<li>NodePort：使用NAT，暴露与集群中所选的Node的port相同的port。让外部可以通过集群IP的超集访问Service。   </li>
+<li>LoadBalancer：在当前云中创建一个负载平衡器，并且给定一个外部IP给这个service。   </li>
+<li>ExternalName：Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.   </li>
+</ol>
+<blockquote>
+<p>A Kubernetes Service sis an abstraction layer which defines a logical set of Pods and enables external traffic exposure, load balancing and service discovery for those Pods.</p>
 </blockquote>
-<h2 id="1-用户开始查询"><a href="#1-用户开始查询" class="headerlink" title="1. 用户开始查询"></a><em>1</em>. 用户开始查询</h2><p><img src="http://img.blog.csdn.net/20160905214338676" alt="这里写图片描述"></p>
-<ol>
-<li>用户调用<code>query</code>函数进行查询。首先尝试获得provider，这里分为两种，先是unstable，后是stable，暂时没有分清这两者之间的区别。在尝试获取Provider的过程中，将会类似于第7篇文章中的过程。这里假设该用户已经有该provider的记录，获取过程见1.2。在取得provider后，见1.5。</li>
-<li>继续获取Provider。</li>
-<li>继续获取Provider。</li>
-<li>ActivityThread将所有已经获得的Provider放在mProviderMap中。这里假设需要获取的Provider存在，返回一个<code>IContentProvider</code>类型的provider，这个接口指向了Content Provider的一个Transport代理对象，即ContentProviderProxy对象。</li>
-<li>使用provider的代理进行查询。这里会创建一个<code>BulkCursorToCursorAdaptor</code>对象。该版本没有创建CursorWindow对象，即没有创建匿名内存，和旧版本有些区别。那么，新版本中在哪里创建共享的内存区呢？最后，准备通过进程间通信发送消息，等待返回的BulkCursorDescriptor，然后可以获得对应的BulkCursorToCursorAdaptor，即一个AbstractWindowedCursor。</li>
-</ol>
-<a id="more"></a>
-<h2 id="2-Content-Provider处理事务"><a href="#2-Content-Provider处理事务" class="headerlink" title="2. Content Provider处理事务"></a><em>2</em>. Content Provider处理事务</h2><p><img src="http://img.blog.csdn.net/20160905214406127" alt="这里写图片描述"></p>
-<ol>
-<li>该函数负责处理<code>QUERY_TRANSACTION</code>事务。首先将传入的数据解析出来，然后利用其子类Transport进行查询，从2.2~2.6，获得一个SQLiteCursor对象。然后用SQLiteCursor封装成CursorToBulkCursorAdapter对象。然后创建BulkCursorDescriptor，从2.7~2.11，目的就是创建window，将数据放入window。然后将BulkCursorDescriptor存入reply，里面包含了SQLiteCursor的binder本地对象，因为SQLiteCursor里又含有window，最后返回给用户后，用户可以获得window里存储的内容。</li>
-<li>这里会检查用户是否有权限访问该数据，如果有权限，则调用自己实现的ContentProvider子类的query函数进行查询。</li>
-<li>该函数需要在子类中重载，实现自己的查询过程。这里，我们假设使用了数据库查询。</li>
-<li>这里会首先根据传入的参数创建一条SQL查询语句，然后在数据库中进行查询。</li>
-<li>这一步会创建一个数据查询driver，用来执行查询。</li>
-<li>创建一个SQLiteCursor对象，这个对象包含了database、driver、query。下面就是将SQLiteCursor返回，一直返回到2.1中。</li>
-<li>该步骤会对创建的BulkCursorDescriptor进行一定的初始化。</li>
-<li>获得用户需要的数据条数。开始时为-1，说明尚未执行查询过程，所以下面要执行查询数据，同时将数据放入内存共享区window。</li>
-<li>因为window还没创建，所以第一件事是先创建共享内存区window，见2.10。然后填充window，见2.11。</li>
-<li>这一步会创建新的window或者清空旧的window以重复利用。这里的window以数据库的路径为名称。创建CursorWindow的过程会调用native函数，见3.1~3.3，所以，新的Android版本放弃了原来在用户中创建window的模式，而是在Content Provider中统一创建、管理window。</li>
-<li>填充window，这里同样会使用sql的一些方法，最后落脚于调用native函数，见4.1~4.3。执行到这里，需要查询的数据已经被存储于window中。</li>
-</ol>
-<h2 id="3-Provider创建window的native过程"><a href="#3-Provider创建window的native过程" class="headerlink" title="3. Provider创建window的native过程"></a><em>3</em>. Provider创建window的native过程</h2><p><img src="http://img.blog.csdn.net/20160906191744953" alt="这里写图片描述"></p>
-<ol>
-<li>在2.10中，会创建CursorWindow对象，所以，SQLiteCursor调用了CursorWindow的构造函数。在该步骤中，会设置window的大小，该大小会在资源文件xml中设置。然后创建window的过程就交给c++代码完成。</li>
-<li><code>android_database_CursorWindow.cpp</code>位于<em>frameworks/base/core/jni/</em>目录下。这里会创建一个CursorWindow对象window，见3.3。然后用<code>reinterpret_cast</code>函数将window指针类型变为jlong返回。</li>
-<li>这里就会创建匿名内存块。这里使用了匿名内存分配的机制，暂不深究。</li>
-</ol>
-<h2 id="4-Provider填充window的native过程"><a href="#4-Provider填充window的native过程" class="headerlink" title="4. Provider填充window的native过程"></a><em>4</em>. Provider填充window的native过程</h2><p><img src="http://img.blog.csdn.net/20160906191803016" alt="这里写图片描述"></p>
-<ol>
-<li>在2.11中，会对步骤3中创建的window进行填充。这一步会获得一个SQLiteConnection对象，然后通过这个connection进行数据库操作。</li>
-<li>这里开始调用native code执行数据查询，同时填充window。</li>
-<li>这里会通过sqlite3一行一行的将数据copy入window，这里暂不深究sqlite3如何在c++中的使用过程。</li>
-</ol>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.17.14.png-blog" alt=""></p>
+<p>Service使用label和selector来匹配一组pod。label是一组key/value对，可以标记对象是开发版、测试版还是发布版，还可以标记版本号等。label可以在创建是赋予，也可以后随时更改。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.34.01.png-blog" alt=""></p>
+<p>假设集群中已经有一个deployment kubernetes-bootcamp。</p>
+<p>添加service：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --<span class="class"><span class="keyword">type</span></span>=<span class="string">"NodePort"</span> --port <span class="number">8080</span></div></pre></td></tr></table></figure></p>
+<p>给pod打标签：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">label</span><span class="bash"> pod kubernetes-bootcamp-3271566451-ddvkt app=v1</span></div></pre></td></tr></table></figure></p>
+<p>通过标签获取pod<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">get</span> pods -l app=v1</div></pre></td></tr></table></figure></p>
+<p>删除services：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">delete</span> service -l <span class="built_in">run</span>=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
+<h2 id="app扩展和缩减"><a href="#app扩展和缩减" class="headerlink" title="app扩展和缩减"></a>app扩展和缩减</h2><p>前面的例子中，一个app只有一个pod和一个容器。有时候，我们会根据需要，扩展和缩减一个app的规模。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog" alt=""></p>
+<p>将原来的deployment扩展到4个副本：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=4</span></div></pre></td></tr></table></figure></p>
+<p>Deployment数量发生变化：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ kubectl get deployments</div><div class="line">NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</div><div class="line">hello-minikube        <span class="number">1</span>         <span class="number">1</span>         <span class="number">1</span>            <span class="number">1</span>           <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp   <span class="number">4</span>         <span class="number">4</span>         <span class="number">4</span>            <span class="number">4</span>           <span class="number">1</span>d</div></pre></td></tr></table></figure></p>
+<p>Pod数量也发生改变：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods -o wide</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.6</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.5</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-nnwq8   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.7</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.8</span>   minikube</div></pre></td></tr></table></figure></p>
+<p>通过定义的service暴露的端口，可以访问kubernetes-bootcamp应用，可以发现请求被发送到不同的pod上，从而体现了负载均衡的实现。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl | v=<span class="number">1</span></div><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw | v=<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>将app实例缩减到2个：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=2</span></div></pre></td></tr></table></figure></p>
+<h2 id="app更新"><a href="#app更新" class="headerlink" title="app更新"></a>app更新</h2><p><code>Rolling updates</code>可以更新增量的将pod更新到新版本，并且app不会因此中断。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.02.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog" alt=""></p>
+<p>在更新的时候，service会将业务负载平衡到可获得的pod上面。<code>Rolling updates</code>支持以下操作：</p>
+<ul>
+<li>Promote an application from one environment to another (via container image updates)</li>
+<li>Rollback to previous versions</li>
+<li>Continuous Integration and Continuous Delivery of applications with zero downtime</li>
+</ul>
+<p>下面来更新kubernetes-bootcamp应用的版本来体会一下更新的过程。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">set</span> image <span class="comment">deployments</span>/kubernetes-bootcamp kubernetes-bootcamp=docker.io/<span class="comment">jocatalin</span>/kubernetes-bootcamp:v2</div></pre></td></tr></table></figure>
+<p>可以观察到如下更新过程：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS              RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS        RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Terminating   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div></pre></td></tr></table></figure>
+<p>如果新pod更新失败，则旧pod不会被全部杀死，至少会保留一个维持正常运行。docker pull jocatalin/kubernetes-bootcamp</p>
+<p>测试更新后的效果。</p>
+<p>首先获取service暴露的端口，31645:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ kubectl get services</div><div class="line">NAME                  CLUSTER-<span class="built_in">IP</span>   EXTERNAL-<span class="built_in">IP</span>   PORT(S)          AGE</div><div class="line">kubernetes-bootcamp   <span class="number">10.0</span><span class="meta">.0</span><span class="meta">.127</span>   &lt;nodes&gt;       <span class="number">8080</span>:<span class="number">31645</span>/TCP   <span class="number">1h</span></div></pre></td></tr></table></figure></p>
+<p>获取节点IP：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ kubectl describe pods -l run=kubernetes-bootcamp</div><div class="line"><span class="comment">//...关键内容</span></div><div class="line"><span class="string">Name:</span>		kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt</div><div class="line"><span class="string">Namespace:</span>	<span class="keyword">default</span></div><div class="line"><span class="string">Node:</span>		minikube/<span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span></div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure></p>
+<p>发送请求，可以看到app服务版本确实更新了：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span>:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm | v=<span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>回滚，恢复到更新之前。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl rollout <span class="keyword">undo</span> deployments/kubernetes-bootcamp</div></pre></td></tr></table></figure>
 
       
 
@@ -241,11 +285,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">kubernetes</a>
         		</li>
       		
 		</ul>
@@ -301,7 +349,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/05/16/kubernetes入门_1/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -315,18 +363,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/Android系统源码阅读-9-ContentProvider数据更新通知/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android系统源码阅读(9):ContentProvider数据更新通知
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(7):Content Provider的启动</div>
+    <a href="/2017/04/11/eclipse架构/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Eclipse架构</div>
       <i class="icon-circle-right"></i>
     </a>
   

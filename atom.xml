@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-04-11T09:49:56.000Z</updated>
+  <updated>2017-05-18T11:29:07.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -14,6 +14,96 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kubernetes入门-1</title>
+    <link href="http://itanch.github.io/2017/05/16/kubernetes%E5%85%A5%E9%97%A8_1/"/>
+    <id>http://itanch.github.io/2017/05/16/kubernetes入门_1/</id>
+    <published>2017-05-16T11:55:41.000Z</published>
+    <updated>2017-05-18T11:29:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><p>ubuntu 14.04<br>minikube version: v0.19.0<br>Docker version 1.12.1   </p>
+<h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube是kubernetes的单机试玩版。</p>
+<p><strong>Step 1</strong></p>
+<p>首先需要安装一个虚拟机软件，这里采用了<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="external">VirtualBox</a>。</p>
+<p><strong>Step 2</strong></p>
+<p>安装kubernetes的命令行工具<code>kubectl</code>。</p>
+<p>下载kubectl:   </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl <span class="_">-s</span> https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl</div></pre></td></tr></table></figure>
+<p>配置到环境中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod +x ./kubectl</div><div class="line">sudo mv ./kubectl /usr/<span class="built_in">local</span>/bin/kubectl</div></pre></td></tr></table></figure>
+<p>检查是否正常运行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl cluster-info</div></pre></td></tr></table></figure>
+<p><strong>Step 3</strong></p>
+<p>下载并安装minikube:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.19.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<h2 id="deployment"><a href="#deployment" class="headerlink" title="deployment"></a>deployment</h2><p>Deployment可以来创建和更新一个app。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog" alt=""></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="built_in">run</span> kubernetes-bootcamp <span class="comment">--image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080</span></div></pre></td></tr></table></figure>
+<h2 id="Pod和Node"><a href="#Pod和Node" class="headerlink" title="Pod和Node"></a>Pod和Node</h2><p>Pod 表示了一组关系密切的容器，这些容器之间会共享一些资源，如存储资源、网络、端口等。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.45.21.png-blog" alt=""></p>
+<p>Pod运行在一个Node上，Node指一个物理机器或者一个虚拟机。Master负责管理Node，将Pod分配到Node上。<code>Kubelet</code>负责Master和Node之间的通信。Container runtime (like Docker, rkt)负责获取容器镜像和运行容器。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.39.45.png-blog" alt=""></p>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service定义了一组pod的逻辑关系，并且设置了访问这些pod的策略。Pod拥有独立的IP，不对外暴露，Service负责将对外暴露地址。根据不同的暴露方式，Service被分为如下几类：</p>
+<ol>
+<li>ClusterIP(默认)：在集群中暴露一个内容IP，所以只有在集群内部可以访问service。    </li>
+<li>NodePort：使用NAT，暴露与集群中所选的Node的port相同的port。让外部可以通过集群IP的超集访问Service。   </li>
+<li>LoadBalancer：在当前云中创建一个负载平衡器，并且给定一个外部IP给这个service。   </li>
+<li>ExternalName：Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.   </li>
+</ol>
+<blockquote>
+<p>A Kubernetes Service sis an abstraction layer which defines a logical set of Pods and enables external traffic exposure, load balancing and service discovery for those Pods.</p>
+</blockquote>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.17.14.png-blog" alt=""></p>
+<p>Service使用label和selector来匹配一组pod。label是一组key/value对，可以标记对象是开发版、测试版还是发布版，还可以标记版本号等。label可以在创建是赋予，也可以后随时更改。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.34.01.png-blog" alt=""></p>
+<p>假设集群中已经有一个deployment kubernetes-bootcamp。</p>
+<p>添加service：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --<span class="class"><span class="keyword">type</span></span>=<span class="string">"NodePort"</span> --port <span class="number">8080</span></div></pre></td></tr></table></figure></p>
+<p>给pod打标签：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">label</span><span class="bash"> pod kubernetes-bootcamp-3271566451-ddvkt app=v1</span></div></pre></td></tr></table></figure></p>
+<p>通过标签获取pod<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">get</span> pods -l app=v1</div></pre></td></tr></table></figure></p>
+<p>删除services：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">delete</span> service -l <span class="built_in">run</span>=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
+<h2 id="app扩展和缩减"><a href="#app扩展和缩减" class="headerlink" title="app扩展和缩减"></a>app扩展和缩减</h2><p>前面的例子中，一个app只有一个pod和一个容器。有时候，我们会根据需要，扩展和缩减一个app的规模。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog" alt=""></p>
+<p>将原来的deployment扩展到4个副本：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=4</span></div></pre></td></tr></table></figure></p>
+<p>Deployment数量发生变化：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ kubectl get deployments</div><div class="line">NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</div><div class="line">hello-minikube        <span class="number">1</span>         <span class="number">1</span>         <span class="number">1</span>            <span class="number">1</span>           <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp   <span class="number">4</span>         <span class="number">4</span>         <span class="number">4</span>            <span class="number">4</span>           <span class="number">1</span>d</div></pre></td></tr></table></figure></p>
+<p>Pod数量也发生改变：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods -o wide</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.6</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.5</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-nnwq8   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.7</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.8</span>   minikube</div></pre></td></tr></table></figure></p>
+<p>通过定义的service暴露的端口，可以访问kubernetes-bootcamp应用，可以发现请求被发送到不同的pod上，从而体现了负载均衡的实现。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl | v=<span class="number">1</span></div><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw | v=<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>将app实例缩减到2个：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=2</span></div></pre></td></tr></table></figure></p>
+<h2 id="app更新"><a href="#app更新" class="headerlink" title="app更新"></a>app更新</h2><p><code>Rolling updates</code>可以更新增量的将pod更新到新版本，并且app不会因此中断。</p>
+<p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.02.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog" alt=""></p>
+<p>在更新的时候，service会将业务负载平衡到可获得的pod上面。<code>Rolling updates</code>支持以下操作：</p>
+<ul>
+<li>Promote an application from one environment to another (via container image updates)</li>
+<li>Rollback to previous versions</li>
+<li>Continuous Integration and Continuous Delivery of applications with zero downtime</li>
+</ul>
+<p>下面来更新kubernetes-bootcamp应用的版本来体会一下更新的过程。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">set</span> image <span class="comment">deployments</span>/kubernetes-bootcamp kubernetes-bootcamp=docker.io/<span class="comment">jocatalin</span>/kubernetes-bootcamp:v2</div></pre></td></tr></table></figure>
+<p>可以观察到如下更新过程：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS              RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS        RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Terminating   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div></pre></td></tr></table></figure>
+<p>如果新pod更新失败，则旧pod不会被全部杀死，至少会保留一个维持正常运行。docker pull jocatalin/kubernetes-bootcamp</p>
+<p>测试更新后的效果。</p>
+<p>首先获取service暴露的端口，31645:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ kubectl get services</div><div class="line">NAME                  CLUSTER-<span class="built_in">IP</span>   EXTERNAL-<span class="built_in">IP</span>   PORT(S)          AGE</div><div class="line">kubernetes-bootcamp   <span class="number">10.0</span><span class="meta">.0</span><span class="meta">.127</span>   &lt;nodes&gt;       <span class="number">8080</span>:<span class="number">31645</span>/TCP   <span class="number">1h</span></div></pre></td></tr></table></figure></p>
+<p>获取节点IP：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ kubectl describe pods -l run=kubernetes-bootcamp</div><div class="line"><span class="comment">//...关键内容</span></div><div class="line"><span class="string">Name:</span>		kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt</div><div class="line"><span class="string">Namespace:</span>	<span class="keyword">default</span></div><div class="line"><span class="string">Node:</span>		minikube/<span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span></div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure></p>
+<p>发送请求，可以看到app服务版本确实更新了：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span>:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm | v=<span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>回滚，恢复到更新之前。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl rollout <span class="keyword">undo</span> deployments/kubernetes-bootcamp</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;运行环境&quot;&gt;&lt;a href=&quot;#运行环境&quot; class=&quot;headerlink&quot; title=&quot;运行环境&quot;&gt;&lt;/a&gt;运行环境&lt;/h2&gt;&lt;p&gt;ubuntu 14.04&lt;br&gt;minikube version: v0.19.0&lt;br&gt;Docker version 1.
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="docker" scheme="http://itanch.github.io/tags/docker/"/>
+    
+      <category term="kubernetes" scheme="http://itanch.github.io/tags/kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>Eclipse架构</title>
@@ -305,9 +395,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -378,9 +468,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -437,7 +527,7 @@
     <link href="http://itanch.github.io/2017/04/06/%E7%94%A8React-Native%E5%86%99%E4%B8%80%E4%B8%AA%E5%BE%AE%E5%8D%9A%E5%AE%A2%E6%88%B7%E7%AB%AF-1/"/>
     <id>http://itanch.github.io/2017/04/06/用React-Native写一个微博客户端-1/</id>
     <published>2017-04-06T12:01:14.000Z</published>
-    <updated>2017-04-11T08:59:20.000Z</updated>
+    <updated>2017-04-22T16:17:18.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone" target="_blank" rel="external">github</a>。项目还在持续更新中😊。   </p>
@@ -460,10 +550,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -v -keystore my-release-key.keystore -alias tianchi -keyalg RSA -keysize 2048 -validity 10000</div></pre></td></tr></table></figure>  
 <p><code>-alias</code>后的参数你可以起个好听的名字，比如“tianchi”。这里设置了10000天的有效期。   </p>
 <p>设置gradle变量。多谢这些成熟的构建工具和框架，react-native在创建android项目时已经帮你生成了一个很完善的gradle配置文件，下面需要对其进行修改来满足自己的定制需求。</p>
-<p>把生成的my-release-key.keystore文件放到android/app下面，然后在用户Home下创建并且编辑<code>~/.gradle/gradle.properties</code>文件：</p>
+<p>把生成的<code>my-release-key.keystore</code>文件放到<code>android/app</code>下面，然后在用户Home下创建并且编辑<code>~/.gradle/gradle.properties</code>文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">MYAPP_RELEASE_STORE_FILE=my-release-key.keystore</div><div class="line">MYAPP_RELEASE_KEY_ALIAS=tianchi</div><div class="line">MYAPP_RELEASE_STORE_PASSWORD=******</div><div class="line">MYAPP_RELEASE_KEY_PASSWORD=******</div></pre></td></tr></table></figure>
 <p>添加签名文件到<code>android/app/build.gradle</code>：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">buildTypes &#123;</div><div class="line">    release &#123;</div><div class="line">        ...</div><div class="line">        signingConfig signingConfigs.release</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>混淆压缩apk。在<code>android/app/build.gradle</code>文件中，修改：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Run Proguard to shrink the Java bytecode in release builds.</span></div><div class="line"><span class="keyword">def</span> enableProguardInReleaseBuilds = <span class="literal">true</span></div></pre></td></tr></table></figure>
 <p>打包和安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew assembleRelease</div><div class="line">./gradlew installRelease</div></pre></td></tr></table></figure></p>
@@ -488,9 +578,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -947,9 +1037,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1014,9 +1104,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1092,9 +1182,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1148,9 +1238,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1218,9 +1308,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1346,9 +1436,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1435,9 +1525,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1511,9 +1601,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1553,9 +1643,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1621,9 +1711,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1669,9 +1759,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1739,9 +1829,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1818,9 +1908,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1852,9 +1942,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1888,9 +1978,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1922,9 +2012,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1959,9 +2049,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2004,9 +2094,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2056,9 +2146,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2096,9 +2186,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2517,39 +2607,6 @@
   </entry>
   
   <entry>
-    <title>ubuntu14.04基本配置</title>
-    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
-    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
-    <published>2015-08-06T03:59:57.000Z</published>
-    <updated>2017-02-23T07:42:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
-<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
-<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
-<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
-<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
-<li>取消某个软件(tomcat)开机自启动。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Torque安装笔记(多ubuntu节点)</title>
     <link href="http://itanch.github.io/2015/08/06/Torque%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>http://itanch.github.io/2015/08/06/Torque学习笔记/</id>
@@ -2629,6 +2686,39 @@
       <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
       <category term="Torque" scheme="http://itanch.github.io/tags/Torque/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu14.04基本配置</title>
+    <link href="http://itanch.github.io/2015/08/06/ubuntu14-04%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
+    <id>http://itanch.github.io/2015/08/06/ubuntu14-04基本配置/</id>
+    <published>2015-08-06T03:59:57.000Z</published>
+    <updated>2017-02-23T07:42:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h2><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">$ sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
+<h2 id="安装搜狗输入法："><a href="#安装搜狗输入法：" class="headerlink" title="安装搜狗输入法："></a>安装搜狗输入法：</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo<span class="built_in"> add-apt-repository </span>ppa:fcitx-team/nightly	<span class="comment">#添加fcitx源</span></div><div class="line">$ sudo apt-get install fcitx  </div><div class="line"><span class="comment">#下载搜狗输入法双击安装</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="安装JDK："><a href="#安装JDK：" class="headerlink" title="安装JDK："></a>安装JDK：</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最近的jdk包  </span></div><div class="line">$ sudo mv jdk.tar.gz /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ cd /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/  </span></div><div class="line">$ sudo tar -zxvf jdk.tar.gz  </div><div class="line">$ sudo rm jdk.tar.gz  </div><div class="line"></div><div class="line">$ sudo update-alternatives --install /usr/bin/java java /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">java</span> 300  </span></div><div class="line">$ sudo update-alternatives --install /usr/bin/javac javac /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">jvm</span>/<span class="title">jdk</span>/<span class="title">bin</span>/<span class="title">javac</span> 300</span></div><div class="line"></div><div class="line"><span class="comment">#选择默认java库</span></div><div class="line">$ sudo update-alternatives --config java  </div><div class="line">$ java -version	<span class="comment">#测试</span></div></pre></td></tr></table></figure>
+<h2 id="安装Eclispe"><a href="#安装Eclispe" class="headerlink" title="安装Eclispe"></a>安装Eclispe</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的elipse包  </span></div><div class="line"></div><div class="line">$ sudo mv eclipse.tar.gz /opt/</div><div class="line">$ <span class="built_in">cd</span> /opt/</div><div class="line">$ sudo tar -zxvf eclipse.tar.gz</div><div class="line">$ sudo rm eclipse.tar.gz</div><div class="line"></div><div class="line"><span class="comment">#若想从命令行启动  </span></div><div class="line">$ sudo ln -sf /opt/eclipse/eclipse /usr/bin</div><div class="line"></div><div class="line"><span class="comment">#创建桌面图标  </span></div><div class="line">$ sudo vi /usr/share/applications/eclipse.desktop</div><div class="line"><span class="comment">#添加如下内容  </span></div><div class="line">[Desktop Entry]</div><div class="line">Type=Application</div><div class="line">Name=Eclipse</div><div class="line">Comment=Eclipse Integrated Development Environment</div><div class="line">Icon=/opt/eclipse/icon.xpm</div><div class="line">Exec=eclipse</div><div class="line">Terminal=<span class="literal">false</span></div><div class="line">Categories=Development;IDE;Java;</div></pre></td></tr></table></figure>
+<h2 id="配置Android-SDK"><a href="#配置Android-SDK" class="headerlink" title="配置Android SDK:"></a>配置Android SDK:</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#从官网下载最新的SDK</span></div><div class="line"></div><div class="line"><span class="comment">#将文件解压到目标文件夹/opt/</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>cd /opt/android-sdk/tools</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo  ./android <span class="comment">#运行Android SDK Manager,下载platfor-tools和bulid-tools</span></div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">777</span> android-sdk	<span class="comment">#修改所有文件的权限,使之可以运行</span></div><div class="line"></div><div class="line"><span class="comment">#64位的ubuntu 13.10及以上版本需要安装32位相关的库</span></div><div class="line"><span class="variable">$ </span>sudo dpkg --add-architecture i386</div><div class="line"><span class="variable">$ </span>sudo apt-get update</div><div class="line"><span class="variable">$ </span>sudo apt-get install <span class="symbol">libncurses5:</span>i386 libstdc++<span class="number">6</span><span class="symbol">:i386</span> <span class="symbol">zlib1g:</span>i386</div><div class="line"></div><div class="line"><span class="variable">$ </span>sudo vi /ect/profile  </div><div class="line"><span class="comment">#添加如下内容</span></div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/platform-<span class="symbol">tools:</span><span class="variable">$PATH</span>  </div><div class="line">export PATH=<span class="regexp">/opt/android</span>-sdk-linux/<span class="symbol">tools:</span><span class="variable">$PATH</span></div><div class="line"><span class="variable">$ </span>source /ect/profile</div></pre></td></tr></table></figure>
+<h2 id="Firefox-Flash插件"><a href="#Firefox-Flash插件" class="headerlink" title="Firefox Flash插件"></a>Firefox Flash插件</h2><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#下载最新的Flash Player</span></div><div class="line"></div><div class="line">$ tar -zxvf flash.tar.gz</div><div class="line"><span class="comment">#获取flashplayer.so</span></div><div class="line"></div><div class="line">$ sudo cp libflashplayer.so /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">mozilla</span>/<span class="title">plugins</span></span></div></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li>取消某个软件(tomcat)开机自启动。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">update</span>-rc.d tomcat <span class="keyword">disable</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;更新：&quot;&gt;&lt;a href=&quot;#更新：&quot; class=&quot;headerlink&quot; title=&quot;更新：&quot;&gt;&lt;/a&gt;更新：&lt;/h2&gt;&lt;figure class=&quot;highlight q&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-&lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; upgrade&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安装搜狗输入法：&quot;&gt;&lt;a href=&quot;#安装搜狗输入法：&quot; class=&quot;headerlink&quot; title=&quot;安装搜狗输入法：&quot;&gt;&lt;/a&gt;安装搜狗输入法：&lt;/h2&gt;&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:fcitx-team/nightly	&lt;span class=&quot;comment&quot;&gt;#添加fcitx源&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ sudo apt-get install fcitx  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#下载搜狗输入法双击安装&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="ubuntu" scheme="http://itanch.github.io/tags/ubuntu/"/>
     
   </entry>
   

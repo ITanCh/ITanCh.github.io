@@ -20,7 +20,7 @@
 开发环境：macOS">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_2.gif?imageView2/0/h/300">
 <meta property="og:image" content="http://7xky03.com1.z0.glb.clouddn.com/welone_gif_1.gif?imageView2/0/h/300">
-<meta property="og:updated_time" content="2017-04-11T08:59:20.000Z">
+<meta property="og:updated_time" content="2017-04-22T16:17:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React-Native写一个微博客户端(1)">
 <meta name="twitter:description" content="用React-Native技术实现一个简单的微博客户端。项目开源地址：github。项目还在持续更新中😊。   
@@ -203,10 +203,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -v -keystore my-release-key.keystore -alias tianchi -keyalg RSA -keysize 2048 -validity 10000</div></pre></td></tr></table></figure>  
 <p><code>-alias</code>后的参数你可以起个好听的名字，比如“tianchi”。这里设置了10000天的有效期。   </p>
 <p>设置gradle变量。多谢这些成熟的构建工具和框架，react-native在创建android项目时已经帮你生成了一个很完善的gradle配置文件，下面需要对其进行修改来满足自己的定制需求。</p>
-<p>把生成的my-release-key.keystore文件放到android/app下面，然后在用户Home下创建并且编辑<code>~/.gradle/gradle.properties</code>文件：</p>
+<p>把生成的<code>my-release-key.keystore</code>文件放到<code>android/app</code>下面，然后在用户Home下创建并且编辑<code>~/.gradle/gradle.properties</code>文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">MYAPP_RELEASE_STORE_FILE=my-release-key.keystore</div><div class="line">MYAPP_RELEASE_KEY_ALIAS=tianchi</div><div class="line">MYAPP_RELEASE_STORE_PASSWORD=******</div><div class="line">MYAPP_RELEASE_KEY_PASSWORD=******</div></pre></td></tr></table></figure>
 <p>添加签名文件到<code>android/app/build.gradle</code>：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Attention!!! You shuld use your own release key!!!</span></div><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        storeFile file(MYAPP_RELEASE_STORE_FILE)</div><div class="line">        storePassword MYAPP_RELEASE_STORE_PASSWORD</div><div class="line">        keyAlias MYAPP_RELEASE_KEY_ALIAS</div><div class="line">        keyPassword MYAPP_RELEASE_KEY_PASSWORD</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">buildTypes &#123;</div><div class="line">    release &#123;</div><div class="line">        ...</div><div class="line">        signingConfig signingConfigs.release</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>混淆压缩apk。在<code>android/app/build.gradle</code>文件中，修改：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Run Proguard to shrink the Java bytecode in release builds.</span></div><div class="line"><span class="keyword">def</span> enableProguardInReleaseBuilds = <span class="literal">true</span></div></pre></td></tr></table></figure>
 <p>打包和安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew assembleRelease</div><div class="line">./gradlew installRelease</div></pre></td></tr></table></figure></p>
@@ -232,11 +232,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -425,15 +425,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,18 +449,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
@@ -469,7 +457,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -478,6 +478,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">kubernetes</a>
               </li>
              
               <li class="article-tag-list-item">
