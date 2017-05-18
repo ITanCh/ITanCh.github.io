@@ -9,25 +9,13 @@
   <title>kubernetes入门-1 | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
-安装minikubeminikube是kubernetes的单机试玩版。
-Step 1
-首先需要安装一个虚拟机软件，这里采用了VirtualBox。
-Step 2
-安装kubernetes的命令行工具kubectl。
-下载kubectl:   
-1curl -LO h">
+安装minikubeminikube是kubernetes的单机试玩版。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kubernetes入门-1">
 <meta property="og:url" content="http://itanch.github.io/2017/05/16/kubernetes入门_1/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
 <meta property="og:description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
-安装minikubeminikube是kubernetes的单机试玩版。
-Step 1
-首先需要安装一个虚拟机软件，这里采用了VirtualBox。
-Step 2
-安装kubernetes的命令行工具kubectl。
-下载kubectl:   
-1curl -LO h">
+安装minikubeminikube是kubernetes的单机试玩版。">
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog">
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.45.21.png-blog">
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.39.45.png-blog">
@@ -39,17 +27,11 @@ Step 2
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog">
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog">
 <meta property="og:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog">
-<meta property="og:updated_time" content="2017-05-18T11:29:07.000Z">
+<meta property="og:updated_time" content="2017-05-18T11:31:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kubernetes入门-1">
 <meta name="twitter:description" content="运行环境ubuntu 14.04minikube version: v0.19.0Docker version 1.12.1   
-安装minikubeminikube是kubernetes的单机试玩版。
-Step 1
-首先需要安装一个虚拟机软件，这里采用了VirtualBox。
-Step 2
-安装kubernetes的命令行工具kubectl。
-下载kubectl:   
-1curl -LO h">
+安装minikubeminikube是kubernetes的单机试玩版。">
 <meta name="twitter:image" content="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
@@ -208,6 +190,7 @@ Step 2
       
         <h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><p>ubuntu 14.04<br>minikube version: v0.19.0<br>Docker version 1.12.1   </p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube是kubernetes的单机试玩版。</p>
+<a id="more"></a>
 <p><strong>Step 1</strong></p>
 <p>首先需要安装一个虚拟机软件，这里采用了<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="external">VirtualBox</a>。</p>
 <p><strong>Step 2</strong></p>
@@ -244,7 +227,7 @@ Step 2
 <p>假设集群中已经有一个deployment kubernetes-bootcamp。</p>
 <p>添加service：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --<span class="class"><span class="keyword">type</span></span>=<span class="string">"NodePort"</span> --port <span class="number">8080</span></div></pre></td></tr></table></figure></p>
 <p>给pod打标签：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">label</span><span class="bash"> pod kubernetes-bootcamp-3271566451-ddvkt app=v1</span></div></pre></td></tr></table></figure></p>
-<p>通过标签获取pod<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">get</span> pods -l app=v1</div></pre></td></tr></table></figure></p>
+<p>通过标签获取pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods <span class="_">-l</span> app=v1</div></pre></td></tr></table></figure></p>
 <p>删除services：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">delete</span> service -l <span class="built_in">run</span>=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
 <h2 id="app扩展和缩减"><a href="#app扩展和缩减" class="headerlink" title="app扩展和缩减"></a>app扩展和缩减</h2><p>前面的例子中，一个app只有一个pod和一个容器。有时候，我们会根据需要，扩展和缩减一个app的规模。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog" alt=""></p>
