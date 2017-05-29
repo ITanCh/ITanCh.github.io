@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-05-18T11:31:22.000Z</updated>
+  <updated>2017-05-29T03:35:59.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -16,11 +16,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>kubernetes入门-1</title>
+    <title>Netty入门-1</title>
+    <link href="http://itanch.github.io/2017/05/29/Netty%E5%85%A5%E9%97%A8-1/"/>
+    <id>http://itanch.github.io/2017/05/29/Netty入门-1/</id>
+    <published>2017-05-29T02:49:38.000Z</published>
+    <updated>2017-05-29T03:35:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Netty is an asynchronous event-driven network application framework<br>for rapid development of maintainable high performance protocol servers &amp; clients.</p>
+</blockquote>
+<p>这里通过实现一个简单的Echo服务器和客户端来演示Netty的使用。参考<a href="https://github.com/ReactivePlatform/netty-in-action-cn" target="_blank" rel="external">《Netty实战》</a>。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>java version “1.8.0_121”<br>Java(TM) SE Runtime Environment (build 1.8.0_121-b13)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)  </p>
+<p>Maven: 3.5.0</p>
+<p>Netty: 4.1.11.Final</p>
+<a id="more"></a>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.echo</span></div><div class="line">├── Client</div><div class="line">│   ├── pom<span class="selector-class">.xml</span></div><div class="line">│   ├── src</div><div class="line">│   │   ├── main</div><div class="line">│   │   │   ├── java</div><div class="line">│   │   │   │   └── com</div><div class="line">│   │   │   │       └── tc</div><div class="line">│   │   │   │           └── echo</div><div class="line">│   │   │   │               ├── EchoClient<span class="selector-class">.java</span></div><div class="line">│   │   │   │               └── EchoClientHandler<span class="selector-class">.java</span></div><div class="line">│   │   │   └── resources</div><div class="line">│   │   └── test</div><div class="line">│   │       ├── java</div><div class="line">│   │       └── resources</div><div class="line">│   └── target</div><div class="line">├── Server</div><div class="line">│   ├── pom<span class="selector-class">.xml</span></div><div class="line">│   ├── src</div><div class="line">│   │   ├── main</div><div class="line">│   │   │   └── java</div><div class="line">│   │   │       └── com</div><div class="line">│   │   │           └── tc</div><div class="line">│   │   │               └── echo</div><div class="line">│   │   │                   ├── EchoServer<span class="selector-class">.java</span></div><div class="line">│   │   │                   └── EchoServerHandler<span class="selector-class">.java</span></div><div class="line">│   │   └── test</div><div class="line">│   │       └── java</div><div class="line">│   └── target</div><div class="line">└── pom.xml</div></pre></td></tr></table></figure>
+<p>首先主目录中有一个pom.xml文件，同时有两个子模块Server和Client，每个子模块又有自己的pom.xml文件。</p>
+<h2 id="根pom-xml"><a href="#根pom-xml" class="headerlink" title="根pom.xml"></a>根pom.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>echo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>echo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span></div><div class="line">        Build an Echo Server and Client</div><div class="line">	<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">modules</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">module</span>&gt;</span>Client<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">module</span>&gt;</span>Server<span class="tag">&lt;/<span class="name">module</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">modules</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">echo-server.hostname</span>&gt;</span>localhost<span class="tag">&lt;/<span class="name">echo-server.hostname</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">echo-server.port</span>&gt;</span>8888<span class="tag">&lt;/<span class="name">echo-server.port</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.netty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>netty-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.11.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-failsafe-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.18.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.18.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.mojo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>exec-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>注意根pom.xml是一个pom项目，并且定义了两个module：Client，Server。根目录下只有一个pom文件和两个子模块项目，没有具体的代码。</p>
+<p>这里先声明了整个项目的所需的依赖<code>netty-all</code>，同时声明了一下后续需要使用的插件。</p>
+<h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>echo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>Echo Server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.mojo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>exec-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">id</span>&gt;</span>run-server<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">goal</span>&gt;</span>java<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></div><div class="line">						<span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>com.tc.echo.EchoServer<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">arguments</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">argument</span>&gt;</span>$&#123;echo-server.port&#125;<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Server的pom继承了上一根项目echo的pom，所以echo中pom的内容也会应用于Server。同时这里还定义了执行方法，指定的主函数入口，并且设置了需要传入的参数。</p>
+<p><em>EchoServerHandler.java</em>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc.echo;</div><div class="line"></div><div class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</div><div class="line"><span class="keyword">import</span> io.netty.buffer.Unpooled;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelFutureListener;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandler.Sharable;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelInboundHandlerAdapter;</div><div class="line"><span class="keyword">import</span> io.netty.util.CharsetUtil;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 代码清单 2-1 EchoServerHandler</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> &lt;a href="mailto:norman.maurer@gmail.com"&gt;Norman Maurer&lt;/a&gt;</div><div class="line"> */</div><div class="line"><span class="comment">//标示一个ChannelHandler可以被多个 Channel 安全地共享</span></div><div class="line"><span class="meta">@Sharable</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> </span>&#123;</div><div class="line">        ByteBuf in = (ByteBuf) msg;</div><div class="line">        <span class="comment">//将消息记录到控制台</span></div><div class="line">        System.out.println(</div><div class="line">                <span class="string">"Server received: "</span> + in.toString(CharsetUtil.UTF_8));</div><div class="line">        <span class="comment">//将接收到的消息写给发送者，而不冲刷出站消息</span></div><div class="line">        ctx.write(in);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelReadComplete</span><span class="params">(ChannelHandlerContext ctx)</span></span></div><div class="line">            <span class="keyword">throws</span> Exception &#123;</div><div class="line">        <span class="comment">//将未决消息冲刷到远程节点，并且关闭该 Channel</span></div><div class="line">        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)</div><div class="line">                .addListener(ChannelFutureListener.CLOSE);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx,</span></span></div><div class="line">        Throwable cause) &#123;</div><div class="line">        <span class="comment">//打印异常栈跟踪</span></div><div class="line">        cause.printStackTrace();</div><div class="line">        <span class="comment">//关闭该Channel</span></div><div class="line">        ctx.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>创建一个handler来处理网络链接中的事务。</p>
+<p><em>EchoServer:</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc.echo;</div><div class="line"></div><div class="line"><span class="keyword">import</span> io.netty.bootstrap.ServerBootstrap;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelFuture;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelInitializer;</div><div class="line"><span class="keyword">import</span> io.netty.channel.EventLoopGroup;</div><div class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</div><div class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</div><div class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 代码清单 2-2 EchoServer 类</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> &lt;a href="mailto:norman.maurer@gmail.com"&gt;Norman Maurer&lt;/a&gt;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoServer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> port;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EchoServer</span><span class="params">(<span class="keyword">int</span> port)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.port = port;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></div><div class="line">        <span class="keyword">throws</span> Exception &#123;</div><div class="line">        <span class="keyword">if</span> (args.length != <span class="number">1</span>) &#123;</div><div class="line">            System.err.println(<span class="string">"Usage: "</span> + EchoServer.class.getSimpleName() +</div><div class="line">                <span class="string">" &lt;port&gt;"</span></div><div class="line">            );</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//设置端口值（如果端口参数的格式不正确，则抛出一个NumberFormatException）</span></div><div class="line">        <span class="keyword">int</span> port = Integer.parseInt(args[<span class="number">0</span>]);</div><div class="line">        <span class="comment">//调用服务器的 start()方法</span></div><div class="line">        <span class="keyword">new</span> EchoServer(port).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">final</span> EchoServerHandler serverHandler = <span class="keyword">new</span> EchoServerHandler();</div><div class="line">        <span class="comment">//(1) 创建EventLoopGroup</span></div><div class="line">        EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//(2) 创建ServerBootstrap</span></div><div class="line">            ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</div><div class="line">            b.group(group)</div><div class="line">                <span class="comment">//(3) 指定所使用的 NIO 传输 Channel</span></div><div class="line">                .channel(NioServerSocketChannel.class)</div><div class="line">                <span class="comment">//(4) 使用指定的端口设置套接字地址</span></div><div class="line">                .localAddress(<span class="keyword">new</span> InetSocketAddress(port))</div><div class="line">                <span class="comment">//(5) 添加一个EchoServerHandler到于Channel的 ChannelPipeline</span></div><div class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="comment">//EchoServerHandler 被标注为@Shareable，所以我们可以总是使用同样的实例</span></div><div class="line">                        <span class="comment">//这里对于所有的客户端连接来说，都会使用同一个 EchoServerHandler，因为其被标注为@Sharable，</span></div><div class="line">                        <span class="comment">//这将在后面的章节中讲到。</span></div><div class="line">                        ch.pipeline().addLast(serverHandler);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            <span class="comment">//(6) 异步地绑定服务器；调用 sync()方法阻塞等待直到绑定完成</span></div><div class="line">            ChannelFuture f = b.bind().sync();</div><div class="line">            System.out.println(EchoServer.class.getName() +</div><div class="line">                <span class="string">" started and listening for connections on "</span> + f.channel().localAddress());</div><div class="line">            <span class="comment">//(7) 获取 Channel 的CloseFuture，并且阻塞当前线程直到它完成</span></div><div class="line">            f.channel().closeFuture().sync();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="comment">//(8) 关闭 EventLoopGroup，释放所有的资源</span></div><div class="line">            group.shutdownGracefully().sync();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>启动Server。</p>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><p>pom.xml:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>echo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>Echo Client<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.mojo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>exec-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">id</span>&gt;</span>run-client<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">goal</span>&gt;</span>java<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></div><div class="line">						<span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>com.tc.echo.EchoClient<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">arguments</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">argument</span>&gt;</span>$&#123;echo-server.hostname&#125;<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">argument</span>&gt;</span>$&#123;echo-server.port&#125;<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>EchoClientHandler.java:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc.echo;</div><div class="line"><span class="keyword">import</span> io.netty.buffer.ByteBuf;</div><div class="line"><span class="keyword">import</span> io.netty.buffer.Unpooled;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandler.Sharable;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelHandlerContext;</div><div class="line"><span class="keyword">import</span> io.netty.channel.SimpleChannelInboundHandler;</div><div class="line"><span class="keyword">import</span> io.netty.util.CharsetUtil;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 代码清单 2-3 客户端的 ChannelHandler</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> &lt;a href="mailto:norman.maurer@gmail.com"&gt;Norman Maurer&lt;/a&gt;</div><div class="line"> */</div><div class="line"><span class="meta">@Sharable</span></div><div class="line"><span class="comment">//标记该类的实例可以被多个 Channel 共享</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoClientHandler</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">ByteBuf</span>&gt; &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> </span>&#123;</div><div class="line">        <span class="comment">//当被通知 Channel是活跃的时候，发送一条消息</span></div><div class="line">        ctx.writeAndFlush(Unpooled.copiedBuffer(<span class="string">"Netty rocks!"</span>,</div><div class="line">                CharsetUtil.UTF_8));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in)</span> </span>&#123;</div><div class="line">        <span class="comment">//记录已接收消息的转储</span></div><div class="line">        System.out.println(</div><div class="line">                <span class="string">"Client received: "</span> + in.toString(CharsetUtil.UTF_8));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="comment">//在发生异常时，记录错误并关闭Channel</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx,</span></span></div><div class="line">        Throwable cause) &#123;</div><div class="line">        cause.printStackTrace();</div><div class="line">        ctx.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>EchoClient.java:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc.echo;</div><div class="line"></div><div class="line"><span class="keyword">import</span> io.netty.bootstrap.Bootstrap;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelFuture;</div><div class="line"><span class="keyword">import</span> io.netty.channel.ChannelInitializer;</div><div class="line"><span class="keyword">import</span> io.netty.channel.EventLoopGroup;</div><div class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</div><div class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</div><div class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioSocketChannel;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 代码清单 2-4 客户端的主类</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> &lt;a href="mailto:norman.maurer@gmail.com"&gt;Norman Maurer&lt;/a&gt;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EchoClient</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String host;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> port;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EchoClient</span><span class="params">(String host, <span class="keyword">int</span> port)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.host = host;</div><div class="line">        <span class="keyword">this</span>.port = port;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span></div><div class="line">        <span class="keyword">throws</span> Exception &#123;</div><div class="line">        EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//创建 Bootstrap</span></div><div class="line">            Bootstrap b = <span class="keyword">new</span> Bootstrap();</div><div class="line">            <span class="comment">//指定 EventLoopGroup 以处理客户端事件；需要适用于 NIO 的实现</span></div><div class="line">            b.group(group)</div><div class="line">                <span class="comment">//适用于 NIO 传输的Channel 类型</span></div><div class="line">                .channel(NioSocketChannel.class)</div><div class="line">                <span class="comment">//设置服务器的InetSocketAddress</span></div><div class="line">                .remoteAddress(<span class="keyword">new</span> InetSocketAddress(host, port))</div><div class="line">                <span class="comment">//在创建Channel时，向 ChannelPipeline中添加一个 EchoClientHandler实例</span></div><div class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span></span></div><div class="line">                        <span class="keyword">throws</span> Exception &#123;</div><div class="line">                        ch.pipeline().addLast(</div><div class="line">                             <span class="keyword">new</span> EchoClientHandler());</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            <span class="comment">//连接到远程节点，阻塞等待直到连接完成</span></div><div class="line">            ChannelFuture f = b.connect().sync();</div><div class="line">            <span class="comment">//阻塞，直到Channel 关闭</span></div><div class="line">            f.channel().closeFuture().sync();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="comment">//关闭线程池并且释放所有的资源</span></div><div class="line">            group.shutdownGracefully().sync();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></div><div class="line">            <span class="keyword">throws</span> Exception &#123;</div><div class="line">        <span class="keyword">if</span> (args.length != <span class="number">2</span>) &#123;</div><div class="line">            System.err.println(<span class="string">"Usage: "</span> + EchoClient.class.getSimpleName() +</div><div class="line">                    <span class="string">" &lt;host&gt; &lt;port&gt;"</span></div><div class="line">            );</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> String host = args[<span class="number">0</span>];</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> port = Integer.parseInt(args[<span class="number">1</span>]);</div><div class="line">        <span class="keyword">new</span> EchoClient(host, port).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>构建<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn clean <span class="class"><span class="keyword">package</span></span></div></pre></td></tr></table></figure></p>
+<p>到两个模块的目录下，分别运行：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">mvn </span>exec:java</div></pre></td></tr></table></figure></p>
+<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><p>创建子模块。手动创建子目录和pom是可行的，但是比较麻烦。在eclipse中，可以右键点击echo项目，然后新建一个module类型的maven工程即可，这样会自动构建相应的文件目录和基本的pom文件。</p>
+<p>Netty库解析失败。虽然Netty已经通过maven构建添加入classpath，但是import时会出现错误，当你点击开Maven Dependences会发现，里面的class文件是打不开的。这是因为maven仓库出现的问题，里面有内容错误。我通过删除Home下的<code>.m</code>下的仓库，然后右键项目&gt;Maven&gt;Update Project。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Netty is an asynchronous event-driven network application framework&lt;br&gt;for rapid development of maintainable high performance protocol servers &amp;amp; clients.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里通过实现一个简单的Echo服务器和客户端来演示Netty的使用。参考&lt;a href=&quot;https://github.com/ReactivePlatform/netty-in-action-cn&quot;&gt;《Netty实战》&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h2&gt;&lt;p&gt;java version “1.8.0_121”&lt;br&gt;Java(TM) SE Runtime Environment (build 1.8.0_121-b13)&lt;br&gt;Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)  &lt;/p&gt;
+&lt;p&gt;Maven: 3.5.0&lt;/p&gt;
+&lt;p&gt;Netty: 4.1.11.Final&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Netty" scheme="http://itanch.github.io/tags/Netty/"/>
+    
+      <category term="java" scheme="http://itanch.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubernetes入门-安装</title>
     <link href="http://itanch.github.io/2017/05/16/kubernetes%E5%85%A5%E9%97%A8_1/"/>
     <id>http://itanch.github.io/2017/05/16/kubernetes入门_1/</id>
     <published>2017-05-16T11:55:41.000Z</published>
-    <updated>2017-05-18T11:31:22.000Z</updated>
+    <updated>2017-05-29T02:48:22.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><p>ubuntu 14.04<br>minikube version: v0.19.0<br>Docker version 1.12.1   </p>
 <h2 id="安装minikube"><a href="#安装minikube" class="headerlink" title="安装minikube"></a>安装minikube</h2><p>minikube是kubernetes的单机试玩版。</p>
@@ -61,7 +117,7 @@
 <p>假设集群中已经有一个deployment kubernetes-bootcamp。</p>
 <p>添加service：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --<span class="class"><span class="keyword">type</span></span>=<span class="string">"NodePort"</span> --port <span class="number">8080</span></div></pre></td></tr></table></figure></p>
 <p>给pod打标签：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">label</span><span class="bash"> pod kubernetes-bootcamp-3271566451-ddvkt app=v1</span></div></pre></td></tr></table></figure></p>
-<p>通过标签获取pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods <span class="_">-l</span> app=v1</div></pre></td></tr></table></figure></p>
+<p>通过标签获取pod<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">get</span> pods -l app=v1</div></pre></td></tr></table></figure></p>
 <p>删除services：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">delete</span> service -l <span class="built_in">run</span>=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
 <h2 id="app扩展和缩减"><a href="#app扩展和缩减" class="headerlink" title="app扩展和缩减"></a>app扩展和缩减</h2><p>前面的例子中，一个app只有一个pod和一个容器。有时候，我们会根据需要，扩展和缩减一个app的规模。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog" alt=""></p>
@@ -70,7 +126,7 @@
 <p>Pod数量也发生改变：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods -o wide</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.6</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.5</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-nnwq8   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.7</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.8</span>   minikube</div></pre></td></tr></table></figure></p>
 <p>通过定义的service暴露的端口，可以访问kubernetes-bootcamp应用，可以发现请求被发送到不同的pod上，从而体现了负载均衡的实现。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl | v=<span class="number">1</span></div><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw | v=<span class="number">1</span></div></pre></td></tr></table></figure></p>
 <p>将app实例缩减到2个：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=2</span></div></pre></td></tr></table></figure></p>
-<h2 id="app更新"><a href="#app更新" class="headerlink" title="app更新"></a>app更新</h2><p><code>Rolling updates</code>可以更新增量的将pod更新到新版本，并且app不会因此中断。</p>
+<h2 id="app更新"><a href="#app更新" class="headerlink" title="app更新"></a>app更新</h2><p><code>Rolling updates</code>可以增量的将pod更新到新版本，并且app不会因此中断。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.02.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog" alt=""></p>
 <p>在更新的时候，service会将业务负载平衡到可获得的pod上面。<code>Rolling updates</code>支持以下操作：</p>
 <ul>
@@ -79,9 +135,9 @@
 <li>Continuous Integration and Continuous Delivery of applications with zero downtime</li>
 </ul>
 <p>下面来更新kubernetes-bootcamp应用的版本来体会一下更新的过程。</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">set</span> image <span class="comment">deployments</span>/kubernetes-bootcamp kubernetes-bootcamp=docker.io/<span class="comment">jocatalin</span>/kubernetes-bootcamp:v2</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="built_in">set</span> image deployments/kubernetes-bootcamp kubernetes-bootcamp=docker.io/jocatalin/kubernetes-bootcamp:v2</div></pre></td></tr></table></figure>
 <p>可以观察到如下更新过程：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS              RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running             <span class="number">0</span>          <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">0</span>/<span class="number">1</span>       ContainerCreating   <span class="number">0</span>          <span class="number">35</span>s</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS        RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Terminating   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running       <span class="number">0</span>          <span class="number">4</span>m</div><div class="line"></div><div class="line"><span class="comment">//一段时间后</span></div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">2</span>d</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div><div class="line">kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">5</span>m</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS              RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running             0          2d</div><div class="line">kubernetes-bootcamp-3271566451-ddvkt   1/1       Running             0          1d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   0/1       ContainerCreating   0          35s</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   0/1       ContainerCreating   0          35s</div><div class="line"></div><div class="line">//一段时间后</div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS        RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running       0          2d</div><div class="line">kubernetes-bootcamp-3271566451-ddvkt   1/1       Terminating   0          2d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   1/1       Running       0          4m</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   1/1       Running       0          4m</div><div class="line"></div><div class="line">//一段时间后</div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running   0          2d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   1/1       Running   0          5m</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   1/1       Running   0          5m</div></pre></td></tr></table></figure>
 <p>如果新pod更新失败，则旧pod不会被全部杀死，至少会保留一个维持正常运行。docker pull jocatalin/kubernetes-bootcamp</p>
 <p>测试更新后的效果。</p>
 <p>首先获取service暴露的端口，31645:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ kubectl get services</div><div class="line">NAME                  CLUSTER-<span class="built_in">IP</span>   EXTERNAL-<span class="built_in">IP</span>   PORT(S)          AGE</div><div class="line">kubernetes-bootcamp   <span class="number">10.0</span><span class="meta">.0</span><span class="meta">.127</span>   &lt;nodes&gt;       <span class="number">8080</span>:<span class="number">31645</span>/TCP   <span class="number">1h</span></div></pre></td></tr></table></figure></p>
@@ -397,9 +453,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -470,9 +526,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -580,9 +636,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -593,7 +649,7 @@
     <link href="http://itanch.github.io/2017/03/26/Java%E6%8D%A1%E6%BC%8F/"/>
     <id>http://itanch.github.io/2017/03/26/Java捡漏/</id>
     <published>2017-03-26T09:01:59.000Z</published>
-    <updated>2017-04-06T12:02:19.000Z</updated>
+    <updated>2017-05-29T02:46:40.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>在本科时没有好好听老师讲课，现在只能重新再学学Java，😭。</p>
@@ -681,6 +737,11 @@
 </tr>
 </tbody>
 </table>
+<h2 id="接口中是否可以生命静态方法？"><a href="#接口中是否可以生命静态方法？" class="headerlink" title="接口中是否可以生命静态方法？"></a>接口中是否可以生命静态方法？</h2><p>先说说<code>java.util.Collections</code>类，该类是一个工具类，它的构造函数是private的，所以你无法进行实例化，也无法被继承。将构造函数设置为private是java中防止class实例化的常用技巧，目的就是希望用户可以将该类作为一个工具使用，或者，通过该类提供的统一接口，如builder或者factory进行创建。</p>
+<p>接口中是可以有静态方法的（与老版不同？），当然，该静态函数<code>必须</code>是有函数体的。同样，也可以有静态属性。仔细看，还会发现还可以有非静态的属性？其实这是一个默认静态的属性。</p>
+<p>实现该接口的类也只需实现抽象方法，静态方法并没有被继承，也就是没办法通过类调用setMe。但是，却可以通过类调用me和sMe两个属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//下面都是可以正确编译和执行的</span></div><div class="line"><span class="comment">//MeFace.java</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MeFace</span> </span>&#123;</div><div class="line">	<span class="comment">//其实是默认静态的</span></div><div class="line">	<span class="keyword">int</span> me=<span class="number">1</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> sMe=<span class="number">2</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setMe</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(sMe);</div><div class="line">		System.out.println(me);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMe</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Main.java</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		MeFace.setMe();</div><div class="line">		System.out.println(MeFace.me);</div><div class="line">		System.out.println(MeFace.sMe);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果MeFace不是一个接口，而是一个abstract class，规则就有所不同。Abstract class它首先是个class，所以me就是一个常规的属性，sMe和setMe都会被继承下来，子类也可以正确使用这些函数和属性。</p>
 ]]></content>
     
     <summary type="html">
@@ -1039,9 +1100,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1106,9 +1167,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1184,9 +1245,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1240,9 +1301,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1310,9 +1371,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1438,9 +1499,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1527,9 +1588,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1603,9 +1664,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1645,9 +1706,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1713,9 +1774,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1761,9 +1822,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1831,9 +1892,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1910,9 +1971,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1944,9 +2005,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -1980,9 +2041,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2014,9 +2075,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2051,9 +2112,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2096,9 +2157,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2148,9 +2209,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2188,9 +2249,9 @@
     </summary>
     
     
-      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
-    
       <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
+    
+      <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
@@ -2352,7 +2413,7 @@
     <link href="http://itanch.github.io/2015/11/16/MESOS%E5%AE%89%E8%A3%85/"/>
     <id>http://itanch.github.io/2015/11/16/MESOS安装/</id>
     <published>2015-11-16T01:40:40.000Z</published>
-    <updated>2017-02-23T07:42:15.000Z</updated>
+    <updated>2017-05-18T11:31:04.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="基本环境"><a href="#基本环境" class="headerlink" title="基本环境"></a>基本环境</h3><p>系统环境：ubuntu14.04<br>mesos: 0.25.0  </p>
 <h3 id="从源代码安装"><a href="#从源代码安装" class="headerlink" title="从源代码安装"></a>从源代码安装</h3><p>根据官网<a href="http://mesos.apache.org/documentation/latest/getting-started/" target="_blank" rel="external">Getting Started</a>介绍，尝试从源代码编译安装，但未成功。在<code>make check</code>命令执行时出现一个错误，经过分析终于发现原因在于测试中会通过字符串比较验证结果，由于我的系统是中文系统，测试中预想的结果是英文的，所以就导致错误。最后，需要能够访问code.google.com才能进行<code>make install</code>。  </p>

@@ -24,7 +24,7 @@ ClassLoaderboo">
 java version “1.8.0_121”Java(TM) SE Runtime Environment (build 1.8.0_121-b13)Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
 
 ClassLoaderboo">
-<meta property="og:updated_time" content="2017-04-06T12:02:19.000Z">
+<meta property="og:updated_time" content="2017-05-29T02:46:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 知识点">
 <meta name="twitter:description" content="在本科时没有好好听老师讲课，现在只能重新再学学Java，😭。
@@ -274,6 +274,11 @@ ClassLoaderboo">
 </tr>
 </tbody>
 </table>
+<h2 id="接口中是否可以生命静态方法？"><a href="#接口中是否可以生命静态方法？" class="headerlink" title="接口中是否可以生命静态方法？"></a>接口中是否可以生命静态方法？</h2><p>先说说<code>java.util.Collections</code>类，该类是一个工具类，它的构造函数是private的，所以你无法进行实例化，也无法被继承。将构造函数设置为private是java中防止class实例化的常用技巧，目的就是希望用户可以将该类作为一个工具使用，或者，通过该类提供的统一接口，如builder或者factory进行创建。</p>
+<p>接口中是可以有静态方法的（与老版不同？），当然，该静态函数<code>必须</code>是有函数体的。同样，也可以有静态属性。仔细看，还会发现还可以有非静态的属性？其实这是一个默认静态的属性。</p>
+<p>实现该接口的类也只需实现抽象方法，静态方法并没有被继承，也就是没办法通过类调用setMe。但是，却可以通过类调用me和sMe两个属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//下面都是可以正确编译和执行的</span></div><div class="line"><span class="comment">//MeFace.java</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MeFace</span> </span>&#123;</div><div class="line">	<span class="comment">//其实是默认静态的</span></div><div class="line">	<span class="keyword">int</span> me=<span class="number">1</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> sMe=<span class="number">2</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setMe</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(sMe);</div><div class="line">		System.out.println(me);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMe</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Main.java</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		MeFace.setMe();</div><div class="line">		System.out.println(MeFace.me);</div><div class="line">		System.out.println(MeFace.sMe);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果MeFace不是一个接口，而是一个abstract class，规则就有所不同。Abstract class它首先是个class，所以me就是一个常规的属性，sMe和setMe都会被继承下来，子类也可以正确使用这些函数和属性。</p>
 
       
 
@@ -472,7 +477,7 @@ ClassLoaderboo">
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -480,11 +485,11 @@ ClassLoaderboo">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -500,6 +505,30 @@ ClassLoaderboo">
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Netty</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Torque</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
@@ -512,23 +541,11 @@ ClassLoaderboo">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Torque</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -536,7 +553,7 @@ ClassLoaderboo">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
+                <a href="javascript:void(0)" class="js-tag color3">React Native</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -545,10 +562,6 @@ ClassLoaderboo">
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">kubernetes</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">React Native</a>
               </li>
              
               <li class="article-tag-list-item">
