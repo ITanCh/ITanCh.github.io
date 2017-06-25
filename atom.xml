@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itanch.github.io/"/>
-  <updated>2017-06-25T12:30:05.000Z</updated>
+  <updated>2017-06-25T12:37:41.000Z</updated>
   <id>http://itanch.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://itanch.github.io/2017/06/25/spring%E5%AD%A6%E4%B9%A0-1/"/>
     <id>http://itanch.github.io/2017/06/25/spring学习-1/</id>
     <published>2017-06-25T11:48:39.000Z</published>
-    <updated>2017-06-25T12:30:05.000Z</updated>
+    <updated>2017-06-25T12:37:41.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="装配bean"><a href="#装配bean" class="headerlink" title="装配bean"></a>装配bean</h2><p>DI可以降低模块之间的耦合性，一个类通过定义接口来被注入依赖。配置文件描述了对象之间的依赖关系，Spring容器会根据配置文件装配bean。</p>
 <p>有三种装配bean的方式：   </p>
@@ -32,15 +32,14 @@
 <a id="more"></a> 
 <h2 id="项目实践"><a href="#项目实践" class="headerlink" title="项目实践"></a>项目实践</h2><p>针对上述三种装配bean的方式，我创建了一个简单的项目进行学习。</p>
 <p>首先创建了maven项目，并且pom.xml加入所需的依赖：  </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.pache.org/POM/4.0.0"</span></span></div><div class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-test --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.pache.org/POM/4.0.0"</span></span></div><div class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-test --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h3><p>示例中有两个bean，其中CDPlayer需要装配CompactDisk。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.tc;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"></div><div class="line"><span class="comment">//注解指明了需要被自动发现的bean</span></div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompactDisc</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String title = <span class="string">"Sgt"</span>;</div><div class="line">    <span class="keyword">private</span> String artist = <span class="string">"Beatles"</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CompactDisc</span><span class="params">()</span> </span>&#123;</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">play</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Playing "</span> + title + <span class="string">" by "</span> + artist + <span class="string">" "</span> + count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"></div><div class="line"><span class="comment">//注解指明了需要被自动发现的bean</span></div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompactDisc</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String title = <span class="string">"Sgt"</span>;</div><div class="line">    <span class="keyword">private</span> String artist = <span class="string">"Beatles"</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CompactDisc</span><span class="params">()</span> </span>&#123;</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">play</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Playing "</span> + title + <span class="string">" by "</span> + artist + <span class="string">" "</span> + count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"></div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDPlayer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> CompactDisc cd;</div><div class="line"></div><div class="line">    <span class="comment">//自动装配依赖的bean</span></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CDPlayer</span><span class="params">(CompactDisc cd)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.cd = cd;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">play</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> cd.play();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过配置文件指明自动扫描</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> com.tc;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line"><span class="comment">//指明该class是一个配置，并且采用自动扫描</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDPlayerConfig</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tc;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line"><span class="comment">//指明该class是一个配置，并且采用自动扫描</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDPlayerConfig</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>进行测试：   </p>
-<pre><code class="java">
-<span class="keyword">package</span> com.tc;
+<pre><code class="java"><span class="keyword">package</span> com.tc;
 
 <span class="keyword">import</span> org.junit.Test;
 <span class="keyword">import</span> org.junit.runner.RunWith;
@@ -82,8 +81,7 @@
 </code></pre>
 <h3 id="通过java装配bean"><a href="#通过java装配bean" class="headerlink" title="通过java装配bean"></a>通过java装配bean</h3><p>通过java装配bean和自动装配CompactDisc与CDPlayer的区别在于，去掉了<code>@Component</code>和<code>@Autowired</code>标注，将这些类变成了普通的类。</p>
 <p>而在配置文件中，需要如下修改：   </p>
-<pre><code class="java">
-<span class="keyword">package</span> com.tc;
+<pre><code class="java"><span class="keyword">package</span> com.tc;
 
 <span class="keyword">import</span> org.springframework.context.annotation.Bean;
 <span class="keyword">import</span> org.springframework.context.annotation.Configuration;
@@ -103,8 +101,7 @@
 </code></pre>
 <p>使用原来的测试代码，可以发现测试可以成功的通过。</p>
 <h3 id="通过XML装配bean"><a href="#通过XML装配bean" class="headerlink" title="通过XML装配bean"></a>通过XML装配bean</h3><p>创建xml配置文件<code>src\main\resources\play.xml</code>，并填入如下配置内容：   </p>
-<pre><code class="xml">
-<span class="php"><span class="meta">&lt;?</span>xml version = <span class="string">"1.0"</span> encoding = <span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span>
+<pre><code class="xml"><span class="php"><span class="meta">&lt;?</span>xml version = <span class="string">"1.0"</span> encoding = <span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span>
 
 <span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>
        <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>
@@ -622,9 +619,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -695,9 +692,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -805,9 +802,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
       <category term="React Native" scheme="http://itanch.github.io/tags/React-Native/"/>
     
@@ -1269,9 +1266,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1336,9 +1333,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1414,9 +1411,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1470,9 +1467,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1540,9 +1537,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1668,9 +1665,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1757,9 +1754,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1833,9 +1830,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1875,9 +1872,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1943,9 +1940,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -1991,9 +1988,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2061,9 +2058,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2140,9 +2137,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2174,9 +2171,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2210,9 +2207,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2244,9 +2241,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2281,9 +2278,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2326,9 +2323,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2378,9 +2375,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
@@ -2418,9 +2415,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
-    
       <category term="技术" scheme="http://itanch.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="Android" scheme="http://itanch.github.io/tags/Android/"/>
     
   </entry>
   
