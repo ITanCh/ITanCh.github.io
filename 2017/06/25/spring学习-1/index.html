@@ -13,10 +13,7 @@
 
 在java中现式配置；   
 在XML文件中现式配置；   
-隐式bean发现和装配。   
-
-项目实践针对上述三种装配bean的方式，我创建了一个简单的项目进行学习。
-首先创建了maven项目，并且pom.x">
+隐式bean发现和装配。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring学习_bean的装配">
 <meta property="og:url" content="http://itanch.github.io/2017/06/25/spring学习-1/index.html">
@@ -26,11 +23,8 @@
 
 在java中现式配置；   
 在XML文件中现式配置；   
-隐式bean发现和装配。   
-
-项目实践针对上述三种装配bean的方式，我创建了一个简单的项目进行学习。
-首先创建了maven项目，并且pom.x">
-<meta property="og:updated_time" content="2017-06-25T11:52:05.000Z">
+隐式bean发现和装配。">
+<meta property="og:updated_time" content="2017-06-25T11:57:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring学习_bean的装配">
 <meta name="twitter:description" content="装配beanDI可以降低模块之间的耦合性，一个类通过定义接口来被注入依赖。配置文件描述了对象之间的依赖关系，Spring容器会根据配置文件装配bean。
@@ -38,10 +32,7 @@
 
 在java中现式配置；   
 在XML文件中现式配置；   
-隐式bean发现和装配。   
-
-项目实践针对上述三种装配bean的方式，我创建了一个简单的项目进行学习。
-首先创建了maven项目，并且pom.x">
+隐式bean发现和装配。">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -202,8 +193,9 @@
 <ol>
 <li>在java中现式配置；   </li>
 <li>在XML文件中现式配置；   </li>
-<li>隐式bean发现和装配。   </li>
+<li>隐式bean发现和装配。  </li>
 </ol>
+<a id="more"></a> 
 <h2 id="项目实践"><a href="#项目实践" class="headerlink" title="项目实践"></a>项目实践</h2><p>针对上述三种装配bean的方式，我创建了一个简单的项目进行学习。</p>
 <p>首先创建了maven项目，并且pom.xml加入所需的依赖：  </p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.pache.org/POM/4.0.0"</span></span></div><div class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tc<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-test --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.3.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div><div class="line">```   </div><div class="line"></div><div class="line">### 自动化装配bean</div><div class="line"></div><div class="line">示例中有两个bean，其中CDPlayer需要装配CompactDisk。</div><div class="line"></div><div class="line">```java</div><div class="line">package com.tc;</div><div class="line"></div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">//注解指明了需要被自动发现的bean</div><div class="line">@Component</div><div class="line">public class CompactDisc &#123;</div><div class="line">    private String title = "Sgt";</div><div class="line">    private String artist = "Beatles";</div><div class="line">    static int count = 0;</div><div class="line"></div><div class="line">    public CompactDisc() &#123;</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String play() &#123;</div><div class="line">        return "Playing " + title + " by " + artist + " " + count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
