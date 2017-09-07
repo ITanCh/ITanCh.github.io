@@ -205,10 +205,10 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl cluster-info</div></pre></td></tr></table></figure>
 <p><strong>Step 3</strong></p>
 <p>下载并安装minikube:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -Lo minikube https:<span class="regexp">//</span>storage.googleapis.com<span class="regexp">/minikube/</span>releases<span class="regexp">/v0.19.0/mi</span>nikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.19.0/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</div></pre></td></tr></table></figure>
 <h2 id="deployment"><a href="#deployment" class="headerlink" title="deployment"></a>deployment</h2><p>Deployment可以来创建和更新一个app。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.12.png-blog" alt=""></p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="built_in">run</span> kubernetes-bootcamp <span class="comment">--image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080</div></pre></td></tr></table></figure>
 <h2 id="Pod和Node"><a href="#Pod和Node" class="headerlink" title="Pod和Node"></a>Pod和Node</h2><p>Pod 表示了一组关系密切的容器，这些容器之间会共享一些资源，如存储资源、网络、端口等。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-16%2020.45.21.png-blog" alt=""></p>
 <p>Pod运行在一个Node上，Node指一个物理机器或者一个虚拟机。Master负责管理Node，将Pod分配到Node上。<code>Kubelet</code>负责Master和Node之间的通信。Container runtime (like Docker, rkt)负责获取容器镜像和运行容器。</p>
@@ -227,17 +227,17 @@
 <p>Service使用label和selector来匹配一组pod。label是一组key/value对，可以标记对象是开发版、测试版还是发布版，还可以标记版本号等。label可以在创建是赋予，也可以后随时更改。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-17%2015.34.01.png-blog" alt=""></p>
 <p>假设集群中已经有一个deployment kubernetes-bootcamp。</p>
-<p>添加service：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --<span class="class"><span class="keyword">type</span></span>=<span class="string">"NodePort"</span> --port <span class="number">8080</span></div></pre></td></tr></table></figure></p>
-<p>给pod打标签：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">label</span><span class="bash"> pod kubernetes-bootcamp-3271566451-ddvkt app=v1</span></div></pre></td></tr></table></figure></p>
-<p>通过标签获取pod<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">get</span> pods -l app=v1</div></pre></td></tr></table></figure></p>
-<p>删除services：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl <span class="keyword">delete</span> service -l <span class="built_in">run</span>=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
+<p>添加service：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl expose deployment/kubernetes-bootcamp --type=&quot;NodePort&quot; --port 8080</div></pre></td></tr></table></figure></p>
+<p>给pod打标签：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl label pod kubernetes-bootcamp-3271566451-ddvkt app=v1</div></pre></td></tr></table></figure></p>
+<p>通过标签获取pod<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods -l app=v1</div></pre></td></tr></table></figure></p>
+<p>删除services：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl delete service -l run=kubernetes-bootcamp</div></pre></td></tr></table></figure></p>
 <h2 id="app扩展和缩减"><a href="#app扩展和缩减" class="headerlink" title="app扩展和缩减"></a>app扩展和缩减</h2><p>前面的例子中，一个app只有一个pod和一个容器。有时候，我们会根据需要，扩展和缩减一个app的规模。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.43.54.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2015.49.48.png-blog" alt=""></p>
-<p>将原来的deployment扩展到4个副本：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=4</span></div></pre></td></tr></table></figure></p>
-<p>Deployment数量发生变化：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ kubectl get deployments</div><div class="line">NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</div><div class="line">hello-minikube        <span class="number">1</span>         <span class="number">1</span>         <span class="number">1</span>            <span class="number">1</span>           <span class="number">1</span>d</div><div class="line">kubernetes-bootcamp   <span class="number">4</span>         <span class="number">4</span>         <span class="number">4</span>            <span class="number">4</span>           <span class="number">1</span>d</div></pre></td></tr></table></figure></p>
-<p>Pod数量也发生改变：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods -o wide</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE</div><div class="line">hello-minikube<span class="number">-938614450</span>-wn1r7         <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.6</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-ddvkt   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">1</span>d        <span class="number">172.17</span><span class="number">.0</span><span class="number">.5</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-nnwq8   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.7</span>   minikube</div><div class="line">kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw   <span class="number">1</span>/<span class="number">1</span>       Running   <span class="number">0</span>          <span class="number">4</span>m        <span class="number">172.17</span><span class="number">.0</span><span class="number">.8</span>   minikube</div></pre></td></tr></table></figure></p>
-<p>通过定义的service暴露的端口，可以访问kubernetes-bootcamp应用，可以发现请求被发送到不同的pod上，从而体现了负载均衡的实现。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span><span class="number">-2</span>cjjl | v=<span class="number">1</span></div><div class="line">$ curl nodeip:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3271566451</span>-vtnzw | v=<span class="number">1</span></div></pre></td></tr></table></figure></p>
-<p>将app实例缩减到2个：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp <span class="comment">--replicas=2</span></div></pre></td></tr></table></figure></p>
+<p>将原来的deployment扩展到4个副本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp --replicas=4</div></pre></td></tr></table></figure></p>
+<p>Deployment数量发生变化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ kubectl get deployments</div><div class="line">NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</div><div class="line">hello-minikube        1         1         1            1           1d</div><div class="line">kubernetes-bootcamp   4         4         4            4           1d</div></pre></td></tr></table></figure></p>
+<p>Pod数量也发生改变：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods -o wide</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running   0          1d        172.17.0.2   minikube</div><div class="line">kubernetes-bootcamp-3271566451-2cjjl   1/1       Running   0          4m        172.17.0.6   minikube</div><div class="line">kubernetes-bootcamp-3271566451-ddvkt   1/1       Running   0          1d        172.17.0.5   minikube</div><div class="line">kubernetes-bootcamp-3271566451-nnwq8   1/1       Running   0          4m        172.17.0.7   minikube</div><div class="line">kubernetes-bootcamp-3271566451-vtnzw   1/1       Running   0          4m        172.17.0.8   minikube</div></pre></td></tr></table></figure></p>
+<p>通过定义的service暴露的端口，可以访问kubernetes-bootcamp应用，可以发现请求被发送到不同的pod上，从而体现了负载均衡的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ curl nodeip:31645</div><div class="line">Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-3271566451-2cjjl | v=1</div><div class="line">$ curl nodeip:31645</div><div class="line">Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-3271566451-vtnzw | v=1</div></pre></td></tr></table></figure></p>
+<p>将app实例缩减到2个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl scale deployments/kubernetes-bootcamp --replicas=2</div></pre></td></tr></table></figure></p>
 <h2 id="app更新"><a href="#app更新" class="headerlink" title="app更新"></a>app更新</h2><p><code>Rolling updates</code>可以增量的将pod更新到新版本，并且app不会因此中断。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.02.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.16.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.29.png-blog" alt=""><br><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-18%2016.59.41.png-blog" alt=""></p>
 <p>在更新的时候，service会将业务负载平衡到可获得的pod上面。<code>Rolling updates</code>支持以下操作：</p>
@@ -252,11 +252,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS              RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running             0          2d</div><div class="line">kubernetes-bootcamp-3271566451-ddvkt   1/1       Running             0          1d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   0/1       ContainerCreating   0          35s</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   0/1       ContainerCreating   0          35s</div><div class="line"></div><div class="line">//一段时间后</div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS        RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running       0          2d</div><div class="line">kubernetes-bootcamp-3271566451-ddvkt   1/1       Terminating   0          2d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   1/1       Running       0          4m</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   1/1       Running       0          4m</div><div class="line"></div><div class="line">//一段时间后</div><div class="line"></div><div class="line">$ kubectl get pods</div><div class="line">NAME                                   READY     STATUS    RESTARTS   AGE</div><div class="line">hello-minikube-938614450-wn1r7         1/1       Running   0          2d</div><div class="line">kubernetes-bootcamp-3369739380-fbdtm   1/1       Running   0          5m</div><div class="line">kubernetes-bootcamp-3369739380-v98xt   1/1       Running   0          5m</div></pre></td></tr></table></figure>
 <p>如果新pod更新失败，则旧pod不会被全部杀死，至少会保留一个维持正常运行。docker pull jocatalin/kubernetes-bootcamp</p>
 <p>测试更新后的效果。</p>
-<p>首先获取service暴露的端口，31645:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ kubectl get services</div><div class="line">NAME                  CLUSTER-<span class="built_in">IP</span>   EXTERNAL-<span class="built_in">IP</span>   PORT(S)          AGE</div><div class="line">kubernetes-bootcamp   <span class="number">10.0</span><span class="meta">.0</span><span class="meta">.127</span>   &lt;nodes&gt;       <span class="number">8080</span>:<span class="number">31645</span>/TCP   <span class="number">1h</span></div></pre></td></tr></table></figure></p>
-<p>获取节点IP：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ kubectl describe pods -l run=kubernetes-bootcamp</div><div class="line"><span class="comment">//...关键内容</span></div><div class="line"><span class="string">Name:</span>		kubernetes-bootcamp<span class="number">-3369739380</span>-v98xt</div><div class="line"><span class="string">Namespace:</span>	<span class="keyword">default</span></div><div class="line"><span class="string">Node:</span>		minikube/<span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span></div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure></p>
-<p>发送请求，可以看到app服务版本确实更新了：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="number">192.168</span><span class="number">.99</span><span class="number">.100</span>:<span class="number">31645</span></div><div class="line">Hello Kubernetes bootcamp! | Running <span class="keyword">on</span>: kubernetes-bootcamp<span class="number">-3369739380</span>-fbdtm | v=<span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>首先获取service暴露的端口，31645:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ kubectl get services</div><div class="line">NAME                  CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE</div><div class="line">kubernetes-bootcamp   10.0.0.127   &lt;nodes&gt;       8080:31645/TCP   1h</div></pre></td></tr></table></figure></p>
+<p>获取节点IP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ kubectl describe pods -l run=kubernetes-bootcamp</div><div class="line">//...关键内容</div><div class="line">Name:		kubernetes-bootcamp-3369739380-v98xt</div><div class="line">Namespace:	default</div><div class="line">Node:		minikube/192.168.99.100</div><div class="line">//...</div></pre></td></tr></table></figure></p>
+<p>发送请求，可以看到app服务版本确实更新了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl 192.168.99.100:31645</div><div class="line">Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-3369739380-fbdtm | v=2</div></pre></td></tr></table></figure></p>
 <p>回滚，恢复到更新之前。</p>
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl rollout <span class="keyword">undo</span> deployments/kubernetes-bootcamp</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl rollout undo deployments/kubernetes-bootcamp</div></pre></td></tr></table></figure>
 
       
 
@@ -496,11 +496,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -508,7 +504,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -524,15 +532,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -553,10 +569,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,14 +597,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

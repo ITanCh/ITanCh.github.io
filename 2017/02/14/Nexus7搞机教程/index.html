@@ -183,7 +183,7 @@
 <p>首先保证电脑已经安装<a href="https://developer.android.com/studio/command-line/adb.html" target="_blank" rel="external">ADB</a>环境，这里不再赘述安装过程。确保<code>fastboot</code>命令可以在终端执行即可。</p>
 <p>我在这里推荐TWRP recovery，用起来很顺手。在 <a href="https://twrp.me/Devices/" target="_blank" rel="external">TeamWin - TWRP</a> 找到自己需要的recovery，我在这里选择<a href="https://twrp.me/devices/asusnexus72013wifi.html" target="_blank" rel="external">Asus Nexus 7 2013 Wi-Fi (flo)</a>，这个一定要和自己移动设备匹配。</p>
 <p>下载好<code>twrp-xxxx.img</code>文件，关机后，按Power+Volumn down来重启手机，进入fastboot模式。这时，保证设备和电脑通过USB连接，同时使用命令，可以在终端显示设备名称：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ adb devices</div></pre></td></tr></table></figure></p>
-<p>如果手机初始状态为加锁状态，所以首先要解锁：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>fastboot oem unlock</div></pre></td></tr></table></figure></p>
+<p>如果手机初始状态为加锁状态，所以首先要解锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot oem unlock</div></pre></td></tr></table></figure></p>
 <p>解锁成功后，然后刷入recovery：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot flash recovery twrp.img</div></pre></td></tr></table></figure></p>
 <p>刷入recovery，成功会显示一些Okey字样。成功刷入以后，关闭设备，使用Power+Volumn up进入recovery模式，等待一小会，如果长时间停留在twrp初始界面，可以点击音量上或下键来观察是否已经进入。如果recovery无法进入，有可能是刷入的recovery和设备版本不一致。</p>
 <p>Recovery不仅仅用于Nexus 7绕过激活，一会root手机时，也需要用到。</p>
@@ -209,11 +209,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -431,11 +431,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -443,7 +439,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -459,15 +467,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -488,10 +504,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -520,14 +532,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

@@ -156,89 +156,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Android系统源码阅读-3-子Activity在进程内的启动过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/Android系统源码阅读-3-子Activity在进程内的启动过程/">Android系统源码阅读(3):子Activity在进程内的启动过程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/14/Android系统源码阅读-3-子Activity在进程内的启动过程/" class="archive-article-date">
-  	<time datetime="2017-02-14T05:51:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。</p>
-</blockquote>
-<h2 id="子Activity在进程内的启动过程"><a href="#子Activity在进程内的启动过程" class="headerlink" title="子Activity在进程内的启动过程"></a>子Activity在进程内的启动过程</h2><h3 id="Step1-Activity开始启动另一个Activity"><a href="#Step1-Activity开始启动另一个Activity" class="headerlink" title="Step1. Activity开始启动另一个Activity"></a>Step1. Activity开始启动另一个Activity</h3><p><img src="http://img.blog.csdn.net/20160817155832276" alt="这里写图片描述"><br>这里和从Launcher启动过程几乎没分别，但是启动有些参数的设置还是有区别的。</p>
-        
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-3-子Activity在进程内的启动过程/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/14/Android系统源码阅读-3-子Activity在进程内的启动过程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Android系统源码阅读-2-根Activity组件的启动过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -278,11 +195,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -361,11 +278,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -430,7 +347,7 @@
 <p>首先保证电脑已经安装<a href="https://developer.android.com/studio/command-line/adb.html" target="_blank" rel="external">ADB</a>环境，这里不再赘述安装过程。确保<code>fastboot</code>命令可以在终端执行即可。</p>
 <p>我在这里推荐TWRP recovery，用起来很顺手。在 <a href="https://twrp.me/Devices/" target="_blank" rel="external">TeamWin - TWRP</a> 找到自己需要的recovery，我在这里选择<a href="https://twrp.me/devices/asusnexus72013wifi.html" target="_blank" rel="external">Asus Nexus 7 2013 Wi-Fi (flo)</a>，这个一定要和自己移动设备匹配。</p>
 <p>下载好<code>twrp-xxxx.img</code>文件，关机后，按Power+Volumn down来重启手机，进入fastboot模式。这时，保证设备和电脑通过USB连接，同时使用命令，可以在终端显示设备名称：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ adb devices</div></pre></td></tr></table></figure></p>
-<p>如果手机初始状态为加锁状态，所以首先要解锁：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>fastboot oem unlock</div></pre></td></tr></table></figure></p>
+<p>如果手机初始状态为加锁状态，所以首先要解锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot oem unlock</div></pre></td></tr></table></figure></p>
 <p>解锁成功后，然后刷入recovery：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot flash recovery twrp.img</div></pre></td></tr></table></figure></p>
 <p>刷入recovery，成功会显示一些Okey字样。成功刷入以后，关闭设备，使用Power+Volumn up进入recovery模式，等待一小会，如果长时间停留在twrp初始界面，可以点击音量上或下键来观察是否已经进入。如果recovery无法进入，有可能是刷入的recovery和设备版本不一致。</p>
 <p>Recovery不仅仅用于Nexus 7绕过激活，一会root手机时，也需要用到。</p>
@@ -456,11 +373,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -685,15 +602,38 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>从SB Admin开始学习AngularJS!</p>
-<p><a href="https://github.com/start-angular/sb-admin-angular">SB Admin v2.0 rewritten in AngularJS</a>是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。</p>
-<h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://nodejs.org">Nodejs</a>升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo npm cache clean <span class="_">-f</span></div><div class="line">$ sudo npm install -g n</div><div class="line">$ sudo n stable</div><div class="line">$ sudo ln -sf /usr/<span class="built_in">local</span>/n/versions/node/&lt;VERSION&gt;/bin/node /usr/bin/node</div></pre></td></tr></table></figure></p>
-<p>npm升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global npm@latest</div></pre></td></tr></table></figure>  </p>
-<p><a href="http://bower.io/">Bower</a>是一个对web开发进行包管理的工具。  </p>
-<p><a href="http://www.gruntjs.net/">GRUNT</a>的目的就是自动化。对于需要反复重复的任务，例如压缩（minification）、编译、单元测试、linting等，自动化工具可以减轻你的劳动，简化你的工作。当你在 Gruntfile 文件正确配置好了任务，任务运行器就会自动帮你或你的小组完成大部分无聊的工作。  </p>
-<p><a href="http://yeoman.io/">Yeoman</a>生成web应用的基本架构。<br>
-        
-          <a class="article-more-a" href="/2016/01/15/AngularJS学习/#more">more >></a>
-        
+<p><a href="https://github.com/start-angular/sb-admin-angular" target="_blank" rel="external">SB Admin v2.0 rewritten in AngularJS</a>是一个SB Admin的AngularJS的实现，源代码、安装和运行可以参考以上链接。</p>
+<h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://nodejs.org" target="_blank" rel="external">Nodejs</a>升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo npm cache clean <span class="_">-f</span></div><div class="line">$ sudo npm install -g n</div><div class="line">$ sudo n stable</div><div class="line">$ sudo ln -sf /usr/<span class="built_in">local</span>/n/versions/node/&lt;VERSION&gt;/bin/node /usr/bin/node</div></pre></td></tr></table></figure></p>
+<p>npm升级：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global npm@latest</div><div class="line">```  </div><div class="line"></div><div class="line">[Bower](http://bower.io/)是一个对web开发进行包管理的工具。  </div><div class="line"></div><div class="line">[GRUNT](http://www.gruntjs.net/)的目的就是自动化。对于需要反复重复的任务，例如压缩（minification）、编译、单元测试、linting等，自动化工具可以减轻你的劳动，简化你的工作。当你在 Gruntfile 文件正确配置好了任务，任务运行器就会自动帮你或你的小组完成大部分无聊的工作。  </div><div class="line"></div><div class="line">[Yeoman](http://yeoman.io/)生成web应用的基本架构。</div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line"><span class="comment">## Yeoman入门</span></div><div class="line">![yeoman](http://7xky03.com1.z0.glb.clouddn.com/yeoman.png)  </div><div class="line"><span class="comment">### 1. 安装Bower、GRUNT和Yeoman：  </span></div><div class="line">```sh</div><div class="line">$ sudo npm install --global yo bower grunt-cli</div></pre></td></tr></table></figure></p>
+<h3 id="2-安装generator"><a href="#2-安装generator" class="headerlink" title="2. 安装generator"></a>2. 安装generator</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install --global generator-karma generator-angular</div><div class="line">```  </div><div class="line"></div><div class="line"><span class="comment">### 3. 运行generator</span></div><div class="line">```sh</div><div class="line">$ yo angular</div></pre></td></tr></table></figure>
+<h3 id="4-Yeoman总结"><a href="#4-Yeoman总结" class="headerlink" title="4. Yeoman总结"></a>4. Yeoman总结</h3><p>Yeoman确实是一个很强大的web应用架构工具，他可以帮你完成大部分繁琐的工作，从而你可以更专心的实现你的功能。</p>
+<h2 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h2><h3 id="1-index-html"><a href="#1-index-html" class="headerlink" title="1. index.html"></a>1. index.html</h3><p>位于app/目录下的index.html是整个网页的主要入口。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"sbAdminApp"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-app-js"><a href="#2-app-js" class="headerlink" title="2. app.js"></a>2. app.js</h3><p>位于app/scripts/目录下，应用的主要module。  </p>
+<p><strong>module</strong><br>首先，我们可以看到sbAdminApp使用了如下module：  </p>
+<ul>
+<li><strong>oc.lazyLoad</strong>：自动的加载一些module。</li>
+<li><strong>ui.router</strong>：AngularUI Router是一个路由框架，可以利用它将应用接口组织成为一个有穷状态机，不同于Angular自带的<code>$route</code>（根据URL进行路由），UI-Router则是根据状态进行路由。  </li>
+<li><strong>ui.bootstrap</strong>：用AngularJS开发的Bootstrap组件。  </li>
+</ul>
+<p><strong>config</strong><br><strong>stateProvider</strong>：由<em>ui.router</em>提供，功能类似于Angular v1的router，但是它只专注于state。state就是应用中的某一个状态，到达某一个状态时，会将template插入到相应位置。该部分的主要工作是将state、html和controller对应起来。</p>
+<p><code>resolve</code>可以提供给controller一些定制的内容，采用<code>key:value</code>的格式。在这里，使用ocLazyLoad加载了一些模块。</p>
+<p>首先加载的是<code>sbAdminApp</code>模块中的header部分，然后依次为header-notification、sidebar和sidebar-search。这些部分在加载的过程中，采用了<code>module.directive</code>函数，这个函数可以对指定的元素附加一些行为，如：</p>
+<pre><code class="js">angular.module(<span class="string">'sbAdminApp'</span>)
+.directive(<span class="string">'header'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+    <span class="keyword">return</span> {
+            <span class="attr">templateUrl</span>:<span class="string">'scripts/directives/header/header.html'</span>,
+            <span class="attr">restrict</span>: <span class="string">'E'</span>,
+            <span class="attr">replace</span>: <span class="literal">true</span>,
+        }
+});
+</code></pre>
+<p>这里就是在<code>main.html</code>的<code>&lt;header&gt;&lt;/header&gt;</code>元素替换为<code>header.html</code>的内容。  </p>
+<p>从源代码中不难发现，header、header-notification、sidebar和sidebar-search文件的加载是按照一定的顺序的，因为前后顺序在View中表现为嵌套的父子关系。</p>
+<p>然后，加载了<code>toggle-switch</code>，一个开关模块；<code>ngAnimate</code>，动画效果；<code>ngCookies</code>，读写浏览器cookies；<code>ngResource</code>，加载资源对象；<code>ngSanitize</code>，可以对HTML进行清洁；<code>ngTouch</code>，对可触摸设备提供服务。</p>
+<p>其它state类似。</p>
+<p><strong>ocLazyLoadProvider</strong>：来自于<em>oc.lazyLoad</em>，<code>events:true</code>可以使得加载module时可以发送广播。  </p>
+<p> <strong>urlRouterProvider</strong>：由<em>ui.router</em>提供，在这里只是用它来处理其它状态下的情况，统一重定向至<code>/dashboard/home</code>。</p>
+
       
 
       
@@ -800,11 +740,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MESOS</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MESOS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
         		</li>
       		
 		</ul>
@@ -889,11 +829,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MooseFS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MooseFS</a>
         		</li>
       		
 		</ul>
@@ -1020,6 +960,137 @@
 
 
   
+    <article id="post-豆瓣电影Top250获取" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/29/豆瓣电影Top250获取/">豆瓣电影Top250获取</a>
+    </h1>
+  
+
+        
+        <a href="/2015/08/29/豆瓣电影Top250获取/" class="archive-article-date">
+  	<time datetime="2015-08-29T12:53:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="豆瓣API说明"><a href="#豆瓣API说明" class="headerlink" title="豆瓣API说明"></a>豆瓣API说明</h3><p>豆瓣为开发者提供了用于应用开发的<a href="http://developers.douban.com/wiki/?title=api_v2" target="_blank" rel="external">Api接口</a>，通过这些Api接口可以获得豆瓣的部分内容。  </p>
+<p>豆瓣Api V2认证使用了OAuth2，使得用户的授权过程更为安全，返回数据的格式为json，便于应用开发者解析获得的数据。豆瓣没有提供官方的SDK，但是提供了其他非官方的基于多种语言的SDK，我们采用了Java语言的<a href="https://github.com/UglyTroLL/Douban-Java-SDK-OAuth2" target="_blank" rel="external">SDK</a>。由于该版本的Java SDK基于较早的豆瓣API的v1版本，所以需要进行部分修改适应新的v2版本，其中我们修改了电影相关的代码(<a href="https://github.com/ITanCh/Douban-Java-SDK-OAuth2" target="_blank" rel="external">新的源代码</a>)。  </p>
+<p>Java SDK为Maven工程，可以使用Maven编译打包：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">mvn package -Dmaven.test.skip=true</div><div class="line">```  </div><div class="line"></div><div class="line">为了将所有依赖一起打包进去，我们使用了fatjar工具进行打包，生成可以调用的函数库([jar](https://github.com/ITanCh/Douban-Java-SDK-OAuth2/raw/origin/Douban-Java-SDK-OAuth2-origin_fat.jar))。</div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">### API使用</div><div class="line"></div><div class="line">#### 相关库</div><div class="line"></div><div class="line">```java</div><div class="line">import com.dongxuexidu.douban4j.model.app.AccessToken;</div><div class="line">import com.dongxuexidu.douban4j.model.app.DoubanException;</div><div class="line">import com.dongxuexidu.douban4j.model.app.RequestGrantScope;</div><div class="line">import com.dongxuexidu.douban4j.model.v2.DoubanCastObject;</div><div class="line">import com.dongxuexidu.douban4j.model.v2.DoubanDirectorObj;</div><div class="line">import com.dongxuexidu.douban4j.model.v2.DoubanSubjectListObj;</div><div class="line">import com.dongxuexidu.douban4j.model.v2.DoubanSubjectObj;</div><div class="line">import com.dongxuexidu.douban4j.playground.BrowserLauncher;</div><div class="line">import com.dongxuexidu.douban4j.playground.PlayGround;</div><div class="line">import com.dongxuexidu.douban4j.provider.OAuthDoubanProvider;</div><div class="line">import com.dongxuexidu.douban4j.service.DoubanBookMovieMusicService;</div><div class="line">```  </div><div class="line"></div><div class="line"></div><div class="line">#### AccessToken获取  </div><div class="line">通过豆瓣API获取用户相关的信息时需要获取AccessToken，在Java中可以实现如下：</div><div class="line">```java</div><div class="line">public static String testAccessToken() &#123;</div><div class="line">		try &#123;</div><div class="line">			OAuthDoubanProvider oauth = new OAuthDoubanProvider();</div><div class="line">			oauth.setApiKey(&quot;your api key&quot;).setSecretKey(</div><div class="line">					&quot;your secret key&quot;);</div><div class="line">			oauth.addScope(RequestGrantScope.BASIC_COMMON_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.SHUO_READ_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.SHUO_WRITE_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.BASIC_NOTE_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.BOOK_READ_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.EVENT_READ_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.EVENT_WRITE_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.MAIL_READ_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.MAIL_WRITE_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.MOVIE_READ_SCOPE)</div><div class="line">					.addScope(RequestGrantScope.MUSIC_READ_SCOPE);</div><div class="line">			oauth.setRedirectUrl(&quot;http://www.liutianchi.com&quot;);</div><div class="line">			BrowserLauncher.openURL(oauth.getGetCodeRedirectUrl());</div><div class="line">			System.out.println(oauth.getGetCodeRedirectUrl());</div><div class="line">			System.out.print(&quot;Put the code you got here.[Enter]:&quot;);</div><div class="line">			BufferedReader br = new BufferedReader(new InputStreamReader(</div><div class="line">					System.in));</div><div class="line">			String code = br.readLine();</div><div class="line">			System.out.println(&quot;code : &quot; + code);</div><div class="line">			AccessToken at = oauth.tradeAccessTokenWithCode(code);</div><div class="line">			System.out.println(&quot;at : &quot; + at.getAccessToken());</div><div class="line">			System.out.println(&quot;uid : &quot; + at.getDoubanUserId());</div><div class="line">			return at.getAccessToken();</div><div class="line">		&#125; catch (DoubanException ex) &#123;</div><div class="line">			Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE,</div><div class="line">					null, ex);</div><div class="line">			return null;</div><div class="line">		&#125; catch (IOException ex) &#123;</div><div class="line">			Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE,</div><div class="line">					null, ex);</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">```  </div><div class="line"></div><div class="line">获取电影Top250的基本信息不涉及用户内容，所以不必获取AccessToken。  </div><div class="line"></div><div class="line">#### 获取Top250电影ID  </div><div class="line"></div><div class="line">虽然豆瓣提供了获取Top250的API：</div></pre></td></tr></table></figure>
+<p>/v2/movie/top250<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">但是，通过上述方法获取的电影信息为简单内容，其中演员数为3，无电影的国家信息，无电影内容简介。这些内容无法达到我们数据分析的目的，所以我们首先统计出Top250的ID，然后使用如下API获取每一部电影的详细信息:</div></pre></td></tr></table></figure></p>
+<p>/v2/movie/subject/:id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">豆瓣限制了一次获取Top250的电影数目最大为100，所以需要进行3次请求。代码实现如下：  </div><div class="line"></div><div class="line">```java</div><div class="line">public static void getTop250ID() &#123;</div><div class="line">		DoubanBookMovieMusicService instance = new DoubanBookMovieMusicService();</div><div class="line">		DoubanSubjectListObj results = null;</div><div class="line"></div><div class="line">		try &#123;</div><div class="line">			File dirFile = new File(FILEPATH);</div><div class="line">			dirFile.mkdirs();</div><div class="line"></div><div class="line">			File idFile = new File(dirFile, &quot;movie_id&quot;);</div><div class="line">			if (!idFile.exists())</div><div class="line">				idFile.createNewFile();</div><div class="line">			BufferedWriter out = new BufferedWriter(new FileWriter(idFile,</div><div class="line">					false));</div><div class="line"></div><div class="line">			int start = 0;</div><div class="line">			while (start &lt; 300) &#123;</div><div class="line"></div><div class="line">				boolean flag = true;</div><div class="line">				while (flag) &#123;</div><div class="line">					try &#123;</div><div class="line">						results = instance.getMoviesTop250(start, 100);</div><div class="line">						flag = false;</div><div class="line">					&#125; catch (NoHttpResponseException e) &#123;</div><div class="line">						System.out.println(&quot;NoHttpResponseException&quot;);</div><div class="line">						Thread.sleep(1000);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				List&lt;DoubanSubjectObj&gt; movieList = results.getSubjects();</div><div class="line"></div><div class="line">				for (DoubanSubjectObj result : movieList) &#123;</div><div class="line">					out.write(result.getId());</div><div class="line">					out.newLine();</div><div class="line">				&#125;</div><div class="line">				start += 100;</div><div class="line">				Thread.sleep(1000);</div><div class="line">			&#125;</div><div class="line">			out.write(&quot;#&quot;);</div><div class="line">			out.flush();</div><div class="line">			out.close();</div><div class="line">		&#125; catch (DoubanException | IOException | InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">```  </div><div class="line"></div><div class="line">如下所示为Top250的部分ID:  </div><div class="line"></div><div class="line">	1292052</div><div class="line">	1295644</div><div class="line">	1292720</div><div class="line">	1291546</div><div class="line">	1292063</div><div class="line">	1292001</div><div class="line">	1295124</div><div class="line">	1291561</div><div class="line"></div><div class="line">#### 获取每一部电影的信息  </div><div class="line"></div><div class="line">代码实现如下：</div><div class="line"></div><div class="line">```java</div><div class="line">public static void getTop250Info() &#123;</div><div class="line">		File dirFile = new File(FILEPATH);</div><div class="line">		File idFile = new File(dirFile, &quot;movie_id&quot;);</div><div class="line">		if (!idFile.exists()) &#123;</div><div class="line">			System.err.println(&quot;movie id file not exist!&quot;);</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		LinkedHashSet&lt;String&gt; castSet = new LinkedHashSet&lt;&gt;();</div><div class="line">		LinkedHashSet&lt;String&gt; dirSet = new LinkedHashSet&lt;&gt;();</div><div class="line"></div><div class="line">		BufferedWriter writer;</div><div class="line">		BufferedReader reader;</div><div class="line">		try &#123;</div><div class="line">			File mvFile = new File(dirFile, &quot;movie_info&quot;);</div><div class="line">			if (!mvFile.exists())</div><div class="line">				mvFile.createNewFile();</div><div class="line">			writer = new BufferedWriter(new FileWriter(mvFile, false));</div><div class="line"></div><div class="line">			reader = new BufferedReader(new FileReader(idFile));</div><div class="line"></div><div class="line">			DoubanBookMovieMusicService instance = new DoubanBookMovieMusicService();</div><div class="line">			DoubanSubjectObj result = null;</div><div class="line"></div><div class="line">			String id = &quot;&quot;;</div><div class="line">			int count = 0;</div><div class="line">			while (true) &#123;</div><div class="line">				id = reader.readLine();</div><div class="line">				if (id == null || id.equals(&quot;#&quot;))</div><div class="line">					break;</div><div class="line">				count++;</div><div class="line">				System.out.println(count + &quot;: &quot; + id);</div><div class="line"></div><div class="line">				long l = Long.parseLong(id);</div><div class="line"></div><div class="line">				boolean flag = true;</div><div class="line">				while (flag) &#123;</div><div class="line">					try &#123;</div><div class="line">						result = instance.getV2MovieInfoById(l);</div><div class="line">						flag = false;</div><div class="line">					&#125; catch (NoHttpResponseException | SocketTimeoutException e) &#123;</div><div class="line">						System.out.println(&quot;NoHttpResponseException&quot;);</div><div class="line">						Thread.sleep(2000);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(result.getId() + &quot; &quot;);</div><div class="line">				writer.write(result.getTitle() + &quot; &quot;);</div><div class="line">				writer.write(result.getRating().getAverage() + &quot; &quot;);</div><div class="line"></div><div class="line">				List&lt;DoubanCastObject&gt; castList = result.getCasts();</div><div class="line">				boolean first = true;</div><div class="line">				for (DoubanCastObject cast : castList) &#123;</div><div class="line">					if (!first)</div><div class="line">						writer.write(&quot;#&quot;);</div><div class="line">					writer.write(cast.getId());</div><div class="line">					castSet.add(cast.getId());</div><div class="line">					first = false;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(&quot; &quot;);</div><div class="line"></div><div class="line">				List&lt;DoubanDirectorObj&gt; dirList = result.getDirectors();</div><div class="line">				first = true;</div><div class="line">				for (DoubanDirectorObj dir : dirList) &#123;</div><div class="line">					if (!first)</div><div class="line">						writer.write(&quot;#&quot;);</div><div class="line">					writer.write(dir.getId());</div><div class="line">					dirSet.add(dir.getId());</div><div class="line">					first = false;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(&quot; &quot;);</div><div class="line"></div><div class="line">				List&lt;String&gt; strList = result.getCountries();</div><div class="line">				first = true;</div><div class="line">				for (String str : strList) &#123;</div><div class="line">					if (!first)</div><div class="line">						writer.write(&quot;#&quot;);</div><div class="line">					writer.write(str);</div><div class="line">					first = false;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(&quot; &quot;);</div><div class="line"></div><div class="line">				strList = result.getGenres();</div><div class="line">				first = true;</div><div class="line">				for (String str : strList) &#123;</div><div class="line">					if (!first)</div><div class="line">						writer.write(&quot;#&quot;);</div><div class="line">					writer.write(str);</div><div class="line">					first = false;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(&quot; &quot; + result.getYear());</div><div class="line">				writer.newLine();</div><div class="line">				writer.flush();</div><div class="line">				Thread.sleep(3000);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			reader.close();</div><div class="line">			writer.close();</div><div class="line"></div><div class="line">			System.out.println(&quot;Get movie !&quot;);</div><div class="line"></div><div class="line">			File castIdFile = new File(dirFile, &quot;cast_id&quot;);</div><div class="line">			if (!castIdFile.exists())</div><div class="line">				castIdFile.createNewFile();</div><div class="line">			BufferedWriter castIdWriter = new BufferedWriter(new FileWriter(</div><div class="line">					castIdFile, true));</div><div class="line">			Iterator&lt;String&gt; it = castSet.iterator();</div><div class="line">			while (it.hasNext()) &#123;</div><div class="line">				castIdWriter.write(it.next());</div><div class="line">				castIdWriter.newLine();</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			castIdWriter.write(&quot;#&quot;);</div><div class="line">			castIdWriter.flush();</div><div class="line">			castIdWriter.close();</div><div class="line"></div><div class="line">			File dirIdFile = new File(dirFile, &quot;dir_id&quot;);</div><div class="line">			if (!dirIdFile.exists())</div><div class="line">				dirIdFile.createNewFile();</div><div class="line">			BufferedWriter dirIdWriter = new BufferedWriter(new FileWriter(</div><div class="line">					dirIdFile, true));</div><div class="line">			it = dirSet.iterator();</div><div class="line">			while (it.hasNext()) &#123;</div><div class="line">				dirIdWriter.write(it.next());</div><div class="line">				dirIdWriter.newLine();</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			dirIdWriter.write(&quot;#&quot;);</div><div class="line">			dirIdWriter.flush();</div><div class="line">			dirIdWriter.close();</div><div class="line">		&#125; catch (IOException | DoubanException | InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>在获取电影信息时，我们同时利用哈希集统计了演员的ID和导演的ID，目的是为了进一步统计影人的具体信息。  </p>
+<p>在这里需要注意的是，豆瓣为了防止恶意访问，对每分钟请求的次数进行了限制，官方文档说为40次/分钟，经过实验发现，这个时间并不准确，最后我们采用3s一次的请求进行了连续的访问。如果请求次数过度频繁，则会出现警告页面，同时导致在该IP下若干小时内无法继续访问。</p>
+<p>最后获取的电影信息部分结果如下所示(id，名称，平分，演员id集合，导演id集合，国家，标签集合，发行年份)：  </p>
+<pre><code>1292052 肖申克的救赎 9.6 1054521#1054534#1041179#1000095 1047973 美国 犯罪#剧情 1994
+1295644 这个杀手不太冷 9.4 1025182#1054454#1010507#1019050 1031876 法国 剧情#动作#犯罪 1994
+1292720 阿甘正传 9.4 1054450#1002676#1031848#1031912 1053564 美国 剧情#爱情 1994
+1291546 霸王别姬 9.4 1003494#1050265#1035641#1000905 1023040 中国大陆#香港 剧情#爱情#同性 1993
+1292063 美丽人生 9.4 1041004#1000375#1000368#1082051 1041004 意大利 剧情#战争 1997
+1292001 海上钢琴师 9.2 1025176#1010659#1027407#1009391 1018983 意大利 剧情#音乐 1998
+1295124 辛德勒的名单 9.4 1031220#1054393#1006956#1041165 1054440 美国 剧情#历史#战争 1993
+1291561 千与千寻 9.2 1023337#1005438#1045797#1025558 1054439 日本 剧情#动画#奇幻 2001
+2131459 机器人总动员 9.3 1009535#1000389#1018022#1049585 1036450 美国 喜剧#爱情#科幻 2008
+1292722 泰坦尼克号 9.1 1041029#1054446#1031864#1010555 1022571 美国 剧情#爱情#灾难 1997
+3541415 盗梦空间 9.2 1041029#1101703#1012520#1027181 1054524 美国#英国 剧情#动作#科幻 2010
+3793023 三傻大闹宝莱坞 9.1 1031931#1049635#1018290#1032430 1286677 印度 剧情#喜剧#爱情 2009  
+</code></pre><p>其中所有的演员和导演的信息用豆瓣赋予的ID表示，ID是豆瓣采用的唯一标示影人的序号。由于豆瓣提供的电影信息内容不完全规范，同一个影人可能在不同电影中使用了不同的名字，例如名字拼写、翻译不同，所以采用ID而不是影人的名字来进行数据分析。  </p>
+<h4 id="获取影人信息"><a href="#获取影人信息" class="headerlink" title="获取影人信息"></a>获取影人信息</h4><p>因为需要对男女演员进行分别统计，所以我们对影人的详细信息又进行了获取，代码实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getCastInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">		File dirFile = <span class="keyword">new</span> File(FILEPATH);</div><div class="line">		File idFile = <span class="keyword">new</span> File(dirFile, <span class="string">"dir_id"</span>);</div><div class="line">		<span class="keyword">if</span> (!idFile.exists()) &#123;</div><div class="line">			System.err.println(<span class="string">"cast id file not exist!"</span>);</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		BufferedWriter writer;</div><div class="line">		BufferedReader reader;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			File infoFile = <span class="keyword">new</span> File(dirFile, <span class="string">"dir_info"</span>);</div><div class="line">			<span class="keyword">if</span> (!infoFile.exists())</div><div class="line">				infoFile.createNewFile();</div><div class="line">			writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(infoFile, <span class="keyword">false</span>));</div><div class="line"></div><div class="line">			reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(idFile));</div><div class="line"></div><div class="line">			DoubanBookMovieMusicService instance = <span class="keyword">new</span> DoubanBookMovieMusicService();</div><div class="line">			DoubanCastObject result = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">			String id = <span class="string">""</span>;</div><div class="line">			<span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">			<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">				id = reader.readLine();</div><div class="line">				<span class="keyword">if</span> (id == <span class="keyword">null</span> || id.equals(<span class="string">"#"</span>))</div><div class="line">					<span class="keyword">break</span>;</div><div class="line">				count++;</div><div class="line">				System.out.println(count + <span class="string">": "</span> + id);</div><div class="line"></div><div class="line">				<span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">				<span class="keyword">while</span> (flag) &#123;</div><div class="line">					<span class="keyword">try</span> &#123;</div><div class="line">						result = instance.getMoviesCast(id);</div><div class="line">						flag = <span class="keyword">false</span>;</div><div class="line">					&#125; <span class="keyword">catch</span> (NoHttpResponseException | SocketTimeoutException e) &#123;</div><div class="line">						System.out.println(<span class="string">"NoHttpResponseException"</span>);</div><div class="line">						Thread.sleep(<span class="number">2000</span>);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				writer.write(result.getId() + <span class="string">" "</span>);</div><div class="line">				writer.write(result.getName() + <span class="string">" "</span>);</div><div class="line">				writer.write(result.getGender());</div><div class="line">				writer.newLine();</div><div class="line">				writer.flush();</div><div class="line">				Thread.sleep(<span class="number">4000</span>);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			reader.close();</div><div class="line">			writer.close();</div><div class="line"></div><div class="line">			System.out.println(<span class="string">"Get movie !"</span>);</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (IOException | DoubanException | InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>获取的部分演员信息如下(id，名字，性别)：</p>
+<pre><code>1054521 蒂姆·罗宾斯 男
+1054534 摩根·弗里曼 男
+1041179 鲍勃·冈顿 男
+1000095 威廉姆·赛德勒 男
+1025182 让·雷诺 男
+1054454 娜塔莉·波特曼 女
+1010507 加里·奥德曼 男
+1019050 丹尼·爱罗 男
+1054450 汤姆·汉克斯 男
+1002676 罗宾·怀特 女
+1031848 加里·西尼斯 男
+1031912 麦凯尔泰·威廉逊 男
+1003494 张国荣 男
+1050265 张丰毅 男
+1035641 巩俐 女
+</code></pre><p>获取的导演信息如下：  </p>
+<pre><code>1047973 弗兰克·德拉邦特 男
+1031876 吕克·贝松 男
+1053564 罗伯特·泽米吉斯 男
+1023040 陈凯歌 男
+1041004 罗伯托·贝尼尼 男
+1018983 朱塞佩·托纳多雷 男
+1054440 史蒂文·斯皮尔伯格 男
+1054439 宫崎骏 男  
+</code></pre><h4 id="数据完善"><a href="#数据完善" class="headerlink" title="数据完善"></a>数据完善</h4><p>需要注意的是，获取的源数据形式并不规范，影人的名字格式多样，有的影人没有性别信息，所以对源数据进行过滤修正。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">豆瓣</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">电影</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2015/08/29/豆瓣电影Top250获取/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1117,11 +1188,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1129,7 +1196,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1145,15 +1224,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1174,10 +1261,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1206,14 +1289,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

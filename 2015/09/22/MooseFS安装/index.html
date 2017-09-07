@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://itanch.github.io/2015/09/22/MooseFS安装/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
 <meta property="og:description" content="MooseFS is a Fault tolerant, Highly available, Highly performing, Scaling-out, Network distributed file system. It spreads data over several physical commodity servers, which are visible to the user">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:updated_time" content="2017-09-07T08:34:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MooseFS安装">
 <meta name="twitter:description" content="MooseFS is a Fault tolerant, Highly available, Highly performing, Scaling-out, Network distributed file system. It spreads data over several physical commodity servers, which are visible to the user">
@@ -181,15 +181,12 @@
 <h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p>实验环境：两个Ubuntu14.04计算机。<br>MooseFS版本：2.0.76。  </p>
 <p>MooseFS<a href="http://www.moosefs.org/" target="_blank" rel="external">官网1</a>，<a href="http://moosefs.com/index.html" target="_blank" rel="external">官网2</a>。据观察，官网2内容较新。</p>
 <p><a href="http://moosefs.com/download/ubuntudebian.html" target="_blank" rel="external">参考1</a>，<a href="http://moosefs.com/Content/Downloads/MooseFS-2-0-60-User-Manual.pdf" target="_blank" rel="external">参考2</a>。<br><a id="more"></a></p>
-<h3 id="安装master-在选定的master节点上操作"><a href="#安装master-在选定的master节点上操作" class="headerlink" title="安装master(在选定的master节点上操作)"></a>安装master(在选定的master节点上操作)</h3><p>添加key:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget -O - http://ppa.moosefs.com/moosefs.key | sudo apt-key add -</div></pre></td></tr></table></figure>  </p>
-<p>在文件<code>/etc/apt/sources.list.d/moosefs.list</code>中添加如下软件源：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deb http://ppa.moosefs.com/stable/apt/ubuntu/trusty trusty main</div></pre></td></tr></table></figure></p>
+<h3 id="安装master-在选定的master节点上操作"><a href="#安装master-在选定的master节点上操作" class="headerlink" title="安装master(在选定的master节点上操作)"></a>安装master(在选定的master节点上操作)</h3><p>添加key:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ wget -O - http://ppa.moosefs.com/moosefs.key | sudo apt-key add -</div><div class="line">```  </div><div class="line"></div><div class="line">在文件`/etc/apt/sources.list.d/moosefs.list`中添加如下软件源：  </div><div class="line">```sh</div><div class="line">deb http://ppa.moosefs.com/stable/apt/ubuntu/trusty trusty main</div></pre></td></tr></table></figure></p>
 <p>更新软件源，安装master：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install moosefs-master</div></pre></td></tr></table></figure></p>
 <p>拷贝<code>/etc/mfs</code>下的如下文件，可以按需修改其中的参数，也可以使用默认值：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cp mfsmaster.cfg.dist mfsmaster.cfg</div><div class="line">$ cp mfsexports.cfg.dist mfsexports.cfg</div></pre></td></tr></table></figure></p>
-<p>启动：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mfsmaster start</div></pre></td></tr></table></figure><br>可以修改<code>/etc/default/moosefs-ce-master</code>中的<code>MFSMASTER_ENABLE</code>为<code>true</code>，使得该服务开机启动。</p>
-<h3 id="安装其它工具"><a href="#安装其它工具" class="headerlink" title="安装其它工具"></a>安装其它工具</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install moosefs-cgi</div><div class="line">$ sudo apt-get install moosefs-cgiserv</div><div class="line">$ sudo apt-get install moosefs-cli</div></pre></td></tr></table></figure>  
-<p>启动mfscgiserv，可以在浏览器观察mfs运行情况。如果本机为master，可以访问<a href="http://127.0.0.1:9425" target="_blank" rel="external">http://127.0.0.1:9425</a>。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mfscgiserv start</div></pre></td></tr></table></figure></p>
-<h3 id="安装chunkserver-在选定的chunk节点上操作"><a href="#安装chunkserver-在选定的chunk节点上操作" class="headerlink" title="安装chunkserver(在选定的chunk节点上操作)"></a>安装chunkserver(在选定的chunk节点上操作)</h3><p>首先像安装master一样添加软件源，然后安装：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install moosefs-chunkserver</div></pre></td></tr></table></figure>  </p>
-<p>同样，修改<code>/etc/mfs</code>文件下的如下文件：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo cp mfschunkserver.cfg.dist mfschunkserver.cfg</div><div class="line">$ sudo cp mfshdd.cfg.dist mfshdd.cfg</div></pre></td></tr></table></figure><br>其中，<code>mfschunkserver.cfg</code>文件的参数<code>MASTER_HOST = mfsmaster</code>可以指定master的hostname，这里需要在<code>/etc/hosts</code>中写明，并且如果master也作为chunkserver时，hosts中mfsmaster的ip不能使用127.0.0.1。</p>
+<p>启动：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ sudo mfsmaster start</div><div class="line">```  </div><div class="line">可以修改`/etc/default/moosefs-ce-master`中的`MFSMASTER_ENABLE`为`<span class="literal">true</span>`，使得该服务开机启动。</div><div class="line"></div><div class="line"><span class="comment">### 安装其它工具  </span></div><div class="line">```sh</div><div class="line">$ sudo apt-get install moosefs-cgi</div><div class="line">$ sudo apt-get install moosefs-cgiserv</div><div class="line">$ sudo apt-get install moosefs-cli</div><div class="line">```  </div><div class="line"></div><div class="line">启动mfscgiserv，可以在浏览器观察mfs运行情况。如果本机为master，可以访问[http://127.0.0.1:9425](http://127.0.0.1:9425)。</div><div class="line">```sh</div><div class="line">$ sudo mfscgiserv start</div></pre></td></tr></table></figure></p>
+<h3 id="安装chunkserver-在选定的chunk节点上操作"><a href="#安装chunkserver-在选定的chunk节点上操作" class="headerlink" title="安装chunkserver(在选定的chunk节点上操作)"></a>安装chunkserver(在选定的chunk节点上操作)</h3><p>首先像安装master一样添加软件源，然后安装：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install moosefs-chunkserver</div><div class="line">```  </div><div class="line"></div><div class="line">同样，修改`/etc/mfs`文件下的如下文件：  </div><div class="line">```sh</div><div class="line">$ sudo cp mfschunkserver.cfg.dist mfschunkserver.cfg</div><div class="line">$ sudo cp mfshdd.cfg.dist mfshdd.cfg</div></pre></td></tr></table></figure></p>
+<p>其中，<code>mfschunkserver.cfg</code>文件的参数<code>MASTER_HOST = mfsmaster</code>可以指定master的hostname，这里需要在<code>/etc/hosts</code>中写明，并且如果master也作为chunkserver时，hosts中mfsmaster的ip不能使用127.0.0.1。</p>
 <p>建立文件,文件名字可以写自己喜欢的，这里取名mfschunk：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p /mnt/mfschunk</div><div class="line">$ chown -R mfs:mfs /mnt/mfschunk</div></pre></td></tr></table></figure></p>
 <p>在<code>mfshdd.cfg</code>文件中添加一行<code>/mnt/mfschunk</code>。启动mfschunkserver:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo mfschunkserver start</div></pre></td></tr></table></figure></p>
 <h3 id="安装客户端"><a href="#安装客户端" class="headerlink" title="安装客户端"></a>安装客户端</h3><p>安装客户端，添加挂载点，进行挂载。mfsmaster在这里为master的hostname。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install moosefs-client</div><div class="line">$ sudo mkdir -p /mnt/mfs</div><div class="line">$ sudo mfsmount mfs -H mfsmaster</div></pre></td></tr></table></figure></p>
@@ -211,11 +208,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MooseFS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">MooseFS</a>
         		</li>
       		
 		</ul>
@@ -323,7 +320,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本信息"><span class="toc-number">1.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装master-在选定的master节点上操作"><span class="toc-number">2.</span> <span class="toc-text">安装master(在选定的master节点上操作)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装其它工具"><span class="toc-number">3.</span> <span class="toc-text">安装其它工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装chunkserver-在选定的chunk节点上操作"><span class="toc-number">4.</span> <span class="toc-text">安装chunkserver(在选定的chunk节点上操作)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装客户端"><span class="toc-number">5.</span> <span class="toc-text">安装客户端</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本信息"><span class="toc-number">1.</span> <span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装master-在选定的master节点上操作"><span class="toc-number">2.</span> <span class="toc-text">安装master(在选定的master节点上操作)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装chunkserver-在选定的chunk节点上操作"><span class="toc-number">3.</span> <span class="toc-text">安装chunkserver(在选定的chunk节点上操作)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装客户端"><span class="toc-number">4.</span> <span class="toc-text">安装客户端</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -433,11 +430,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -445,7 +438,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -461,15 +466,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,10 +503,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -522,14 +531,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

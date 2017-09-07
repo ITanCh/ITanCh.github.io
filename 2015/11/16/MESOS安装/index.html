@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Tianchi's Blog">
 <meta property="og:description" content="基本环境系统环境：ubuntu14.04mesos: 0.25.0  
 从源代码安装根据官网Getting Started介绍，尝试从源代码编译安装，但未成功。在make check命令执行时出现一个错误，经过分析终于发现原因在于测试中会通过字符串比较验证结果，由于我的系统是中文系统，测试中预想的结果是英文的，所以就导致错误。最后，需要能够访问code.google.com才能进行make ins">
-<meta property="og:updated_time" content="2017-05-18T11:31:04.000Z">
+<meta property="og:updated_time" content="2017-09-07T08:34:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MESOS and MARATHON安装">
 <meta name="twitter:description" content="基本环境系统环境：ubuntu14.04mesos: 0.25.0  
@@ -212,8 +212,7 @@
 <li><p>从浏览器观察结果<code>http://127.0.0.1:8080</code></p>
 </li>
 </ol>
-<h3 id="MESOS的一些命令"><a href="#MESOS的一些命令" class="headerlink" title="MESOS的一些命令"></a>MESOS的一些命令</h3><p>To (start | stop | restart) mesos-master:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo service mesos-master (start | stop | restart)</div></pre></td></tr></table></figure>  </p>
-<p>To (start | stop | restart) mesos-slave:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo service mesos-slave (start | stop | restart)</div></pre></td></tr></table></figure></p>
+<h3 id="MESOS的一些命令"><a href="#MESOS的一些命令" class="headerlink" title="MESOS的一些命令"></a>MESOS的一些命令</h3><p>To (start | stop | restart) mesos-master:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sudo service mesos-master (start | stop | restart)</div><div class="line">```  </div><div class="line"></div><div class="line">To (start | stop | restart) mesos-slave:</div><div class="line">```sh</div><div class="line">sudo service mesos-slave (start | stop | restart)</div></pre></td></tr></table></figure></p>
 <p>If you want to disable these service from launching automatically on a reboot:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> manual &gt; /etc/init/mesos-master.override</div><div class="line"><span class="built_in">echo</span> manual &gt; /etc/init/mesos-slave.override</div><div class="line"><span class="built_in">echo</span> manual &gt; /etc/init/zookeeper.override</div></pre></td></tr></table></figure></p>
 
       
@@ -232,11 +231,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MESOS</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MESOS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
         		</li>
       		
 		</ul>
@@ -454,11 +453,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -466,7 +461,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -482,15 +489,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -511,10 +526,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -543,14 +554,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

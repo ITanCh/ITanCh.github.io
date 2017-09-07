@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20161202144012631">
 <meta property="og:image" content="http://img.blog.csdn.net/20161202144038070">
 <meta property="og:image" content="http://img.blog.csdn.net/20161202144053195">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:updated_time" content="2017-09-07T08:29:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android系统源码阅读(15):Android应用进程的启动">
 <meta name="twitter:description" content="自己开心就好，何必管他人烦恼
@@ -200,7 +200,8 @@
 <h3 id="1-6-ZygoteConnection-runOnce"><a href="#1-6-ZygoteConnection-runOnce" class="headerlink" title="1.6 ZygoteConnection.runOnce"></a>1.6 ZygoteConnection.runOnce</h3><p><em>frameworks/base/core/java/com/android/internal/os/ZygoteConnection.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Reads one start command from the command socket. If successful,</div><div class="line"> * a child is forked and a &#123;<span class="doctag">@link</span> ZygoteInit.MethodAndArgsCaller&#125;</div><div class="line"> * exception is thrown in that child while in the parent process,</div><div class="line"> * the method returns normally. On failure, the child is not</div><div class="line"> * spawned and messages are printed to the log and stderr. Returns</div><div class="line"> * a boolean status value indicating whether an end-of-file on the command</div><div class="line"> * socket has been encountered.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> false if command socket should continue to be read from, or</div><div class="line"> * true if an end-of-file has been encountered.</div><div class="line"> * <span class="doctag">@throws</span> ZygoteInit.MethodAndArgsCaller trampoline to invoke main()</div><div class="line"> * method in child process</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">runOnce</span><span class="params">()</span> <span class="keyword">throws</span> ZygoteInit.MethodAndArgsCaller </span>&#123;</div><div class="line"></div><div class="line">    String args[];</div><div class="line">    Arguments parsedArgs = <span class="keyword">null</span>;</div><div class="line">    FileDescriptor[] descriptors;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line"> <span class="comment">//读取传入的参数</span></div><div class="line">        args = readArgumentList();</div><div class="line">        descriptors = mSocket.getAncillaryFileDescriptors();</div><div class="line">    &#125; <span class="keyword">catch</span> (IOException ex) &#123;</div><div class="line">      <span class="comment">//...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (args == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="comment">// EOF reached.</span></div><div class="line">        closeSocket();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/** the stderr of the most recent request, if avail */</span></div><div class="line">    PrintStream newStderr = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (descriptors != <span class="keyword">null</span> &amp;&amp; descriptors.length &gt;= <span class="number">3</span>) &#123;</div><div class="line">        newStderr = <span class="keyword">new</span> PrintStream(</div><div class="line">                <span class="keyword">new</span> FileOutputStream(descriptors[<span class="number">2</span>]));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> pid = -<span class="number">1</span>;</div><div class="line">    FileDescriptor childPipeFd = <span class="keyword">null</span>;</div><div class="line">    FileDescriptor serverPipeFd = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">//...</span></div><div class="line">        <span class="comment">//fork一个进程</span></div><div class="line">        pid = Zygote.forkAndSpecialize(parsedArgs.uid, parsedArgs.gid, parsedArgs.gids,</div><div class="line">                parsedArgs.debugFlags, rlimits, parsedArgs.mountExternal, parsedArgs.seInfo,</div><div class="line">                parsedArgs.niceName, fdsToClose, parsedArgs.instructionSet,</div><div class="line">                parsedArgs.appDataDir);</div><div class="line">    &#125; <span class="keyword">catch</span> (ErrnoException ex) &#123;</div><div class="line">     <span class="comment">//...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// in child</span></div><div class="line">            IoUtils.closeQuietly(serverPipeFd);</div><div class="line">            serverPipeFd = <span class="keyword">null</span>;</div><div class="line">            <span class="comment">//在子进程中进一步处理</span></div><div class="line">            handleChildProc(parsedArgs, descriptors, childPipeFd, newStderr);</div><div class="line">            <span class="comment">// should never get here, the child is expected to either</span></div><div class="line">            <span class="comment">// throw ZygoteInit.MethodAndArgsCaller or exec().</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// in parent...pid of &lt; 0 means failure</span></div><div class="line">            IoUtils.closeQuietly(childPipeFd);</div><div class="line">            childPipeFd = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">return</span> handleParentProc(pid, descriptors, serverPipeFd, parsedArgs);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        IoUtils.closeQuietly(childPipeFd);</div><div class="line">        IoUtils.closeQuietly(serverPipeFd);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="1-7-ZygoteConnection-handleChildProc"><a href="#1-7-ZygoteConnection-handleChildProc" class="headerlink" title="1.7 ZygoteConnection.handleChildProc"></a>1.7 ZygoteConnection.handleChildProc</h3><p><em>frameworks/base/core/java/com/android/internal/os/ZygoteConnection.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * Handles post-fork setup of child proc, closing sockets as appropriate,</div><div class="line">    * reopen stdio as appropriate, and ultimately throwing MethodAndArgsCaller</div><div class="line">    * if successful or returning if failed.</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> parsedArgs non-null; zygote args</div><div class="line">    * <span class="doctag">@param</span> descriptors null-ok; new file descriptors for stdio if available.</div><div class="line">    * <span class="doctag">@param</span> pipeFd null-ok; pipe for communication back to Zygote.</div><div class="line">    * <span class="doctag">@param</span> newStderr null-ok; stream to use for stderr until stdio</div><div class="line">    * is reopened.</div><div class="line">    *</div><div class="line">    * <span class="doctag">@throws</span> ZygoteInit.MethodAndArgsCaller on success to</div><div class="line">    * trampoline to code that invokes static main.</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleChildProc</span><span class="params">(Arguments parsedArgs,</span></span></div><div class="line">           FileDescriptor[] descriptors, FileDescriptor pipeFd, PrintStream newStderr)</div><div class="line">           <span class="keyword">throws</span> ZygoteInit.MethodAndArgsCaller &#123;</div><div class="line">       <span class="comment">/**</span></div><div class="line">        * By the time we get here, the native code has closed the two actual Zygote</div><div class="line">        * socket connections, and substituted /dev/null in their place.  The LocalSocket</div><div class="line">        * objects still need to be closed properly.</div><div class="line">        */</div><div class="line"></div><div class="line">       closeSocket();</div><div class="line">       ZygoteInit.closeServerSocket();</div><div class="line"></div><div class="line">       </div><div class="line"></div><div class="line">       <span class="keyword">if</span> (parsedArgs.niceName != <span class="keyword">null</span>) &#123;</div><div class="line">           Process.setArgV0(parsedArgs.niceName);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">// End of the postFork event.</span></div><div class="line"><span class="comment">//...</span></div><div class="line">       <span class="keyword">if</span> (parsedArgs.invokeWith != <span class="keyword">null</span>) &#123;</div><div class="line">           WrapperInit.execApplication(parsedArgs.invokeWith,</div><div class="line">                   parsedArgs.niceName, parsedArgs.targetSdkVersion,</div><div class="line">                   VMRuntime.getCurrentInstructionSet(),</div><div class="line">                   pipeFd, parsedArgs.remainingArgs);</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           <span class="comment">//继续初始化进程</span></div><div class="line">           RuntimeInit.zygoteInit(parsedArgs.targetSdkVersion,</div><div class="line">                   parsedArgs.remainingArgs, <span class="keyword">null</span> <span class="comment">/* classLoader */</span>);</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
 <h3 id="1-8-RuntimeInit-zygoteInit"><a href="#1-8-RuntimeInit-zygoteInit" class="headerlink" title="1.8 RuntimeInit.zygoteInit"></a>1.8 RuntimeInit.zygoteInit</h3><p>这里开始调用android.app.ActivityThread的main函数。</p>
-<p><em>frameworks/base/core/java/com/android/internal/os/RuntimeInit.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">zygoteInit</span><span class="params">(<span class="keyword">int</span> targetSdkVersion, String[] argv, ClassLoader classLoader)</span></span></div><div class="line">        <span class="keyword">throws</span> ZygoteInit.MethodAndArgsCaller &#123;</div><div class="line">    <span class="keyword">if</span> (DEBUG) Slog.d(TAG, <span class="string">"RuntimeInit: Starting application from zygote"</span>);</div><div class="line"></div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="string">"RuntimeInit"</span>);</div><div class="line">    redirectLogStreams();</div><div class="line"></div><div class="line">    commonInit();</div><div class="line">    <span class="comment">//启动Binder线程池，将在下面详细分析native部分</span></div><div class="line">    nativeZygoteInit();</div><div class="line">    <span class="comment">//这里调用的不再是system的main函数了，而是ActivityThread的main函数，将在下面章节分析</span></div><div class="line">    applicationInit(targetSdkVersion, argv, classLoader);</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>到这里一个Android app的进程就已经创建好了。</p>
+<p><em>frameworks/base/core/java/com/android/internal/os/RuntimeInit.java</em> :<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">zygoteInit</span><span class="params">(<span class="keyword">int</span> targetSdkVersion, String[] argv, ClassLoader classLoader)</span></span></div><div class="line">        <span class="keyword">throws</span> ZygoteInit.MethodAndArgsCaller &#123;</div><div class="line">    <span class="keyword">if</span> (DEBUG) Slog.d(TAG, <span class="string">"RuntimeInit: Starting application from zygote"</span>);</div><div class="line"></div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="string">"RuntimeInit"</span>);</div><div class="line">    redirectLogStreams();</div><div class="line"></div><div class="line">    commonInit();</div><div class="line">    <span class="comment">//启动Binder线程池，将在下面详细分析native部分</span></div><div class="line">    nativeZygoteInit();</div><div class="line">    <span class="comment">//这里调用的不再是system的main函数了，而是ActivityThread的main函数，将在下面章节分析</span></div><div class="line">    applicationInit(targetSdkVersion, argv, classLoader);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>到这里一个Android app的进程就已经创建好了。</p>
 <h2 id="2-Binder线程池的启动"><a href="#2-Binder线程池的启动" class="headerlink" title="2. Binder线程池的启动"></a>2. Binder线程池的启动</h2><p>App进程创建过程中会建立一个Binder线程池，用来处理进程间的Binder通信。</p>
 <p><img src="http://img.blog.csdn.net/20161202144038070" alt="这里写图片描述"></p>
 <h3 id="2-1-RuntimeInit-nativeZygoteInit"><a href="#2-1-RuntimeInit-nativeZygoteInit" class="headerlink" title="2.1 RuntimeInit.nativeZygoteInit"></a>2.1 RuntimeInit.nativeZygoteInit</h3><p><em>frameworks/base/core/jni/AndroidRuntime.cpp</em> :</p>
@@ -228,11 +229,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -450,11 +451,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -462,7 +459,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -478,15 +487,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,10 +524,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,14 +552,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

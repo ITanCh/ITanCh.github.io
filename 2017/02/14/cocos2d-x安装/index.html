@@ -203,7 +203,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py</div></pre></td></tr></table></figure>
 <p>然后它会提醒你补足一些环境变量的绝对地址，最后在你原有的Home目录下的<code>.bash_profile</code>基础上增加一些环境变量，很贴心。</p>
 <p>在我的mac上，补足的环境变量如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> COCOS_CONSOLE_ROOT=/Users/Tianchi/Tool/cocos2d-x-3.13.1/tools/cocos2d-console/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$COCOS_CONSOLE_ROOT</span>:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment"># Add environment variable COCOS_X_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> COCOS_X_ROOT=/Users/Tianchi/Tool</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$COCOS_X_ROOT</span>:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment"># Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> COCOS_TEMPLATES_ROOT=/Users/Tianchi/Tool/cocos2d-x-3.13.1/templates</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$COCOS_TEMPLATES_ROOT</span>:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment"># Add environment variable NDK_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> NDK_ROOT=/Users/Tianchi/Tool/ndk</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$NDK_ROOT</span>:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment"># Add environment variable ANDROID_SDK_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> ANDROID_SDK_ROOT=/Users/Tianchi/Tool/sdk</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$ANDROID_SDK_ROOT</span>:<span class="variable">$PATH</span></div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$ANDROID_SDK_ROOT</span>/tools:<span class="variable">$ANDROID_SDK_ROOT</span>/platform-tools:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment"># Add environment variable ANT_ROOT for cocos2d-x</span></div><div class="line"><span class="built_in">export</span> ANT_ROOT=/usr/<span class="built_in">local</span>/apache-ant-1.9.4/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$ANT_ROOT</span>:<span class="variable">$PATH</span></div></pre></td></tr></table></figure></p>
-<p>是否安装成功：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cocos -v</div><div class="line">cocos2d-x<span class="number">-3.13</span><span class="number">.1</span></div><div class="line">Cocos Console <span class="number">2.1</span></div></pre></td></tr></table></figure></p>
+<p>是否安装成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cocos -v</div><div class="line">cocos2d-x-3.13.1</div><div class="line">Cocos Console 2.1</div></pre></td></tr></table></figure></p>
 <h3 id="3-New-Project"><a href="#3-New-Project" class="headerlink" title="3. New Project"></a>3. New Project</h3><p>创建一个项目：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cocos new &lt;game name&gt; -p &lt;package identifier&gt; <span class="_">-l</span> &lt;language&gt; <span class="_">-d</span> &lt;location&gt;</div></pre></td></tr></table></figure>
 <p>样例：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cocos new MyGame -p com.MyCompany.MyGame <span class="_">-l</span> cpp <span class="_">-d</span> ~/MyCompany</div><div class="line"></div><div class="line">cocos new MyGame -p com.MyCompany.MyGame <span class="_">-l</span> lua <span class="_">-d</span> ~/MyCompany</div><div class="line"></div><div class="line">cocos new MyGame -p com.MyCompany.MyGame <span class="_">-l</span> js <span class="_">-d</span> ~/MyCompany</div></pre></td></tr></table></figure></p>
@@ -448,11 +448,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,7 +456,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -476,15 +484,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,10 +521,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,14 +549,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

@@ -24,7 +24,7 @@
 3.解压文件
 1tar -xzvf torque.tar.gz
 4.运行configure，可加prefix指定Torque命令安装位置，也可不加，不加参数命令默认装在">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:updated_time" content="2017-09-07T08:36:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Torque安装笔记(多ubuntu节点)">
 <meta name="twitter:description" content="1.实验系统ubuntu14.04。更新系统软件，防止相关软件版本过低  
@@ -191,58 +191,50 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>1.实验系统ubuntu14.04。更新系统软件，防止相关软件版本过低  </p>
-<figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>  </div><div class="line">sudo apt-<span class="built_in">get</span> upgrade</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update  </div><div class="line">sudo apt-get upgrade</div></pre></td></tr></table></figure>
 <p>2.从官网下载Torque，在这里为Torque 5.1.1。  </p>
 <p>3.解压文件</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xzvf torque<span class="selector-class">.tar</span><span class="selector-class">.gz</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xzvf torque.tar.gz</div></pre></td></tr></table></figure>
 <p>4.运行configure，可加prefix指定Torque命令安装位置，也可不加，不加参数命令默认装在/usr/local/bin和/usr/local/sbin下。利用configure可以检测依赖软件，按照提示安装这些软件。</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>torque</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/usr/local/torque</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>5.编译安装</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">make</span>  </div><div class="line"><span class="built_in">make</span> install</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make  </div><div class="line">make install</div></pre></td></tr></table></figure>
 <p>6.生成子节点安装包，mom和clients为需要拷贝的文件。需要安装ssh，ubuntu默认安装openssh-client，所以需要手动再安装openssh-server，让其他计算机登陆。  </p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">make packages</div><div class="line"><span class="keyword">scp </span>tpackages name@ip:<span class="keyword">dir </span> <span class="comment">#非必要</span></div><div class="line"><span class="keyword">scp </span>torque-package-mom-linux-x86_64.<span class="keyword">sh </span>name@ip:<span class="keyword">dir </span> </div><div class="line"><span class="keyword">scp </span>torque-package-clients-linux-x86_64.<span class="keyword">sh </span>name@ip:<span class="keyword">dir</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">make packages</div><div class="line">scp tpackages name@ip:dir  #非必要</div><div class="line">scp torque-package-mom-linux-x86_64.sh name@ip:dir  </div><div class="line">scp torque-package-clients-linux-x86_64.sh name@ip:dir</div></pre></td></tr></table></figure>
 <p>7.在子节点上安装，mom和clients。</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo ./torque-<span class="keyword">package</span>-mom-linux-x86_64.sh <span class="comment">--install</span></div><div class="line">sudo ./torque-<span class="keyword">package</span>-clients-linux-x86_64.sh <span class="comment">--install</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo ./torque-package-mom-linux-x86_64.sh --install</div><div class="line">sudo ./torque-package-clients-linux-x86_64.sh --install</div></pre></td></tr></table></figure>
 <p>8.配置主节  </p>
 <ul>
 <li>将/usr/local/torque/bin和/usr/local/torque/sbin添加进环境变量，这里我将其添加入.bashrc文件。  </li>
 </ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/torque/bin</span><span class="symbol">:/usr/local/torque/sbin</span>  </div></pre></td></tr></table></figure>  
-<ul>
-<li>添加共享库到Torque的配置文件中（如果出现有什么库找不到，则必须加上）  </li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">'/usr/local/lib'</span> &gt; /etc/ld<span class="selector-class">.so</span><span class="selector-class">.conf</span><span class="selector-class">.d</span>/torque<span class="selector-class">.conf</span></div><div class="line">ldconfig  </div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/torque/bin:/usr/<span class="built_in">local</span>/torque/sbin  </div><div class="line">```  </div><div class="line"></div><div class="line">+ 添加共享库到Torque的配置文件中（如果出现有什么库找不到，则必须加上）  </div><div class="line"></div><div class="line">```sh</div><div class="line"><span class="built_in">echo</span> <span class="string">'/usr/local/lib'</span> &gt; /etc/ld.so.conf.d/torque.conf</div><div class="line">ldconfig</div></pre></td></tr></table></figure>
 <ul>
 <li>添加主节点名字：  </li>
 </ul>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo 主节点名字 &gt; <span class="regexp">/var/</span>spool<span class="regexp">/torque/</span>server_name  </div></pre></td></tr></table></figure>  
-<ul>
-<li>初始化serverdb文件，在使用pbs_sever之前必须完成该步骤：</li>
-</ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./torque<span class="selector-class">.setup</span> 用户名</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> 主节点名字 &gt; /var/spool/torque/server_name  </div><div class="line">```  </div><div class="line"></div><div class="line">+ 初始化serverdb文件，在使用pbs_sever之前必须完成该步骤：</div><div class="line"></div><div class="line">```sh</div><div class="line">./torque.setup 用户名</div></pre></td></tr></table></figure>
 <ul>
 <li>添加子节点，np为节点cpu核个数  </li>
 </ul>
-<p>vi /var/spool/torque/server_priv/nodes<br>子节点的名字为计算机名，而非用户名。每次添加节点需要重启pbs_sever。添加如下内容（也可以先在子节点启动mom，在主节点启动server，然后用命令<code>qmgr -c &#39;create node ubuntu np=4&#39;</code>进行添加节点）：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">子节点<span class="number">1</span>名字 np=<span class="number">4</span>  </div><div class="line">子节点<span class="number">2</span>名字 np=<span class="number">4</span></div></pre></td></tr></table></figure></p>
+<p>vi /var/spool/torque/server_priv/nodes<br>子节点的名字为计算机名，而非用户名。每次添加节点需要重启pbs_sever。添加如下内容（也可以先在子节点启动mom，在主节点启动server，然后用命令<code>qmgr -c &#39;create node ubuntu np=4&#39;</code>进行添加节点）：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">子节点1名字 np=4  </div><div class="line">子节点2名字 np=4</div></pre></td></tr></table></figure></p>
 <ul>
 <li>启动</li>
 </ul>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">pbs_server</span></div><div class="line">pbs_sched  </div><div class="line">pbs_mom</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pbs_server</div><div class="line">pbs_sched  </div><div class="line">pbs_mom</div></pre></td></tr></table></figure>
 <p>9.配置子节点，同样需要添加环境变量。  </p>
 <ul>
 <li><p>修改config<br>使用make packages 命令生成mom安装于子节点的，无需进行这一步。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> vi <span class="meta-keyword">/var/</span>spool<span class="meta-keyword">/torque/</span>mom_priv/config  </div><div class="line">添加：  </div><div class="line">pbsserver 主节点名称  </div><div class="line">logevent <span class="number">255</span>  </div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> vi /var/spool/torque/mom_priv/config  </div><div class="line">添加：  </div><div class="line">pbsserver 主节点名称  </div><div class="line">logevent 255</div></pre></td></tr></table></figure>
 </li>
 <li><p>启动：</p>
 </li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pbs_mom</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pbs_mom</div></pre></td></tr></table></figure>
 <p>10.注意！因为配置文件中使用了<em>主节点名称</em>和<em>子节点名称</em>，所以主、从节点都需要修改</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的<span class="built_in">ip</span></div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/hosts  </div><div class="line">添加这些名称和对应的ip</div></pre></td></tr></table></figure>
 <p>11.检查运行情况<br>保证在server上运行<code>trqauthd</code>、<code>pbs_server</code>、<code>pbs_sched</code>这三个程序。<br>保证在子节点上运行<code>pbs_mom</code>。</p>
 <p>12.常用命令<br><code>pbsnodes</code>: 子节点信息。<br><code>qterm</code>: 结束pbs_server。<br><code>qsub</code>: 提交job。<br><code>qstat</code>: job运行信息。</p>
-<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo <span class="string">"sleep 300"</span> <span class="string">| qsub  </span></div><div class="line">qstat</div></pre></td></tr></table></figure></p>
+<p>13.测试：<br>注意！在提交Job时，需要主节点和子节点为相同的用户名，同时保证操作的文件目录也相同。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"sleep 300"</span> | qsub  </div><div class="line">qstat</div></pre></td></tr></table></figure></p>
 
       
 
@@ -482,11 +474,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -494,7 +482,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,15 +510,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,10 +547,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,14 +575,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>

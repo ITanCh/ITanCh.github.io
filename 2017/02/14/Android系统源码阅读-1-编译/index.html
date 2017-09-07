@@ -196,26 +196,26 @@
 <p><a href="https://developers.google.com/android/nexus/drivers" target="_blank" rel="external">二进制文件下载</a>。下载完毕后并解压后，会有sh文件生成；运行sh文件，会在AOSP目录下生成<code>vendor/</code>文件夹，必要的文件会放在里面。然后再执行编译。</p>
 <a id="more"></a>
 <h3 id="1-2-编译"><a href="#1-2-编译" class="headerlink" title="1.2 编译"></a>1.2 编译</h3><p>先清理一下旧的生成文件，个人认为很有必要。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">make clobber</div><div class="line">``` </div><div class="line"></div><div class="line">然后设置环境变量:  </div><div class="line">```sh</div><div class="line">$ <span class="built_in">source</span> build/envsetup.sh</div><div class="line"><span class="comment"># 或者</span></div><div class="line">$ . build/envsetup.sh</div></pre></td></tr></table></figure></p>
-<p>设置java 环境变量，这里根据你的AOSP选择java版本，设置适当的java路径:<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>export JAVA_HOME=<span class="regexp">/usr/lib</span><span class="regexp">/jvm/java</span>-<span class="number">7</span>-openjdk-amd64</div><div class="line"><span class="variable">$ </span>export PATH=<span class="variable">$JAVA_HOME</span>/<span class="symbol">bin:</span><span class="variable">$PATH</span></div></pre></td></tr></table></figure></p>
-<p>设置缓存区域，根据自己情况设置：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export USE_CCACHE=<span class="number">1</span></div><div class="line">export CCACHE_DIR=<span class="regexp">/home/</span>tianchi<span class="regexp">/Project/</span>.ccache </div><div class="line">prebuilts<span class="regexp">/misc/</span>linux-x86<span class="regexp">/ccache/</span>ccache -M <span class="number">50</span>G</div></pre></td></tr></table></figure></p>
-<p>选择需要编译的目标：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">launch</span></div><div class="line"><span class="comment">#选择你想要编译的版本</span></div></pre></td></tr></table></figure></p>
-<p>开始编译，设置编译时用到的内核数目，这里写４：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>make -j4</div></pre></td></tr></table></figure></p>
+<p>设置java 环境变量，这里根据你的AOSP选择java版本，设置适当的java路径:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64</div><div class="line">$ export PATH=$JAVA_HOME/bin:$PATH</div></pre></td></tr></table></figure></p>
+<p>设置缓存区域，根据自己情况设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export USE_CCACHE=1</div><div class="line">export CCACHE_DIR=/home/tianchi/Project/.ccache </div><div class="line">prebuilts/misc/linux-x86/ccache/ccache -M 50G</div></pre></td></tr></table></figure></p>
+<p>选择需要编译的目标：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ launch</div><div class="line">#选择你想要编译的版本</div></pre></td></tr></table></figure></p>
+<p>开始编译，设置编译时用到的内核数目，这里写４：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ make -j4</div></pre></td></tr></table></figure></p>
 <p>稍等几个小时，呵呵，奇迹就会发生。生成的结果位于<code>out/target/product/flo/</code>，<code>flo</code>是我Nexus 7的型号，和launch时选择的版本相同。</p>
 <h2 id="2-刷入真机"><a href="#2-刷入真机" class="headerlink" title="2. 刷入真机"></a>2. 刷入真机</h2><p>将编译好的img文件刷入设备比较容易，关键点在于前面步骤：下载了第三方包，选择了正确的编译版本。</p>
-<p>重启设备进入fastboot模式，使用命令，这里刷入的Nexus7：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot -<span class="selector-tag">p</span> flo flashall</div></pre></td></tr></table></figure></p>
+<p>重启设备进入fastboot模式，使用命令，这里刷入的Nexus7：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ fastboot -p flo flashall</div></pre></td></tr></table></figure></p>
 <h2 id="3-启动emulator问题"><a href="#3-启动emulator问题" class="headerlink" title="3. 启动emulator问题"></a>3. 启动emulator问题</h2><p>想要在虚拟机里跑起来，需要在<code>launch</code>步骤中选择正确的虚拟机版本，默认第一个。</p>
 <p>相关工具emulator和kernel-qemu默认放置目录已经不在<code>out/host/linux-xxx/bin</code>，已经迁移到<code>prebuilts/android-emulator/linux-x86_64/emulator</code>和<code>/prebuilts/qemu-kernel/x86_64/kernel-qemu</code>等相对应的位置。  </p>
 <p>常用的启动命令：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">prebuilts/android-emulator/linux-x86_64/emulator -kernel ./prebuilts/qemu-k ernel/x86_64/kernel-qemu -sysdir out/target/product/generic/ -system system.img -data userdata.img -ramdisk ramdisk.img</div><div class="line">```  </div><div class="line">该命令启动会出现各种各样的问题，例如：</div></pre></td></tr></table></figure></p>
-<p>qemu: could not load initrd ‘ramdisk.img’<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">虽然有人已经给出了相关解决方案，比如去掉`-ramdisk ramdisk.img`，或者修改`chmod -R <span class="number">777</span> out/target/product/generic/`来增加权限，或者修改`/prebuilts/qemu-k ernel/x86_64/kernel-qemu`为合适的系统版本。这些解决方法有的不太有效，总之不是很优美，其实官方已经提供了一个启动emulator的省心方法：   </div><div class="line">```sh</div><div class="line"># 首先加入基本的环境变量</div><div class="line">$ source build/envsetup.sh</div><div class="line"></div><div class="line"># 选择需要启动的版本，这里因为我编译的<span class="number">1</span>，所以一定要选择<span class="number">1</span>.</div><div class="line">$ lunch</div><div class="line"></div><div class="line">You're building on Linux</div><div class="line"></div><div class="line"><span class="symbol">Lunch menu... pick a combo:</span></div><div class="line">     <span class="number">1</span>. aosp_arm-eng</div><div class="line">     <span class="number">2</span>. aosp_arm64-eng</div><div class="line">     <span class="number">3</span>. aosp_mips-eng</div><div class="line">     <span class="number">4</span>. aosp_mips64-eng</div><div class="line">     <span class="number">5</span>. aosp_x86-eng</div><div class="line">     <span class="number">6</span>. aosp_x86_64-eng</div><div class="line">     <span class="number">7</span>. aosp_deb-userdebug</div><div class="line">     <span class="number">8</span>. aosp_flo-userdebug</div><div class="line">     <span class="number">9</span>. full_fugu-userdebug</div><div class="line">     <span class="number">10</span>. aosp_fugu-userdebug</div><div class="line">     <span class="number">11</span>. mini_emulator_arm64-userdebug</div><div class="line">     <span class="number">12</span>. m_e_arm-userdebug</div><div class="line">     <span class="number">13</span>. mini_emulator_mips-userdebug</div><div class="line">     <span class="number">14</span>. mini_emulator_x86_64-userdebug</div><div class="line">     <span class="number">15</span>. mini_emulator_x86-userdebug</div><div class="line">     <span class="number">16</span>. aosp_flounder-userdebug</div><div class="line">     <span class="number">17</span>. aosp_angler-userdebug</div><div class="line">     <span class="number">18</span>. aosp_bullhead-userdebug</div><div class="line">     <span class="number">19</span>. aosp_hammerhead-userdebug</div><div class="line">     <span class="number">20</span>. aosp_hammerhead_fp-userdebug</div><div class="line">     <span class="number">21</span>. aosp_shamu-userdebug</div><div class="line"> </div><div class="line"># 启动emulator</div><div class="line">$ emulator</div></pre></td></tr></table></figure></p>
+<p>qemu: could not load initrd ‘ramdisk.img’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">虽然有人已经给出了相关解决方案，比如去掉`-ramdisk ramdisk.img`，或者修改`chmod -R 777 out/target/product/generic/`来增加权限，或者修改`/prebuilts/qemu-k ernel/x86_64/kernel-qemu`为合适的系统版本。这些解决方法有的不太有效，总之不是很优美，其实官方已经提供了一个启动emulator的省心方法：   </div><div class="line">```sh</div><div class="line"># 首先加入基本的环境变量</div><div class="line">$ source build/envsetup.sh</div><div class="line"></div><div class="line"># 选择需要启动的版本，这里因为我编译的1，所以一定要选择1.</div><div class="line">$ lunch</div><div class="line"></div><div class="line">You&apos;re building on Linux</div><div class="line"></div><div class="line">Lunch menu... pick a combo:</div><div class="line">     1. aosp_arm-eng</div><div class="line">     2. aosp_arm64-eng</div><div class="line">     3. aosp_mips-eng</div><div class="line">     4. aosp_mips64-eng</div><div class="line">     5. aosp_x86-eng</div><div class="line">     6. aosp_x86_64-eng</div><div class="line">     7. aosp_deb-userdebug</div><div class="line">     8. aosp_flo-userdebug</div><div class="line">     9. full_fugu-userdebug</div><div class="line">     10. aosp_fugu-userdebug</div><div class="line">     11. mini_emulator_arm64-userdebug</div><div class="line">     12. m_e_arm-userdebug</div><div class="line">     13. mini_emulator_mips-userdebug</div><div class="line">     14. mini_emulator_x86_64-userdebug</div><div class="line">     15. mini_emulator_x86-userdebug</div><div class="line">     16. aosp_flounder-userdebug</div><div class="line">     17. aosp_angler-userdebug</div><div class="line">     18. aosp_bullhead-userdebug</div><div class="line">     19. aosp_hammerhead-userdebug</div><div class="line">     20. aosp_hammerhead_fp-userdebug</div><div class="line">     21. aosp_shamu-userdebug</div><div class="line"> </div><div class="line"># 启动emulator</div><div class="line">$ emulator</div></pre></td></tr></table></figure></p>
 <h2 id="4-在Android-Studio中阅读源码"><a href="#4-在Android-Studio中阅读源码" class="headerlink" title="4. 在Android Studio中阅读源码"></a>4. 在Android Studio中阅读源码</h2><p>Android工程师很地道，考虑到了如何方便的将项目导入AndroidStudio。在编译完成，环境变量配置好的前提下，进行下面步骤。</p>
-<h3 id="4-1-生成idegen"><a href="#4-1-生成idegen" class="headerlink" title="4.1 生成idegen"></a>4.1 生成idegen</h3><p>编译idegen:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mmm development<span class="regexp">/tools/i</span>degen</div></pre></td></tr></table></figure></p>
-<p>运行idegen:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ development<span class="regexp">/tools/i</span>degen<span class="regexp">/idegen.sh</span></div></pre></td></tr></table></figure></p>
+<h3 id="4-1-生成idegen"><a href="#4-1-生成idegen" class="headerlink" title="4.1 生成idegen"></a>4.1 生成idegen</h3><p>编译idegen:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mmm development/tools/idegen</div></pre></td></tr></table></figure></p>
+<p>运行idegen:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ development/tools/idegen/idegen.sh</div></pre></td></tr></table></figure></p>
 <p>然后，你就回在AOSP目录下发现｀android.ipr｀等文件。</p>
 <h3 id="4-2-导入"><a href="#4-2-导入" class="headerlink" title="4.2 导入"></a>4.2 导入</h3><p>打开AndroidStudio，选择导入已有的项目，选择android.ipr。这里需要导入一段时间。</p>
 <p>导入后会发现错误百出。首先打开Project Structure，选择｀SDKs｀添加一个SDK，我这里需要1.7：<br><img src="http://img.blog.csdn.net/20160930163851944" alt="这里写图片描述"><br>清理ClassPath下的所有jar包，然后保存。</p>
 <p>选择<code>Project</code>，选择Project SDK为新建的SDK，Project language level也设置为对应的等级。<br><img src="http://img.blog.csdn.net/20160930164516796" alt="这里写图片描述"></p>
 <p>选择<code>Modules</code>，在<code>Dependencies</code>标签下，删除jar 依赖，最后如下：<br><img src="http://img.blog.csdn.net/20160930164739735" alt="这里写图片描述"></p>
-<p>然后在<code>Modules</code>下，<code>Sources</code>标签下，选择<code>out/target/common/R</code>文件，选择右键Source。<br><img src="http://img.blog.csdn.net/20160930165042758" alt="这里写图片描述"><br>这里一般情况下，会因为R文件过大，导致依然报错。这时需要修改AndroidStudio应用目录下<code>Android_Studio/bin/idea.properties</code>文件，找到filesize，将参数修改大一些。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">idea<span class="selector-class">.max</span><span class="selector-class">.intellisense</span><span class="selector-class">.filesize</span>=<span class="number">5000</span></div></pre></td></tr></table></figure></p>
+<p>然后在<code>Modules</code>下，<code>Sources</code>标签下，选择<code>out/target/common/R</code>文件，选择右键Source。<br><img src="http://img.blog.csdn.net/20160930165042758" alt="这里写图片描述"><br>这里一般情况下，会因为R文件过大，导致依然报错。这时需要修改AndroidStudio应用目录下<code>Android_Studio/bin/idea.properties</code>文件，找到filesize，将参数修改大一些。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">idea.max.intellisense.filesize=5000</div></pre></td></tr></table></figure></p>
 <h2 id="Android-stack"><a href="#Android-stack" class="headerlink" title="Android stack"></a>Android stack</h2><p>这个图应该时时回顾一下。<br><img src="http://img.blog.csdn.net/20160805212247341" alt="这里写图片描述"></p>
 
       
@@ -230,11 +230,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
@@ -452,11 +452,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -464,7 +460,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -480,15 +488,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">MooseFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -509,10 +525,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -541,14 +553,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
             
             <div class="clearfix"></div>
