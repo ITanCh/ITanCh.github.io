@@ -156,44 +156,119 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Java容器类源码研究-Collection" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Java容器类研究-AbstractCollection" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/Java容器类源码研究-Collection/">Java容器类源码研究之Collection</a>
+      <a class="article-title" href="/2017/09/18/Java容器类研究-AbstractCollection/">Java容器类研究-AbstractCollection</a>
     </h1>
   
 
         
-        <a href="/2017/09/06/Java容器类源码研究-Collection/" class="archive-article-date">
-  	<time datetime="2017-09-06T07:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+        <a href="/2017/09/18/Java容器类研究-AbstractCollection/" class="archive-article-date">
+  	<time datetime="2017-09-18T05:57:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>集合类关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">Collection   </div><div class="line">├List   </div><div class="line">│├LinkedList   </div><div class="line">│├ArrayList   </div><div class="line">│└Vector   </div><div class="line">│　└Stack   </div><div class="line">└Set   </div><div class="line">Map  </div><div class="line">├Hashtable  </div><div class="line">├HashMap   </div><div class="line">└WeakHashMap</div><div class="line">```    </div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">## Collection</div><div class="line"></div><div class="line">java.util.Collection   </div><div class="line"></div><div class="line">Collection是List和Set的父接口。它继承了Iterable接口，所以每个Collection的子类应该是可以迭代访问其中的元素的。</div><div class="line"></div><div class="line">我注意到一个有意思的函数，该函数在Java1.8中引入。该函数的功能是从集合中删除所有满足条件的元素，代码实现平平无奇，主要是函数有一个**default**修饰。Java8提供了default让接口中也可以实现方法体，目的是为了让开发者在修改interface时，不必再一一修改实现该接口的类，这些类可以使用默认的方法实现。</div><div class="line"></div><div class="line">```java</div><div class="line">    default boolean removeIf(Predicate&lt;? super E&gt; filter) &#123;</div><div class="line">        Objects.requireNonNull(filter);</div><div class="line">        boolean removed = false;</div><div class="line">        final Iterator&lt;E&gt; each = iterator();</div><div class="line">        while (each.hasNext()) &#123;</div><div class="line">            if (filter.test(each.next())) &#123;</div><div class="line">                each.remove();</div><div class="line">                removed = true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return removed;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>Collection的equals方法的重写需要小心谨慎。简单的使用引用比较还是比较简单安全的，值比较则会变复杂。相等必须是对称的，约定List只能和其它List相等，Set亦然。所以你自己实现的Collection类在和List、Set比较时应该返回false，因为即使你定制的Collection可以返回true，但是从List的视角来比较，返回的是false，不满足对称性。因此，也无法<code>正确的</code>实现一个既有List接口，又有Set接口的类。</p>
-<p>遵照约定，如果你重写了equals方法，那么你要同时重写hashCode方法。c1.equals(c2)成立，则c1.hashCode()==c2.hashCode()。</p>
-<p><strong>Spliterator</strong>接口在Java8中引入，这个单词是Split和iterator的合成，用来分割集合以给并行处理提供方便。看个例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp = numbers.spliterator();</div><div class="line">        System.out.println(sp.characteristics()); </div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp2=sp.trySplit();</div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line">        System.out.println(sp2.estimateSize());</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp3=sp.trySplit();</div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line">        System.out.println(sp3.estimateSize());</div><div class="line"></div><div class="line">        sp3.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">16464</div><div class="line">10</div><div class="line">5</div><div class="line">5</div><div class="line">3</div><div class="line">2</div></pre></td></tr></table></figure>
-<p>相较于传统的iterator，spliterator可以递归的对集合进行划分，每个spliterator管理了原来集合中的部分元素。但是，每个spliterator并不是线程安全的，所以并行处理时，要保证每一个划分在同一个线程中进行处理。</p>
-<p>Collection提供Stream对元素进行流处理，其中用到了spliterator。看个例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.stream();</div><div class="line">        List&lt;Integer&gt; filterNum=stream.filter(item -&gt; item &gt; <span class="number">5</span>).collect(Collectors.toList());</div><div class="line">        <span class="keyword">for</span>(Integer i:filterNum)&#123;</div><div class="line">            System.out.print(i+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">        filterNum.set(<span class="number">0</span>,<span class="number">100</span>);</div><div class="line">        System.out.println();</div><div class="line">        <span class="keyword">for</span>(Integer i:numbers)&#123;</div><div class="line">            System.out.print(i+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">6 7 8 9 </div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure></p>
-<p>集合经过两步处理，过滤出了所有符合条件的元素。Stream整体处理过程分为两步：1.Configuration，2.Processing。Filter是Configuration，collect是Processing。还可以看出一点，最后获取的结果List是一个新建的List，并不和原List共享内存中的元素。</p>
-<p>再看一个reduce的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.stream();</div><div class="line">        <span class="keyword">int</span> result=stream.reduce(<span class="number">0</span>, (acc, item) -&gt; acc + item);</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>结果是：45。这是一个求和运算，其中第一个参数<code>0</code>是acc的初始值，acc表示上一步<code>(acc, item) -&gt; acc + item</code>的结果，item是每次从stream中取的值。这些Configuration并不立即执行，而是等到最后一个Processing函数，统一执行。</p>
-<p>在Collection中有parallelStream提供并行运算，并且使用了默认的spliterator对集合进行划分。例子如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.parallelStream();</div><div class="line">        stream.forEach(item -&gt; System.out.print(item+<span class="string">" "</span>));</div><div class="line">        System.out.println();</div><div class="line">        stream=numbers.stream();</div><div class="line">        stream.forEach(item -&gt; System.out.print(item+<span class="string">" "</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 2 6 8 0 4 3 5 9 7 </div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure></p>
-<p>可见，并行运算无法保证每个元素被处理的顺序。</p>
+        <p>ArrayList继承自AbstractList，AbstractList为“random access”的数组提供了基本的实现。随机访问数据是相对于顺序访问数据而言，例如链表的形式。AbstractSequentialList为链表形式的顺序访问提供了基本实现。AbstractList提供了默认的随机访问数据的iterator。AbstractList继承自AbstractCollection，AbstractCollection为Collection提供了基本实现。</p>
+        
+          <a class="article-more-a" href="/2017/09/18/Java容器类研究-AbstractCollection/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/18/Java容器类研究-AbstractCollection/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Java容器类研究-List" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/09/Java容器类研究-List/">Java容器类研究之List</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/09/Java容器类研究-List/" class="archive-article-date">
+  	<time datetime="2017-09-09T08:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java.util.List</p>
+<h2 id="replaceAll"><a href="#replaceAll" class="headerlink" title="replaceAll"></a>replaceAll</h2><p>在Java8中引入该方法，用来替换list中的每个元素。   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">replaceAll</span><span class="params">(UnaryOperator&lt;E&gt; operator)</span> </span>&#123;</div><div class="line">        Objects.requireNonNull(operator);</div><div class="line">        <span class="keyword">final</span> ListIterator&lt;E&gt; li = <span class="keyword">this</span>.listIterator();</div><div class="line">        <span class="keyword">while</span> (li.hasNext()) &#123;</div><div class="line">            li.set(operator.apply(li.next()));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">```    </div><div class="line"></div><div class="line">Iterator的set方法，只能在next或previous之后使用，也就是确保当前Iterator指向了一个存在的项。该方法使用很方便，使用lambda运算可以很清晰的表达想要进行的替换操作。   </div><div class="line"></div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">```java</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line">        numbers.replaceAll(item -&gt; item * item);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">10</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        numbers.sort(Integer::compare);</div><div class="line"></div><div class="line">        numbers.sort(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">        numbers.sort((a, b) -&gt; a - b);</div><div class="line"></div><div class="line">        numbers.sort(Comparator.comparingInt(a -&gt; a * a));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样sort函数也是在1.8中引入，并且可以使用lambda表达式定义自己的比较规则，上面四种排序结果都是一样的。这里使用了<code>Comparator.comparingInt</code>，该方法可以将非int对象先映射为int型，然后进行比较。</p>
+<p>具体实现：   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> E&gt; c)</span> </span>&#123;</div><div class="line">    Object[] a = <span class="keyword">this</span>.toArray();</div><div class="line">    Arrays.sort(a, (Comparator) c);</div><div class="line">    ListIterator&lt;E&gt; i = <span class="keyword">this</span>.listIterator();</div><div class="line">    <span class="keyword">for</span> (Object e : a) &#123;</div><div class="line">        i.next();</div><div class="line">        i.set((E) e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里首先将原来的list的copy为一个数组，然后再进行排序，这里采用的是merge sort。为什么要先copy下来，排序完成后再设置原list？官方解释是在原数组上进行排序可能会导致n<sup>2</sup>log(n)的复杂度。</p>
+<p><code>toArray</code>函数将基于Collection的结构转化成了数组结构，这里的ListArray的toArray方法是浅拷贝，从下面例子可以看出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> value;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Ripper</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        value = v;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        List&lt;Ripper&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">10</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">            numbers.add(<span class="keyword">new</span> Ripper(i));</div><div class="line">        &#125;</div><div class="line">        Object[] array = numbers.toArray();</div><div class="line">        array[<span class="number">0</span>] = array[<span class="number">1</span>];</div><div class="line">        System.out.println(numbers.get(<span class="number">0</span>).value);</div><div class="line">        Ripper a1 = (Ripper) array[<span class="number">0</span>];</div><div class="line">        a1.value = <span class="number">100</span>;</div><div class="line">        System.out.println(numbers.get(<span class="number">0</span>).value);</div><div class="line">        System.out.println(numbers.get(<span class="number">1</span>).value);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">10</div><div class="line">100</div></pre></td></tr></table></figure></p>
+<p>说明创建的array是指向一个新的数组对象，但是数组中每一项保留的引用是指向原来的对象的。</p>
+<h2 id="spliterator"><a href="#spliterator" class="headerlink" title="spliterator"></a>spliterator</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">default</span> Spliterator&lt;E&gt; <span class="title">spliterator</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> Spliterators.spliterator(<span class="keyword">this</span>, Spliterator.ORDERED);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>List存储的是有序的数组，所以划分时会按照顺序进行划分。</p>
 
       
 
@@ -211,7 +286,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -221,7 +296,88 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/Java容器类源码研究-Collection/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/09/09/Java容器类研究-List/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Java容器类研究-Collection" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/Java容器类研究-Collection/">Java容器类研究之Collection</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/Java容器类研究-Collection/" class="archive-article-date">
+  	<time datetime="2017-09-06T07:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>集合类关系：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Collection   </div><div class="line">├List   </div><div class="line">│├LinkedList   </div><div class="line">│├ArrayList   </div><div class="line">│└Vector   </div><div class="line">│　└Stack   </div><div class="line">└Set   </div><div class="line">Map  </div><div class="line">├Hashtable  </div><div class="line">├HashMap   </div><div class="line">└WeakHashMap</div></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2017/09/06/Java容器类研究-Collection/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/Java容器类研究-Collection/">展开全文 >></a>
         </p>
       
 
@@ -271,7 +427,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>你的名字，一种高端的爱情表达形式。。</p>
+        <p>你的名字，一种高端的爱情表达形式。</p>
 <p><img src="http://oq1pehpfd.bkt.clouddn.com/blog/%E5%BD%97%E6%98%9F.png-blog" alt=""></p>
         
           <a class="article-more-a" href="/2017/09/05/你的名字观感/#more">more >></a>
@@ -470,11 +626,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Netty</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Netty</a>
         		</li>
       		
 		</ul>
@@ -560,11 +716,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Netty</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Netty</a>
         		</li>
       		
 		</ul>
@@ -864,181 +1020,6 @@
 
 
   
-    <article id="post-用React-Native写一个微博客户端-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/10/用React-Native写一个微博客户端-3/">用React-Native写一个微博客户端(3)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/04/10/用React-Native写一个微博客户端-3/" class="archive-article-date">
-  	<time datetime="2017-04-10T13:21:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone">github</a>。项目还在持续更新中😊。 </p>
-</blockquote>
-<p>这一章节主要讲一下在设计该app时遇到的一些问题。</p>
-<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Android应用在设计的时候，Activity之间的跳转形成了一个task，该task通过一个栈结构来体现。当用户点击back键，当前的activity会自然的销毁，同时位于栈顶的activity会占据屏幕。这种设计方式很符合用户的操作习惯，所以在通过react-native设计app时，也需要有组件来实现这种功能，所以这里就使用了<code>Navigator</code>组件。</p>
-        
-          <a class="article-more-a" href="/2017/04/10/用React-Native写一个微博客户端-3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">React Native</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/04/10/用React-Native写一个微博客户端-3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-用React-Native写一个微博客户端-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/08/用React-Native写一个微博客户端-2/">用React-Native写一个微博客户端(2)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/04/08/用React-Native写一个微博客户端-2/" class="archive-article-date">
-  	<time datetime="2017-04-08T08:47:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>用React-Native技术实现一个简单的微博客户端。项目开源地址：<a href="https://github.com/ITanCh/Welone">github</a>。项目还在持续更新中😊。 </p>
-</blockquote>
-<h2 id="主界面设计"><a href="#主界面设计" class="headerlink" title="主界面设计"></a>主界面设计</h2><p>进入应用，首先看到的就是主界面，这里采用了经典的底部3个tab的主界面设计风格，如下所示。</p>
-        
-          <a class="article-more-a" href="/2017/04/08/用React-Native写一个微博客户端-2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">React Native</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/04/08/用React-Native写一个微博客户端-2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1136,6 +1117,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
               </li>
              
@@ -1145,10 +1130,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1172,6 +1153,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MESOS</a>
               </li>
              
@@ -1184,11 +1177,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+                <a href="javascript:void(0)" class="js-tag color1">Netty</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1196,15 +1185,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Netty</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocos2d-x</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1213,10 +1198,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">kubernetes</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
               </li>
              
               <li class="article-tag-list-item">

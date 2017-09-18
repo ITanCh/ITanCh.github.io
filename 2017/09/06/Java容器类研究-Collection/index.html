@@ -6,37 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(7):Content Provider的启动 | Tianchi&#39;s Blog</title>
+  <title>Java容器类研究之Collection | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
+  <meta name="description" content="集合类关系：  
+1234567891011Collection   ├List   │├LinkedList   │├ArrayList   │└Vector   │　└Stack   └Set   Map  ├Hashtable  ├HashMap   └WeakHashMap">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(7):Content Provider的启动">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/index.html">
+<meta property="og:title" content="Java容器类研究之Collection">
+<meta property="og:url" content="http://itanch.github.io/2017/09/06/Java容器类研究-Collection/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220256938">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220401299">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220422830">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220440500">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220538532">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220606286">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:description" content="集合类关系：  
+1234567891011Collection   ├List   │├LinkedList   │├ArrayList   │└Vector   │　└Stack   └Set   Map  ├Hashtable  ├HashMap   └WeakHashMap">
+<meta property="og:updated_time" content="2017-09-18T05:57:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(7):Content Provider的启动">
-<meta name="twitter:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160902220256938">
+<meta name="twitter:title" content="Java容器类研究之Collection">
+<meta name="twitter:description" content="集合类关系：  
+1234567891011Collection   ├List   │├LinkedList   │├ArrayList   │└Vector   │　└Stack   └Set   Map  ├Hashtable  ├HashMap   └WeakHashMap">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -174,76 +158,50 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-7-ContentProvider的启动" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java容器类研究-Collection" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(7):Content Provider的启动
+      Java容器类研究之Collection
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:01:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/09/06/Java容器类研究-Collection/" class="archive-article-date">
+  	<time datetime="2017-09-06T07:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
-</blockquote>
-<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
-<li>Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。</li>
-<li>Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体积较大的数据。</li>
-<li>Cursor对象通过匿名共享内存来传输数据，而Bundle是通过Binder传递数据。</li>
-</ul>
+        <p>集合类关系：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Collection   </div><div class="line">├List   </div><div class="line">│├LinkedList   </div><div class="line">│├ArrayList   </div><div class="line">│└Vector   </div><div class="line">│　└Stack   </div><div class="line">└Set   </div><div class="line">Map  </div><div class="line">├Hashtable  </div><div class="line">├HashMap   </div><div class="line">└WeakHashMap</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="1-用户开始调用Provider"><a href="#1-用户开始调用Provider" class="headerlink" title="1. 用户开始调用Provider"></a><em>1</em>. 用户开始调用Provider</h2><p>首先，Activity集成的ContextWrapper中有成员函数<code>getContentResolver</code>，用该函数可以获得一个ContentResolver对象。该ContentResolver对象是在ContextImpl对象建立时创建的一个ApplicationContentResolver对象。</p>
-<p>下面从ContentResolver.acquireProvider开始。<br><img src="http://img.blog.csdn.net/20160902220256938" alt="这里写图片描述"></p>
-<ol>
-<li>步骤1的主要目的是验证URI是否正确，然后就会将acquireProvider的任务交给子类来实现，这里它将任务传递给ApplicationContentResolver。</li>
-<li>步骤2直接将任务给主线程处理。</li>
-<li>步骤3将会尝试从已有的Provider中获取目标Provider，ActivityThread将已经访问过的Provider放入mProviderMap中，如果其中含有需要获取的Provider，只需要增加对其的引用数目即可。如果没有，则需要请求ActivityManager来获取Provider（见1.4），ActivityManager最后会返回一个ContentProviderHolder（见2.2，见6.1）。最后，需要将获得的ContentProviderHolder进行install(见1.5)。</li>
-<li>这里假设没有现成的Provider，则需要交给ActivityManager进行处理。</li>
-<li>这一步和5.7是一样的函数，区别在于这里的holder不为null，所以不需要自己通过类加载创建Provider，只需要将这个Provider放入mProviderRefCountMap中，对其引用加1。</li>
-</ol>
-<h2 id="2-ActivityManager处理请求"><a href="#2-ActivityManager处理请求" class="headerlink" title="2. ActivityManager处理请求"></a><em>2</em>. ActivityManager处理请求</h2><p><img src="http://img.blog.csdn.net/20160902220401299" alt="这里写图片描述"></p>
-<ol>
-<li>这一步检验调用者caller是否为空，如果为空，则说明没有应用在请求Provider，则无需继续进行。</li>
-<li>这一步所做的处理比较多。首先，Manager首先根据name在mProviderMap中查找是否已经启动。如果没有，则根据Class来查找是否已经启动。如果仍然没有，则构建<code>ContentProviderRecord</code>，里面包含了<code>ProviderInfo</code>,<code>ApplicationInfo</code>等重要信息。然后，如果是<em>multiprocess</em>属性为<code>true</code>，则将该<code>ContentProviderRecord</code>直接返回给调用者，让其实例化。在我们的例子中，我们假设该属性为false，需要创建新的进程来启动该Provider。下面就要开始启动新的进程，会在2.3中详细讲述，然后将Record放入mProvider。最后，ActivityManager进入循环等待provider启动，在发现provider启动后（见6.1），则退出循环，将ContentProviderHolder返回给用户（见1.3）。</li>
-<li>这一步就是进入启动新进程的准备工作。</li>
-</ol>
-<h2 id="3-新进程的启动"><a href="#3-新进程的启动" class="headerlink" title="3. 新进程的启动"></a><em>3</em>. 新进程的启动</h2><p><img src="http://img.blog.csdn.net/20160902220422830" alt="这里写图片描述"><br>这里的启动过程和原来一样。</p>
-<h2 id="4-ActivityManager处理新的进程"><a href="#4-ActivityManager处理新的进程" class="headerlink" title="4. ActivityManager处理新的进程"></a><em>4</em>. ActivityManager处理新的进程</h2><p><img src="http://img.blog.csdn.net/20160902220440500" alt="这里写图片描述"></p>
-<ol>
-<li>获取新进程pid。</li>
-<li>这一步先根据pid获得对应的ProcessRecord，然后填充ProcessRecord的信息。然后，获取需要在该进程中启动的Provider的列表，将在4.3中详解。接下来依次启动该进程中的Content Provider（在4.4中详解）、Activity、Service和Broadcast Receiver。</li>
-<li>这一步通过PackageManager获得所有的该应用进程下需要启动的Provider，然后为其创建ContentProviderRecord，放入mProviderMap。</li>
-<li>准备向新进程发送消息。</li>
-</ol>
-<h2 id="5-Content-Provider在新进程中启动"><a href="#5-Content-Provider在新进程中启动" class="headerlink" title="5. Content Provider在新进程中启动"></a><em>5</em>. Content Provider在新进程中启动</h2><p><img src="http://img.blog.csdn.net/20160902220538532" alt="这里写图片描述"></p>
-<ol>
-<li>将收到的数据封装成一个AppBindData，准备发送到主线程中。</li>
-<li>发送消息。</li>
-<li>发送消息。</li>
-<li>处理异步消息。</li>
-<li>准备启动所有的Provider。</li>
-<li>这一步将传递过来的每一个<code>ProviderInfo</code>通过<code>installProvider</code>函数（见5.7）封装成了<code>ContentProviderHolder</code>。然后将所有生成的<code>ContentProviderHolder</code>告知给ActivityManager（见5.11）。</li>
-<li>这一步根据Provider的类名，使用ClassLoader实例化一个ContentProvider对象，并对其进行一定的初始化（见5.8、5.9）工作。然后，创建对应的ProviderClientRecord，将其放入mLocalProviders和mLocalProvidersByName。</li>
-<li>获取该Provider的类型为Transport的Binder本地对象。这个Binder将会告知给ActivityManagerService，然后有它再告知给需要使用该Provider的其它组件。然后其它进程组件就可以使用这个Binder来使用这个provider了。</li>
-<li>这里会设置该provider的context，同时设置读写权限。最后会调用重写的onCreate函数。</li>
-<li>调用自己实现的onCreate函数。</li>
-<li>将自己的Provider告知给ActivityManager。</li>
-</ol>
-<h2 id="6-ActivityManager发布Provider"><a href="#6-ActivityManager发布Provider" class="headerlink" title="6. ActivityManager发布Provider"></a><em>6</em>. ActivityManager发布Provider</h2><p><img src="http://img.blog.csdn.net/20160902220606286" alt="这里写图片描述"></p>
-<ol>
-<li>这一步会将ActivityManager利用获得的ContentProviderHolder对记录的ContentProviderRecord的provider进行填充，同时将该ContentProviderRecord放入mProviderMap。最后将该Record移除mLaunchingProviders。在2.2中等待的ActivityManagerService线程循环等待发现provider不为null，退出循环，返回ContentProviderHolder给用户（见1.3）。</li>
-</ol>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><p>java.util.Collection   </p>
+<p>Collection是List和Set的父接口。它继承了Iterable接口，所以每个Collection的子类应该是可以迭代访问其中的元素的。</p>
+<p>我注意到一个有意思的函数，该函数在Java1.8中引入。该函数的功能是从集合中删除所有满足条件的元素，代码实现平平无奇，主要是函数有一个<strong>default</strong>修饰。Java8提供了default让接口中也可以实现方法体，目的是为了让开发者在给interface添加新方法时，不必再一一修改实现该接口的类，这些类可以使用默认的方法实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">boolean</span> <span class="title">removeIf</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> E&gt; filter)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(filter);</div><div class="line">    <span class="keyword">boolean</span> removed = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">final</span> Iterator&lt;E&gt; each = iterator();</div><div class="line">    <span class="keyword">while</span> (each.hasNext()) &#123;</div><div class="line">        <span class="keyword">if</span> (filter.test(each.next())) &#123;</div><div class="line">            each.remove();</div><div class="line">            removed = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> removed;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Collection的equals"><a href="#Collection的equals" class="headerlink" title="Collection的equals"></a>Collection的equals</h2><p>Collection的equals方法的重写需要小心谨慎。简单的使用引用比较还是比较简单安全的，值比较则会变复杂。相等必须是对称的，约定List只能和其它List相等，Set亦然。所以你自己实现的Collection类在和List、Set比较时应该返回false，因为即使你定制的Collection可以返回true，但是从List的视角来比较，返回的是false，不满足对称性。因此，也无法<code>正确的</code>实现一个既有List接口，又有Set接口的类。</p>
+<p>遵照约定，如果你重写了equals方法，那么你要同时重写hashCode方法。c1.equals(c2)成立，则c1.hashCode()==c2.hashCode()。</p>
+<h2 id="Spliterator和Stream"><a href="#Spliterator和Stream" class="headerlink" title="Spliterator和Stream"></a>Spliterator和Stream</h2><p><strong>Spliterator</strong>接口在Java8中引入，这个单词是Split和iterator的合成，用来分割集合以给并行处理提供方便。看个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp = numbers.spliterator();</div><div class="line">        System.out.println(sp.characteristics()); </div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp2=sp.trySplit();</div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line">        System.out.println(sp2.estimateSize());</div><div class="line"></div><div class="line">        Spliterator&lt;Integer&gt; sp3=sp.trySplit();</div><div class="line">        System.out.println(sp.estimateSize());</div><div class="line">        System.out.println(sp3.estimateSize());</div><div class="line"></div><div class="line">        sp3.</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">16464</div><div class="line">10</div><div class="line">5</div><div class="line">5</div><div class="line">3</div><div class="line">2</div></pre></td></tr></table></figure>
+<p>相较于传统的iterator，spliterator可以递归的对集合进行划分，每个spliterator管理了原来集合中的部分元素。但是，每个spliterator并不是线程安全的，所以并行处理时，要保证每一个划分在同一个线程中进行处理。</p>
+<p>Collection提供Stream对元素进行流处理，其中用到了spliterator。看个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.stream();</div><div class="line">        List&lt;Integer&gt; filterNum=stream.filter(item -&gt; item &gt; <span class="number">5</span>).collect(Collectors.toList());</div><div class="line">        <span class="keyword">for</span>(Integer i:filterNum)&#123;</div><div class="line">            System.out.print(i+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">        filterNum.set(<span class="number">0</span>,<span class="number">100</span>);</div><div class="line">        System.out.println();</div><div class="line">        <span class="keyword">for</span>(Integer i:numbers)&#123;</div><div class="line">            System.out.print(i+<span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">6 7 8 9 </div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure></p>
+<p>集合经过两步处理，过滤出了所有符合条件的元素。Stream整体处理过程分为两步：1.Configuration，2.Processing。Filter是Configuration，collect是Processing。还可以看出一点，最后获取的结果List是一个新建的List，并不和原List共享内存中的元素。</p>
+<p>再看一个reduce的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.stream();</div><div class="line">        <span class="keyword">int</span> result=stream.reduce(<span class="number">0</span>, (acc, item) -&gt; acc + item);</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果是：45。这是一个求和运算，其中第一个参数<code>0</code>是acc的初始值，acc表示上一步<code>(acc, item) -&gt; acc + item</code>的结果，item是每次从stream中取的值。这些Configuration并不立即执行，而是等到最后一个Processing函数，统一执行。</p>
+<p>在Collection中有parallelStream提供并行运算，并且使用了默认的spliterator对集合进行划分。例子如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ripper</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Collection&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            numbers.add(i);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Stream&lt;Integer&gt; stream = numbers.parallelStream();</div><div class="line">        stream.forEach(item -&gt; System.out.print(item+<span class="string">" "</span>));</div><div class="line">        System.out.println();</div><div class="line">        stream=numbers.stream();</div><div class="line">        stream.forEach(item -&gt; System.out.print(item+<span class="string">" "</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 2 6 8 0 4 3 5 9 7 </div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure></p>
+<p>可见，并行运算无法保证每个元素被处理的顺序。</p>
 
       
 
@@ -257,11 +215,11 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -317,7 +275,7 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/09/06/Java容器类研究-Collection/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -331,18 +289,18 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/09/09/Java容器类研究-List/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Android系统源码阅读(8):ContentProvider数据传输过程
+          Java容器类研究之List
         
       </div>
     </a>
   
   
-    <a href="/2017/02/14/Android系统源码阅读-6-广播机制/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(6)广播机制</div>
+    <a href="/2017/09/05/你的名字观感/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">你的名字观感</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -369,7 +327,7 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本知识"><span class="toc-number">1.</span> <span class="toc-text">基本知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-用户开始调用Provider"><span class="toc-number">2.</span> <span class="toc-text">1. 用户开始调用Provider</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ActivityManager处理请求"><span class="toc-number">3.</span> <span class="toc-text">2. ActivityManager处理请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-新进程的启动"><span class="toc-number">4.</span> <span class="toc-text">3. 新进程的启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-ActivityManager处理新的进程"><span class="toc-number">5.</span> <span class="toc-text">4. ActivityManager处理新的进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Content-Provider在新进程中启动"><span class="toc-number">6.</span> <span class="toc-text">5. Content Provider在新进程中启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-ActivityManager发布Provider"><span class="toc-number">7.</span> <span class="toc-text">6. ActivityManager发布Provider</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Collection"><span class="toc-number">1.</span> <span class="toc-text">Collection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Collection的equals"><span class="toc-number">2.</span> <span class="toc-text">Collection的equals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spliterator和Stream"><span class="toc-number">3.</span> <span class="toc-text">Spliterator和Stream</span></a></li></ol>
                     </div>
                 </span>
             </div>

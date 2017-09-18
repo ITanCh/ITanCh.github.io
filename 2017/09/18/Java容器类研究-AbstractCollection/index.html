@@ -6,37 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://itanch.github.io">
-  <title>Android系统源码阅读(7):Content Provider的启动 | Tianchi&#39;s Blog</title>
+  <title>Java容器类研究-AbstractCollection | Tianchi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
+  <meta name="description" content="ArrayList继承自AbstractList，AbstractList为“random access”的数组提供了基本的实现。随机访问数据是相对于顺序访问数据而言，例如链表的形式。AbstractSequentialList为链表形式的顺序访问提供了基本实现。AbstractList提供了默认的随机访问数据的iterator。AbstractList继承自AbstractCollection，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android系统源码阅读(7):Content Provider的启动">
-<meta property="og:url" content="http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/index.html">
+<meta property="og:title" content="Java容器类研究-AbstractCollection">
+<meta property="og:url" content="http://itanch.github.io/2017/09/18/Java容器类研究-AbstractCollection/index.html">
 <meta property="og:site_name" content="Tianchi's Blog">
-<meta property="og:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220256938">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220401299">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220422830">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220440500">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220538532">
-<meta property="og:image" content="http://img.blog.csdn.net/20160902220606286">
-<meta property="og:updated_time" content="2017-02-23T07:42:15.000Z">
+<meta property="og:description" content="ArrayList继承自AbstractList，AbstractList为“random access”的数组提供了基本的实现。随机访问数据是相对于顺序访问数据而言，例如链表的形式。AbstractSequentialList为链表形式的顺序访问提供了基本实现。AbstractList提供了默认的随机访问数据的iterator。AbstractList继承自AbstractCollection，">
+<meta property="og:updated_time" content="2017-09-18T09:00:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android系统源码阅读(7):Content Provider的启动">
-<meta name="twitter:description" content="该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   
-
-基本知识
-Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。
-Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20160902220256938">
+<meta name="twitter:title" content="Java容器类研究-AbstractCollection">
+<meta name="twitter:description" content="ArrayList继承自AbstractList，AbstractList为“random access”的数组提供了基本的实现。随机访问数据是相对于顺序访问数据而言，例如链表的形式。AbstractSequentialList为链表形式的顺序访问提供了基本实现。AbstractList提供了默认的随机访问数据的iterator。AbstractList继承自AbstractCollection，">
   
     <link rel="alternative" href="/atom.xml" title="Tianchi&#39;s Blog" type="application/atom+xml">
   
@@ -174,76 +155,40 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android系统源码阅读-7-ContentProvider的启动" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java容器类研究-AbstractCollection" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Android系统源码阅读(7):Content Provider的启动
+      Java容器类研究-AbstractCollection
     </h1>
   
 
         
-        <a href="/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" class="archive-article-date">
-  	<time datetime="2017-02-14T06:01:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-14</time>
+        <a href="/2017/09/18/Java容器类研究-AbstractCollection/" class="archive-article-date">
+  	<time datetime="2017-09-18T05:57:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>该系列只记录阅读代码时遇到的问题和心得体会，具体代码讲解可以参考老罗的《Android系统源代码情景分析》，我就不班门弄斧了。我编译的AOSP版本：6.0.1_r50。   </p>
-</blockquote>
-<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
-<li>Content Provider运行在一个独立的应用程序进程中，它本事就是一个Android应用程序。</li>
-<li>Binder进程间通信只适合传递体积较小的数据结构，不适合大量数据的传输。所以需要采用匿名共享内存来传输体积较大的数据。</li>
-<li>Cursor对象通过匿名共享内存来传输数据，而Bundle是通过Binder传递数据。</li>
-</ul>
+        <p>ArrayList继承自AbstractList，AbstractList为“random access”的数组提供了基本的实现。随机访问数据是相对于顺序访问数据而言，例如链表的形式。AbstractSequentialList为链表形式的顺序访问提供了基本实现。AbstractList提供了默认的随机访问数据的iterator。AbstractList继承自AbstractCollection，AbstractCollection为Collection提供了基本实现。</p>
 <a id="more"></a>
-<h2 id="1-用户开始调用Provider"><a href="#1-用户开始调用Provider" class="headerlink" title="1. 用户开始调用Provider"></a><em>1</em>. 用户开始调用Provider</h2><p>首先，Activity集成的ContextWrapper中有成员函数<code>getContentResolver</code>，用该函数可以获得一个ContentResolver对象。该ContentResolver对象是在ContextImpl对象建立时创建的一个ApplicationContentResolver对象。</p>
-<p>下面从ContentResolver.acquireProvider开始。<br><img src="http://img.blog.csdn.net/20160902220256938" alt="这里写图片描述"></p>
-<ol>
-<li>步骤1的主要目的是验证URI是否正确，然后就会将acquireProvider的任务交给子类来实现，这里它将任务传递给ApplicationContentResolver。</li>
-<li>步骤2直接将任务给主线程处理。</li>
-<li>步骤3将会尝试从已有的Provider中获取目标Provider，ActivityThread将已经访问过的Provider放入mProviderMap中，如果其中含有需要获取的Provider，只需要增加对其的引用数目即可。如果没有，则需要请求ActivityManager来获取Provider（见1.4），ActivityManager最后会返回一个ContentProviderHolder（见2.2，见6.1）。最后，需要将获得的ContentProviderHolder进行install(见1.5)。</li>
-<li>这里假设没有现成的Provider，则需要交给ActivityManager进行处理。</li>
-<li>这一步和5.7是一样的函数，区别在于这里的holder不为null，所以不需要自己通过类加载创建Provider，只需要将这个Provider放入mProviderRefCountMap中，对其引用加1。</li>
-</ol>
-<h2 id="2-ActivityManager处理请求"><a href="#2-ActivityManager处理请求" class="headerlink" title="2. ActivityManager处理请求"></a><em>2</em>. ActivityManager处理请求</h2><p><img src="http://img.blog.csdn.net/20160902220401299" alt="这里写图片描述"></p>
-<ol>
-<li>这一步检验调用者caller是否为空，如果为空，则说明没有应用在请求Provider，则无需继续进行。</li>
-<li>这一步所做的处理比较多。首先，Manager首先根据name在mProviderMap中查找是否已经启动。如果没有，则根据Class来查找是否已经启动。如果仍然没有，则构建<code>ContentProviderRecord</code>，里面包含了<code>ProviderInfo</code>,<code>ApplicationInfo</code>等重要信息。然后，如果是<em>multiprocess</em>属性为<code>true</code>，则将该<code>ContentProviderRecord</code>直接返回给调用者，让其实例化。在我们的例子中，我们假设该属性为false，需要创建新的进程来启动该Provider。下面就要开始启动新的进程，会在2.3中详细讲述，然后将Record放入mProvider。最后，ActivityManager进入循环等待provider启动，在发现provider启动后（见6.1），则退出循环，将ContentProviderHolder返回给用户（见1.3）。</li>
-<li>这一步就是进入启动新进程的准备工作。</li>
-</ol>
-<h2 id="3-新进程的启动"><a href="#3-新进程的启动" class="headerlink" title="3. 新进程的启动"></a><em>3</em>. 新进程的启动</h2><p><img src="http://img.blog.csdn.net/20160902220422830" alt="这里写图片描述"><br>这里的启动过程和原来一样。</p>
-<h2 id="4-ActivityManager处理新的进程"><a href="#4-ActivityManager处理新的进程" class="headerlink" title="4. ActivityManager处理新的进程"></a><em>4</em>. ActivityManager处理新的进程</h2><p><img src="http://img.blog.csdn.net/20160902220440500" alt="这里写图片描述"></p>
-<ol>
-<li>获取新进程pid。</li>
-<li>这一步先根据pid获得对应的ProcessRecord，然后填充ProcessRecord的信息。然后，获取需要在该进程中启动的Provider的列表，将在4.3中详解。接下来依次启动该进程中的Content Provider（在4.4中详解）、Activity、Service和Broadcast Receiver。</li>
-<li>这一步通过PackageManager获得所有的该应用进程下需要启动的Provider，然后为其创建ContentProviderRecord，放入mProviderMap。</li>
-<li>准备向新进程发送消息。</li>
-</ol>
-<h2 id="5-Content-Provider在新进程中启动"><a href="#5-Content-Provider在新进程中启动" class="headerlink" title="5. Content Provider在新进程中启动"></a><em>5</em>. Content Provider在新进程中启动</h2><p><img src="http://img.blog.csdn.net/20160902220538532" alt="这里写图片描述"></p>
-<ol>
-<li>将收到的数据封装成一个AppBindData，准备发送到主线程中。</li>
-<li>发送消息。</li>
-<li>发送消息。</li>
-<li>处理异步消息。</li>
-<li>准备启动所有的Provider。</li>
-<li>这一步将传递过来的每一个<code>ProviderInfo</code>通过<code>installProvider</code>函数（见5.7）封装成了<code>ContentProviderHolder</code>。然后将所有生成的<code>ContentProviderHolder</code>告知给ActivityManager（见5.11）。</li>
-<li>这一步根据Provider的类名，使用ClassLoader实例化一个ContentProvider对象，并对其进行一定的初始化（见5.8、5.9）工作。然后，创建对应的ProviderClientRecord，将其放入mLocalProviders和mLocalProvidersByName。</li>
-<li>获取该Provider的类型为Transport的Binder本地对象。这个Binder将会告知给ActivityManagerService，然后有它再告知给需要使用该Provider的其它组件。然后其它进程组件就可以使用这个Binder来使用这个provider了。</li>
-<li>这里会设置该provider的context，同时设置读写权限。最后会调用重写的onCreate函数。</li>
-<li>调用自己实现的onCreate函数。</li>
-<li>将自己的Provider告知给ActivityManager。</li>
-</ol>
-<h2 id="6-ActivityManager发布Provider"><a href="#6-ActivityManager发布Provider" class="headerlink" title="6. ActivityManager发布Provider"></a><em>6</em>. ActivityManager发布Provider</h2><p><img src="http://img.blog.csdn.net/20160902220606286" alt="这里写图片描述"></p>
-<ol>
-<li>这一步会将ActivityManager利用获得的ContentProviderHolder对记录的ContentProviderRecord的provider进行填充，同时将该ContentProviderRecord放入mProviderMap。最后将该Record移除mLaunchingProviders。在2.2中等待的ActivityManagerService线程循环等待发现provider不为null，退出循环，返回ContentProviderHolder给用户（见1.3）。</li>
-</ol>
+<h2 id="contains"><a href="#contains" class="headerlink" title="contains"></a>contains</h2><p>AbstractCollection实现了查询是否包含某一个元素的方法。最好使用Iterator遍历集合中的元素，因为可以屏蔽集合内部元素存储的具体实现，并且根据不同的数据存储特点，优化访问策略。这里还可以正确查找null元素，需要注意的是对null元素的查询需要特别的处理，有时候自己实现方法时，往往会忽略传入参数为null时的处理，导致方法无法处理特殊情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">    Iterator&lt;E&gt; it = iterator();</div><div class="line">    <span class="keyword">if</span> (o==<span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">while</span> (it.hasNext())</div><div class="line">            <span class="keyword">if</span> (it.next()==<span class="keyword">null</span>)</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">while</span> (it.hasNext())</div><div class="line">            <span class="keyword">if</span> (o.equals(it.next()))</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="toArray"><a href="#toArray" class="headerlink" title="toArray"></a>toArray</h2><p><code>toArray</code>方法将容器中的元素转化为数组的形式。这里元素的复制，采用的是直接复制引用。这里还考虑到了并发运算时，元素数量在复制时产生变化的情况，当数量减少时，就用<code>Arrays.copy()</code>截取结果。当数量增加时，会调用<code>finishToArray</code>函数扩容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> Object[] toArray() &#123;</div><div class="line">    <span class="comment">// Estimate size of array; be prepared to see more or fewer elements</span></div><div class="line">    Object[] r = <span class="keyword">new</span> Object[size()];</div><div class="line">    Iterator&lt;E&gt; it = iterator();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; r.length; i++) &#123;</div><div class="line">        <span class="keyword">if</span> (! it.hasNext()) <span class="comment">// fewer elements than expected</span></div><div class="line">            <span class="keyword">return</span> Arrays.copyOf(r, i);</div><div class="line">        r[i] = it.next();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> it.hasNext() ? finishToArray(r, it) : r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在finishToArray函数中，对容量每次扩展1/2+1的大小，并且会检查是否会超过设定的最大数组长度<code>MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8</code>。如果长度超过了限定值，则以原容量+1为底线，返回一个最大容量。最后返回的数组也会修剪掉多余的位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; T[] finishToArray(T[] r, Iterator&lt;?&gt; it) &#123;</div><div class="line">    <span class="keyword">int</span> i = r.length;</div><div class="line">    <span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">        <span class="keyword">int</span> cap = r.length;</div><div class="line">        <span class="keyword">if</span> (i == cap) &#123;</div><div class="line">            <span class="keyword">int</span> newCap = cap + (cap &gt;&gt; <span class="number">1</span>) + <span class="number">1</span>;</div><div class="line">            <span class="comment">// overflow-conscious code</span></div><div class="line">            <span class="keyword">if</span> (newCap - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</div><div class="line">                newCap = hugeCapacity(cap + <span class="number">1</span>);</div><div class="line">            r = Arrays.copyOf(r, newCap);</div><div class="line">        &#125;</div><div class="line">        r[i++] = (T)it.next();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// trim if overallocated</span></div><div class="line">    <span class="keyword">return</span> (i == r.length) ? r : Arrays.copyOf(r, i);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError</div><div class="line">            (<span class="string">"Required array size too large"</span>);</div><div class="line">    <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</div><div class="line">        Integer.MAX_VALUE :</div><div class="line">        MAX_ARRAY_SIZE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里有一个<code>toArray</code>的重载，需要传入一个数组作为参数，据我观察，目的是将集合中的元素存入指定的数组，重利用已有数组的存储。如果元素过多，而目标数组容纳不下，只能重新申请数组来进行存储。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> &lt;T&gt; T[] toArray(T[] a) &#123;</div><div class="line">    <span class="comment">// Estimate size of array; be prepared to see more or fewer elements</span></div><div class="line">    <span class="keyword">int</span> size = size();</div><div class="line">    T[] r = a.length &gt;= size ? a :</div><div class="line">              (T[])java.lang.reflect.Array</div><div class="line">              .newInstance(a.getClass().getComponentType(), size);</div><div class="line">    Iterator&lt;E&gt; it = iterator();</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; r.length; i++) &#123;</div><div class="line">        <span class="keyword">if</span> (! it.hasNext()) &#123; <span class="comment">// fewer elements than expected</span></div><div class="line">            <span class="keyword">if</span> (a == r) &#123;</div><div class="line">                <span class="comment">//利用的原数组，且元素不足，则补null表示结束</span></div><div class="line">                r[i] = <span class="keyword">null</span>; <span class="comment">// null-terminate</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a.length &lt; i) &#123;</div><div class="line">                <span class="comment">//元素较少，但数量超过原始数组，只能用新数组</span></div><div class="line">                <span class="keyword">return</span> Arrays.copyOf(r, i);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">//元素减少，导致原始数组可以容纳下，则copy回原始数组，折腾呗</span></div><div class="line">                System.arraycopy(r, <span class="number">0</span>, a, <span class="number">0</span>, i);</div><div class="line">                <span class="keyword">if</span> (a.length &gt; i) &#123;</div><div class="line">                    a[i] = <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> a;</div><div class="line">        &#125;</div><div class="line">        r[i] = (T)it.next();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// more elements than expected</span></div><div class="line">    <span class="keyword">return</span> it.hasNext() ? finishToArray(r, it) : r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="removeAll"><a href="#removeAll" class="headerlink" title="removeAll"></a>removeAll</h2><p><code>removeAll</code>方法删除目标集合中的所有重叠元素。Iterator可以做到在遍历时，安全的删除元素，而通过index循环删除则可能导致index偏移。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>&#123;</div><div class="line">    Objects.requireNonNull(c);</div><div class="line">    <span class="keyword">boolean</span> modified = <span class="keyword">false</span>;</div><div class="line">    Iterator&lt;?&gt; it = iterator();</div><div class="line">    <span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">        <span class="keyword">if</span> (c.contains(it.next())) &#123;</div><div class="line">            it.remove();</div><div class="line">            modified = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> modified;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="toString-NaN"><a href="#toString-NaN" class="headerlink" title="toString"></a>toString</h2><p>AbstractCollection的toString实现，比较令我震惊的是<code>e == this</code>的作用。这里为什么要判断打印的内容是否为自己本身？因为<code>sb.append(e == this ? &quot;(this Collection)&quot; : e);</code>会调用<code>e</code>的toString函数来生成字符串，若不加判断，则会形成无限的toString递归调用。我猜想一下，估计当时toString的实现者没有注意到该问题的存在，直到该bug出现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">    Iterator&lt;E&gt; it = iterator();</div><div class="line">    <span class="keyword">if</span> (! it.hasNext())</div><div class="line">        <span class="keyword">return</span> <span class="string">"[]"</span>;</div><div class="line"></div><div class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line">    sb.append(<span class="string">'['</span>);</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        E e = it.next();</div><div class="line">        sb.append(e == <span class="keyword">this</span> ? <span class="string">"(this Collection)"</span> : e);</div><div class="line">        <span class="keyword">if</span> (! it.hasNext())</div><div class="line">            <span class="keyword">return</span> sb.append(<span class="string">']'</span>).toString();</div><div class="line">        sb.append(<span class="string">','</span>).append(<span class="string">' '</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
 
@@ -257,11 +202,11 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
         		</li>
       		
 		</ul>
@@ -317,7 +262,7 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/02/14/Android系统源码阅读-7-ContentProvider的启动/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://itanch.github.io/2017/09/18/Java容器类研究-AbstractCollection/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -331,18 +276,9 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
   
 <nav id="article-nav">
   
-    <a href="/2017/02/14/Android系统源码阅读-8-ContentProvider数据传输过程/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android系统源码阅读(8):ContentProvider数据传输过程
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/14/Android系统源码阅读-6-广播机制/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android系统源码阅读(6)广播机制</div>
+    <a href="/2017/09/09/Java容器类研究-List/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java容器类研究之List</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -369,7 +305,7 @@ Binder进程间通信只适合传递体积较小的数据结构，不适合大�
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本知识"><span class="toc-number">1.</span> <span class="toc-text">基本知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-用户开始调用Provider"><span class="toc-number">2.</span> <span class="toc-text">1. 用户开始调用Provider</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ActivityManager处理请求"><span class="toc-number">3.</span> <span class="toc-text">2. ActivityManager处理请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-新进程的启动"><span class="toc-number">4.</span> <span class="toc-text">3. 新进程的启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-ActivityManager处理新的进程"><span class="toc-number">5.</span> <span class="toc-text">4. ActivityManager处理新的进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Content-Provider在新进程中启动"><span class="toc-number">6.</span> <span class="toc-text">5. Content Provider在新进程中启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-ActivityManager发布Provider"><span class="toc-number">7.</span> <span class="toc-text">6. ActivityManager发布Provider</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#contains"><span class="toc-number">1.</span> <span class="toc-text">contains</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toArray"><span class="toc-number">2.</span> <span class="toc-text">toArray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#removeAll"><span class="toc-number">3.</span> <span class="toc-text">removeAll</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toString-NaN"><span class="toc-number">4.</span> <span class="toc-text">toString</span></a></li></ol>
                     </div>
                 </span>
             </div>
